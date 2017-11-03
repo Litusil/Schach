@@ -4,6 +4,9 @@ class Rook(color : Boolean) extends ChessPiece {
     println("Moves")
   }
   override def toString(): String ={
-    return "T"
+    if (color) {
+      return "\u2656"
+    }
+    "\u265C"
   }
 }
