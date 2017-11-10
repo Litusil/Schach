@@ -5,6 +5,9 @@ class Pawn(color : Boolean) extends ChessPiece {
   }
 
   override def toString(): String ={
-    return "B"
+    if (color) {
+      return "\u2659"
+    }
+    "\u265F"
   }
 }

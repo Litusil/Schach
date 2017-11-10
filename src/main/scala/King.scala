@@ -5,6 +5,9 @@ class King(color : Boolean) extends ChessPiece {
   }
 
   override def toString(): String ={
-      return "K"
+    if (color) {
+      return "\u2654"
+    }
+    "\u265A"
   }
 }

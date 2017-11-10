@@ -1,7 +1,7 @@
 object Main {
     def main(args: Array[String]) {
         init()
-        print()
+        ChessBoard.print()
     }
 
     def init(): Unit ={
@@ -32,19 +32,5 @@ object Main {
 
     }
 
-    def print(): Unit ={
-     var line:String = ""
-        for(i <- 0 to 7){
-          line = ""
-            for(j <- 0 to 7){
-                if (ChessBoard.board(i)(j) == null){
-                    line  = line + "X "
-                } else {
-                    line  = line + ChessBoard.board(i)(j).toString + " "
-                }
-            }
-          println(line)
-        }
-    }
 }
 
