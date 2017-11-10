@@ -15,7 +15,7 @@ object ChessBoard {
         if(ChessBoard.board(i)(j) != null) {
           System.out.format("%3s", ChessBoard.board(i)(j).toString)
         } else {
-          System.out.format("%3s", "X")
+          System.out.format("%3s","\u23f9")
         }
       }
       System.out.println("\n")
