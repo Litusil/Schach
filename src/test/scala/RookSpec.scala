@@ -1,7 +1,19 @@
-import model.Rook
+import model.{Rook,ChessBoardFactory}
 import org.specs2.mutable._
 
 class RookSpec extends Specification{
+
+
+
+  "A Rook" should{
+    var r = new Rook(true)
+    var chessBoard = new ChessBoardFactory().create(3)
+    chessBoard (1)(1) = r;
+    "be on the chessBoard" in {
+      r.isOnChessBoard(chessBoard) must be_== (true)
+    }
+  }
+
 
   "A white model.Rook" should {
     val r = new Rook(true)
