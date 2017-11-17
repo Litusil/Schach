@@ -7,8 +7,6 @@ class RookSpec extends Specification{
     "have toString() that is \u2656" in {
       r.toString must be_== ("\u2656")
     }
-
-
   }
 
   "A black Rook" should {
