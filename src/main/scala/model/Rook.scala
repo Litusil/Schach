@@ -2,7 +2,12 @@ package model
 
 class Rook(color : Boolean) extends ChessPiece {
 
-  override def getPossibleMoves(): Unit = {
+  override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Unit = {
+
+
+
+
+
     println("Moves")
   }
   override def toString(): String ={

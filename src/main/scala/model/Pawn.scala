@@ -2,7 +2,7 @@ package model
 
 class Pawn(color : Boolean) extends ChessPiece {
 
-  override def getPossibleMoves(): Unit = {
+  override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Unit = {
 
 
 
