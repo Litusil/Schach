@@ -1,4 +1,6 @@
-class Queen(color : Boolean) extends ChessPiece {
+package model
+
+class Bishop(color : Boolean) extends ChessPiece {
 
   override def getPossibleMoves(): Unit = {
     println("Moves")
@@ -6,8 +8,8 @@ class Queen(color : Boolean) extends ChessPiece {
 
   override def toString(): String ={
     if (color) {
-      return "\u2655"
+      return "\u2657"
     }
-    "\u265B"
+    "\u265D"
   }
 }

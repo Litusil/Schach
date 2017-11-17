@@ -1,6 +1,11 @@
+package model
+
 class Pawn(color : Boolean) extends ChessPiece {
 
   override def getPossibleMoves(): Unit = {
+
+
+
     println("Moves")
   }
 

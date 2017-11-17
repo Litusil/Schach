@@ -1,3 +1,5 @@
+package model
+
 class Rook(color : Boolean) extends ChessPiece {
 
   override def getPossibleMoves(): Unit = {
