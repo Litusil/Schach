@@ -2,27 +2,25 @@ package model
 
 import scala.util.control.Breaks.{break, breakable}
 
-abstract class ChessPiece {
+abstract class ChessPiece(val color: Boolean) {
   var hasMoved = false;
 
-  def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Array[(Int, Int)]
+  def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)]
 
   //def isMoveLegal(chessBoard: Array[Array[ChessPiece]]) : Boolean
 
 
   //determines the position of the Chesspiece
   def getPosition(chessBoard: Array[Array[ChessPiece]]): (Int,Int) = {
-    for (i <- 0 to chessBoard.length - 1) {
-      for (j <- 0 to chessBoard.length - 1) {
-        if (chessBoard(i)(j) eq this) {
+    for (y <- 0 to chessBoard.length - 1) {
+      for (x <- 0 to chessBoard.length - 1) {
+        if (chessBoard(y)(x) eq this) {
 
-          return (i, j)
+          return (y, x)
         }
       }
     }
 
     return (-1, -1)
   }
-
-
 }

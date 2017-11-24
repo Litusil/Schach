@@ -9,15 +9,30 @@ object Direction extends Enumeration {
   val RIGHT = Value
   val UP = Value
   val DOWN = Value
+  val LEFT_UP = Value
+  val RIGHT_UP = Value
+  val LEFT_DOWN = Value
+  val RIGHT_DOWN = Value
 }
 
 object MoveSetUtil {
-  var moves = Map(Direction.LEFT -> (-1,0), Direction.RIGHT -> (1,0), Direction.UP -> (0,1), Direction.DOWN -> (0,-1))
+  var moves = Map[Direction.Value, (Int, Int)]()
+  moves += Direction.LEFT -> (-1,0)
+  moves += Direction.RIGHT -> (1,0)
+  moves += Direction.UP -> (0,1)
+  moves += Direction.DOWN -> (0,-1)
+
+  moves += Direction.LEFT_UP -> (-1,1)
+  moves += Direction.RIGHT_UP -> (1,1)
+  moves += Direction.LEFT_DOWN -> (-1,-1)
+  moves += Direction.RIGHT_DOWN -> (1,-1)
 
 
-  def laneMovement(xKoordinate:Integer,yKoordinate:Integer, direction: Direction.Value,
-  chessBoard:Array[Array[ChessPiece]]): Vector[(Int, Int)] ={
-    var selectableFields: Vector[(Int,Int)] = Vector()
+
+  def getSelectableFields(xKoordinate:Integer,yKoordinate:Integer, direction: Direction.Value,
+                   chessBoard:Array[Array[ChessPiece]]): Vector[(Int, Int)] ={
+
+    val selectableFields: Vector[(Int,Int)] = Vector()
     var x = xKoordinate
     var y = yKoordinate
     breakable {
@@ -37,10 +52,5 @@ object MoveSetUtil {
     }
     selectableFields
   }
-
-  def diagonalMovement (): Unit = {
-
-  }
-
 
 }
