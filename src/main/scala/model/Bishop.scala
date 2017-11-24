@@ -8,9 +8,12 @@ class Bishop(color : Boolean) extends ChessPiece {
   }
 
   override def toString(): String ={
+    "B"
+    /*
     if (color) {
       return "\u2657"
     }
     "\u265D"
+    */
   }
 }

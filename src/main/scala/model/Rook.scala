@@ -24,10 +24,13 @@ class Rook(color: Boolean) extends ChessPiece {
   }
 
   override def toString(): String = {
+    "R"
+    /*
     if (color) {
       return "\u2656"
     }
     "\u265C"
+    */
   }
 
 }

@@ -8,9 +8,13 @@ class Queen(color : Boolean) extends ChessPiece {
   }
 
   override def toString(): String ={
+    "Q"
+    /*
     if (color) {
       return "\u2655"
     }
     "\u265B"
+    */
   }
+
 }

@@ -45,9 +45,4 @@ class ChessController extends Observable {
   def getCurrentPlayer: Boolean = {
       currentPlayer
   }
-
-  def test(): Unit = {
-    notifyObservers
-  }
-
 }
