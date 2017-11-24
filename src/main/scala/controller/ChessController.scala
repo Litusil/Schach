@@ -8,6 +8,8 @@ class ChessController extends Observable {
   var boardSize = 8;
   var chessBoard = new ChessBoardFactory().create(boardSize)
   init
+  var currentPlayer  = true;
+
 
   def init(): Unit ={
 
@@ -35,20 +37,17 @@ class ChessController extends Observable {
       chessBoard(6)(i) = new Pawn(false)
     }
   }
+
+  def spielerwechsel() : Unit = {
+    currentPlayer = !currentPlayer
+  }
+
+  def getCurrentPlayer: Boolean = {
+      currentPlayer
+  }
+
   def test(): Unit = {
     notifyObservers
   }
-  /*
-  def movePiece(): Unit ={
-
-  }
-  def interpCords(order:String): Unit ={
-    Char
-      order(1)
-  }
-
-
-  */
-
 
 }
