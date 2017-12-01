@@ -1,4 +1,5 @@
-import model.{ChessBoardFactory, Rook}
+package model
+
 import org.specs2.mutable._
 
 import scala.collection.immutable.Vector
@@ -19,7 +20,7 @@ class RookSpec extends Specification{
     chessBoard (1)(1) = r
     chessBoard (0)(1) = new Rook(true)
     chessBoard (1)(0) = new Rook(false)
-    var moveableFields: Vector[(Int,Int)] = Vector();
+    var moveableFields: Vector[(Int,Int)] = Vector()
     moveableFields :+ (1,0)
     moveableFields :+ (2,1)
     moveableFields :+ (1,2)

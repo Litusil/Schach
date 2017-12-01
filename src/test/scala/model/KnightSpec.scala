@@ -1,4 +1,5 @@
-import model.Knight
+package model
+
 import org.specs2.mutable._
 
 class KnightSpec extends Specification{

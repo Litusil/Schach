@@ -1,4 +1,5 @@
-import model.{Bishop, ChessBoardFactory, Pawn}
+package model
+
 import org.specs2.mutable._
 
 class PawnSpec extends Specification{
@@ -14,7 +15,7 @@ class PawnSpec extends Specification{
   "A Pawn" should{
     var pawn = new Pawn(true)
     var chessBoard = new ChessBoardFactory().create(3)
-    var moveableFields: Vector[(Int,Int)] = Vector();
+    var moveableFields: Vector[(Int,Int)] = Vector()
     chessBoard (2)(1) = pawn
 
     "have no possible moves on chessboard" in {
@@ -25,7 +26,7 @@ class PawnSpec extends Specification{
   "A Pawn" should{
     var pawn = new Pawn(true)
     var chessBoard = new ChessBoardFactory().create(3)
-    var moveableFields: Vector[(Int,Int)] = Vector();
+    var moveableFields: Vector[(Int,Int)] = Vector()
     chessBoard (0)(1) = pawn
     chessBoard (1)(0) = new Pawn(false)
     chessBoard (1)(2) = new Pawn(true)

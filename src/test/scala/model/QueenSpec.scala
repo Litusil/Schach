@@ -1,4 +1,5 @@
-import model.{ChessBoardFactory, Queen}
+package model
+
 import org.specs2.mutable._
 
 class QueenSpec extends Specification{
@@ -19,7 +20,7 @@ class QueenSpec extends Specification{
     chessBoard (0)(1) = new Queen(true)
     chessBoard (1)(0) = new Queen(true)
     chessBoard (0)(0) = new Queen(true)
-    var moveableFields: Vector[(Int,Int)] = Vector();
+    var moveableFields: Vector[(Int,Int)] = Vector()
     "has no possible moves on chessboard" in {
       queen.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
@@ -31,7 +32,7 @@ class QueenSpec extends Specification{
     chessBoard (1)(1) = queen
     chessBoard (0)(1) = new Queen(true)
     chessBoard (1)(0) = new Queen(false)
-    var moveableFields: Vector[(Int,Int)] = Vector();
+    var moveableFields: Vector[(Int,Int)] = Vector()
     moveableFields :+ (1,0)
     moveableFields :+ (2,1)
     moveableFields :+ (1,2)

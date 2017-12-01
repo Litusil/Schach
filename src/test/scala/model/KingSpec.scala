@@ -1,4 +1,5 @@
-import model.King
+package model
+
 import org.specs2.mutable._
 
 class KingSpec extends Specification{

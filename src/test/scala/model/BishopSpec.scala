@@ -1,4 +1,5 @@
-import model.{Bishop, ChessBoardFactory}
+package model
+
 import org.specs2.mutable._
 
 
@@ -19,7 +20,7 @@ class BishopSpec extends Specification{
     chessBoard (1)(1) = r
     chessBoard (0)(0) = new Bishop(true)
     chessBoard (2)(2) = new Bishop(false)
-    var moveableFields: Vector[(Int,Int)] = Vector();
+    var moveableFields: Vector[(Int,Int)] = Vector()
     moveableFields :+ (0,2)
     moveableFields :+ (2,2)
     moveableFields :+ (2,0)
