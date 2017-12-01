@@ -44,9 +44,14 @@ class Pawn(color : Boolean) extends ChessPiece(color) {
 
 
   override def toString(): String ={
+    "P"
+
+    /*
     if (color) {
       return "\u2659"
     }
     "\u265F"
+    */
   }
+
 }

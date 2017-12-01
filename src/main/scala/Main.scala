@@ -1,20 +1,22 @@
+
 import controller.ChessController
-//import model._
+import view.tui
+import scala.io.StdIn.readLine
 
 object Main {
+    val controller = new ChessController()
+    val tui = new tui(controller)
+    controller.notifyObservers()
 
 
+  def main(args: Array[String]) {
+        var input: String = ""
 
-    def main(args: Array[String]) {
-        //init()
-        //ChessBoard.print()
-      new ChessController();
+        do {
+          input = readLine()
+          //tui.processInputLine(input)
+        } while (input != "q")
 
-    }
-/*
-
-
-    }
-*/
+  }
 }
 
