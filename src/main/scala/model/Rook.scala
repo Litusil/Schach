@@ -3,26 +3,17 @@ package model
 import scala.util.control.Breaks._
 import scala.collection.immutable.Vector
 
-class Rook(color: Boolean) extends ChessPiece {
+class Rook(color: Boolean) extends ChessPiece(color) {
 
-  override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Array[(Int, Int)] = {
-    var pos = this.getPosition(chessBoard);
-    var possibleMoves: Vector[(Int,Int)] = Vector();
-    var i = 1
-    while(chessBoard(pos._1)(pos._2 - i) != null && pos._2 - i >= 0){
-      possibleMoves :+ (pos._1, pos._2 - i)
-    }
-    //TODO rest of implementation!!!
-
-
-    var x = 0
-    var y = 0
-
-
-
-    return Array ((x,y))
+  override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)] = {
+    val pos = this.getPosition(chessBoard)
+    val possibleMoves: Vector[(Int,Int)] = Vector()
+    possibleMoves :+ MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.LEFT,chessBoard)
+    possibleMoves :+ MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.RIGHT,chessBoard)
+    possibleMoves :+ MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.UP,chessBoard)
+    possibleMoves :+ MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.DOWN,chessBoard)
+    possibleMoves
   }
-
   override def toString(): String = {
     "R"
     /*

@@ -1,10 +1,30 @@
 package model
 
-class Pawn(color : Boolean) extends ChessPiece {
+import scala.collection.immutable.Vector
 
-  override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Array[(Int, Int)] = {
-    //not implemented
-    return Array((0,0))
+class Pawn(color : Boolean) extends ChessPiece(color) {
+
+  override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)] = {
+    val pos = this.getPosition(chessBoard)
+    val possibleMoves: Vector[(Int,Int)] = Vector()
+    var xIncrementer = 1;
+    // TODO: IMPLEMENT!
+
+    if(this.hasMoved == false){
+      if(this.color){
+        xIncrementer = 2
+      } else {
+        xIncrementer = -2
+      }
+
+
+    }
+
+
+
+    possibleMoves
+
+
   }
 
   override def toString(): String ={
