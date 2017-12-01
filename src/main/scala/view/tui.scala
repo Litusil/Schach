@@ -18,16 +18,17 @@ class tui(controller: ChessController) extends Observer {
 
 
   def print(): Unit ={
-    val lineseparator =  "+---" * 8 + "+\n"
-    val line = "| x " * 8 + "|\n"
-    var board = "\n" + (lineseparator + (line)) * 8 + lineseparator
+    //val lineseparator =  "+---" * 8 + "+\n"
+    val lineseparator =  "|＿" * 8 + "\n"
+    val line = "|x" * 8 + "|\n"
+    var board =  "\n" + (line) * 8 
 
     for(i <- 0 to 7){
       for(j <- 0 to 7) {
         if(chessBoard(i)(j) != null) {
           board = board.replaceFirst("x",chessBoard(i)(j).toString)
         } else {
-          board = board.replaceFirst("x"," ")
+          board = board.replaceFirst("x","＿")
         }
       }
     }
