@@ -27,13 +27,12 @@ class Knight(color: Boolean) extends ChessPiece(color) {
   }
 
   override def toString(): String ={
-    "N"
-    /*
+
     if (color) {
       return "\u2658"
     }
     "\u265E"
-    */
+
   }
 
 }

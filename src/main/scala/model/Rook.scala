@@ -15,13 +15,11 @@ class Rook(color: Boolean) extends ChessPiece(color) {
     possibleMoves
   }
   override def toString(): String = {
-    "R"
-    /*
     if (color) {
       return "\u2656"
     }
     "\u265C"
-    */
+
   }
 
 }
