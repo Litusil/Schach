@@ -41,13 +41,16 @@ object MoveSetUtil {
         x += moves(direction)._1
         y += moves(direction)._2
 
-        if (chessBoard(x)(y) != null) {
-          if (chessBoard(x)(y).color != chessBoard(xKoordinate)(yKoordinate).color) {
-            selectableFields = selectableFields :+ (x, y)
+
+        if (chessBoard(y)(x) == null ) {
+          selectableFields = selectableFields :+ (y, x)
+        }else {
+          if (chessBoard(y)(x).color != chessBoard(yKoordinate)(xKoordinate).color) {
+            selectableFields = selectableFields :+ (y, x)
           }
           break
         }
-        selectableFields = selectableFields :+ (x, y)
+
       }
     }
     return selectableFields
