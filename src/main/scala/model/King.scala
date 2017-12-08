@@ -26,6 +26,8 @@ class King(color: Boolean) extends ChessPiece(color) {
     possibleMoves
   }
 
+
+
   override def toString(): String ={
     if (color) {
       return "\u2654"

@@ -14,7 +14,7 @@ object Main {
 
         do {
           input = readLine()
-          //tui.processInputLine(input)
+          tui.processInputLine(input)
         } while (input != "q")
 
   }

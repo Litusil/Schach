@@ -12,9 +12,10 @@ class PawnSpec extends Specification{
     chessBoard (2)(1) = pawn
     chessBoard(1)(0) = new Pawn(true)
     chessBoard(1)(2) = new Pawn(false)
-    moveableFields :+ (1, 1)
-    moveableFields :+ (0, 1)
-    moveableFields :+ (1, 0)
+    moveableFields = moveableFields :+ (1, 1)
+    moveableFields = moveableFields :+ (1, 0)
+    moveableFields = moveableFields :+ (0, 1)
+    println(moveableFields.size)
     "have possible moves on chessboard" in {
       pawn.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
@@ -47,7 +48,7 @@ class PawnSpec extends Specification{
     chessBoard (1)(0) = new Pawn(false)
     chessBoard (1)(2) = new Pawn(true)
 
-    moveableFields :+ (1,1)
+    moveableFields = moveableFields :+ (1,1)
     moveableFields :+ (2,1)
     moveableFields :+ (1,0)
     "have possible moves on chessboard" in {

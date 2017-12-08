@@ -6,7 +6,7 @@ class Pawn(color : Boolean) extends ChessPiece(color) {
 
   override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)] = {
     val pos = this.getPosition(chessBoard)
-    val possibleMoves: Vector[(Int, Int)] = Vector()
+    var possibleMoves: Vector[(Int, Int)] = Vector()
     var yIncrementer = 1;
 
     if (!this.color) {
@@ -14,18 +14,25 @@ class Pawn(color : Boolean) extends ChessPiece(color) {
     }
 
     if (chessBoard.length > pos._1 + yIncrementer){
-      possibleMoves :+ (pos._1 + yIncrementer, pos._2)
+      println("added move");
+      possibleMoves = possibleMoves :+ (pos._1 + yIncrementer, pos._2)
     } else {
       return possibleMoves
     }
-    if(chessBoard(pos._1 + yIncrementer)(pos._2 + 1) != null) {
-      if (chessBoard(pos._1 + yIncrementer)(pos._2 + 1).color != this.color) {
-        possibleMoves :+ chessBoard(pos._1 + yIncrementer)(pos._2 + 1)
+    var xSchlagen = pos._2 + 1
+    if (xSchlagen < 8){
+      if(chessBoard(pos._1 + yIncrementer)(pos._2 + 1) != null) {
+        if (chessBoard(pos._1 + yIncrementer)(pos._2 + 1).color != this.color) {
+          possibleMoves = possibleMoves :+ (pos._1 + yIncrementer, pos._2 + 1)
+        }
       }
     }
-    if(chessBoard(pos._1 + yIncrementer)(pos._2 - 1) != null) {
-      if (chessBoard(pos._1 + yIncrementer)(pos._2 - 1).color != this.color) {
-        possibleMoves :+ chessBoard(pos._1 + yIncrementer)(pos._2 - 1)
+    xSchlagen = pos._2 - 1
+    if(xSchlagen >= 0) {
+      if(chessBoard(pos._1 + yIncrementer)(pos._2 - 1) != null) {
+        if (chessBoard(pos._1 + yIncrementer)(pos._2 - 1).color != this.color) {
+          possibleMoves = possibleMoves :+ (pos._1 + yIncrementer, pos._2 - 1)
+        }
       }
     }
 
@@ -36,9 +43,10 @@ class Pawn(color : Boolean) extends ChessPiece(color) {
         yIncrementer = -2
       }
       if (chessBoard(pos._1 + yIncrementer)(pos._2) == null){
-        possibleMoves :+ (pos._1 + yIncrementer, pos._2)
+        possibleMoves = possibleMoves :+ (pos._1 + yIncrementer, pos._2)
       }
     }
+
     possibleMoves
   }
 

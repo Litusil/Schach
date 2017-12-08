@@ -42,6 +42,27 @@ class ChessController extends Observable {
     currentPlayer = !currentPlayer
   }
 
+  def move(x_start: Int,y_start: Int,x_ziel: Int,y_ziel: Int): Unit ={
+    if(chessBoard(y_start)(x_start).color != currentPlayer) {
+      println("Falsche Farbe")
+      return
+    }
+
+    val moves = chessBoard(y_start)(x_start).getPossibleMoves(chessBoard)
+    //moves.foreach((v)=> println(v))
+    println(chessBoard(y_start)(x_start).getPossibleMoves(chessBoard).size)
+    println(y_start + ", " +x_start)
+    println(y_ziel + ", " + x_ziel)
+
+    if (moves.contains((y_ziel,x_ziel))) {
+      chessBoard(y_ziel)(x_ziel) = chessBoard(y_start)(x_start);
+      chessBoard(y_start)(x_start) = null;
+      notifyObservers()
+      println("klappt")
+    }
+    println("klappt nicht!")
+  }
+
   def getCurrentPlayer: Boolean = {
       currentPlayer
   }

@@ -15,10 +15,7 @@ class tui(controller: ChessController) extends Observer {
     print()
   }
 
-
-
   def print(): Unit ={
-    //val lineseparator =  "+---" * 8 + "+\n"
     val lineseparator =  "|＿" * 8 + "\n"
     val line = "|x" * 8 + "|\n"
     var board =  "\n" + (line) * 8
@@ -34,4 +31,18 @@ class tui(controller: ChessController) extends Observer {
     }
     println(board)
   }
+
+  def processInputLine(eingabe: String): Unit ={
+    var command = eingabe;
+    command = command.replaceAll("A","0")
+    command = command.replaceAll("B","0")
+    command = command.replaceAll("C","0")
+    command = command.replaceAll("D","0")
+    command = command.replaceAll("E","0")
+    command = command.replaceAll("F","0")
+    command = command.replaceAll("G","0")
+    command = command.replaceAll("H","0")
+    controller.move(command(0).toInt-48,command(1).toInt-49,command(3).toInt-48,command(4).toInt-49)
+  }
+
 }
