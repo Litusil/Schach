@@ -21,7 +21,7 @@ class tui(controller: ChessController) extends Observer {
     //val lineseparator =  "+---" * 8 + "+\n"
     val lineseparator =  "|＿" * 8 + "\n"
     val line = "|x" * 8 + "|\n"
-    var board =  "\n" + (line) * 8 
+    var board =  "\n" + (line) * 8
 
     for(i <- 0 to 7){
       for(j <- 0 to 7) {

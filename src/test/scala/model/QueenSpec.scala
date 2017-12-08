@@ -21,7 +21,7 @@ class QueenSpec extends Specification{
     chessBoard (1)(0) = new Queen(true)
     chessBoard (0)(0) = new Queen(true)
     var moveableFields: Vector[(Int,Int)] = Vector()
-    "has no possible moves on chessboard" in {
+    "have no possible moves on chessboard" in {
       queen.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }

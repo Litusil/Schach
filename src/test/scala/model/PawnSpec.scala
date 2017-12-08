@@ -4,6 +4,22 @@ import org.specs2.mutable._
 
 class PawnSpec extends Specification{
 
+
+  "A Pawn" should{
+    var pawn = new Pawn(false)
+    var chessBoard = new ChessBoardFactory().create(3)
+    var moveableFields: Vector[(Int,Int)] = Vector()
+    chessBoard (2)(1) = pawn
+    chessBoard(1)(0) = new Pawn(true)
+    chessBoard(1)(2) = new Pawn(false)
+    moveableFields :+ (1, 1)
+    moveableFields :+ (0, 1)
+    moveableFields :+ (1, 0)
+    "have possible moves on chessboard" in {
+      pawn.getPossibleMoves(chessBoard) must be_== (moveableFields)
+    }
+  }
+
   "A Pawn" should{
     var pawn = new Pawn(true)
     var chessBoard = new ChessBoardFactory().create(3)
