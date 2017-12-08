@@ -29,10 +29,10 @@ object MoveSetUtil {
 
 
 
-  def getSelectableFields(xKoordinate:Integer,yKoordinate:Integer, direction: Direction.Value,
+  def getSelectableFields(xKoordinate:Int,yKoordinate:Int, direction: Direction.Value,
                    chessBoard:Array[Array[ChessPiece]]): Vector[(Int, Int)] ={
 
-    val selectableFields: Vector[(Int,Int)] = Vector()
+    var selectableFields: Vector[(Int,Int)] = Vector()
     var x = xKoordinate
     var y = yKoordinate
     breakable {
@@ -43,14 +43,14 @@ object MoveSetUtil {
 
         if (chessBoard(x)(y) != null) {
           if (chessBoard(x)(y).color != chessBoard(xKoordinate)(yKoordinate).color) {
-            selectableFields :+ (x, y)
+            selectableFields = selectableFields :+ (x, y)
           }
           break
         }
-        selectableFields :+ (x, y)
+        selectableFields = selectableFields :+ (x, y)
       }
     }
-    selectableFields
+    return selectableFields
   }
 
 }

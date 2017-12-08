@@ -6,10 +6,17 @@ class Knight(color: Boolean) extends ChessPiece(color) {
 
   override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)] = {
     val pos = this.getPosition(chessBoard)
-    val possibleMoves: Vector[(Int,Int)] = Vector()
+    var possibleMoves: Vector[(Int,Int)] = Vector()
 
-    val KnightMoves: Vector[(Int,Int)] = Vector()
-    KnightMoves :+(2,-1) :+(2,1) :+(1,-2) :+(1,2) :+(-1,-2) :+(-1,2) :+(-2,-1) :+(-2,1)
+    var KnightMoves: Vector[(Int,Int)] = Vector()
+    KnightMoves =  KnightMoves :+(2,-1)
+    KnightMoves =KnightMoves :+(2,1)
+    KnightMoves =KnightMoves :+(1,-2)
+    KnightMoves =KnightMoves:+(1,2)
+    KnightMoves =KnightMoves:+(-1,-2)
+    KnightMoves =KnightMoves:+(-1,2)
+    KnightMoves =KnightMoves:+(-2,-1)
+    KnightMoves =KnightMoves:+(-2,1)
 
     for (e <- KnightMoves){
       val x = pos._2 + e._2
@@ -17,8 +24,8 @@ class Knight(color: Boolean) extends ChessPiece(color) {
 
       if (x  >= 0 && x < chessBoard.length){
         if (y  >= 0 && y < chessBoard.length){
-          if (chessBoard(x)(y).color != chessBoard(pos._1)(pos._2).color) {
-            possibleMoves :+ (x, y)
+          if (chessBoard(x)(y) == null || chessBoard(x)(y).color != chessBoard(pos._1)(pos._2).color) {
+            possibleMoves = possibleMoves :+ (x, y)
           }
         }
       }

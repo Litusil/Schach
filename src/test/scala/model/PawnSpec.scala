@@ -15,7 +15,6 @@ class PawnSpec extends Specification{
     moveableFields = moveableFields :+ (1, 1)
     moveableFields = moveableFields :+ (1, 0)
     moveableFields = moveableFields :+ (0, 1)
-    println(moveableFields.size)
     "have possible moves on chessboard" in {
       pawn.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
@@ -49,8 +48,8 @@ class PawnSpec extends Specification{
     chessBoard (1)(2) = new Pawn(true)
 
     moveableFields = moveableFields :+ (1,1)
-    moveableFields :+ (2,1)
-    moveableFields :+ (1,0)
+    moveableFields = moveableFields :+ (1,0)
+    moveableFields = moveableFields :+ (2,1)
     "have possible moves on chessboard" in {
       pawn.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }

@@ -21,9 +21,9 @@ class RookSpec extends Specification{
     chessBoard (0)(1) = new Rook(true)
     chessBoard (1)(0) = new Rook(false)
     var moveableFields: Vector[(Int,Int)] = Vector()
-    moveableFields :+ (1,0)
-    moveableFields :+ (2,1)
-    moveableFields :+ (1,2)
+    moveableFields = moveableFields :+ (2,1)
+    moveableFields = moveableFields  :+ (1,2)
+    moveableFields = moveableFields  :+ (1,0)
     "have possible moves on chessboard" in {
       r.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
