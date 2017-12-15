@@ -38,32 +38,46 @@ class ChessController extends Observable {
     }
   }
 
-  def spielerwechsel() : Unit = {
+  def changePlayer() : Unit = {
     currentPlayer = !currentPlayer
   }
 
   def move(x_start: Int,y_start: Int,x_ziel: Int,y_ziel: Int): Unit ={
-    if(chessBoard(y_start)(x_start).color != currentPlayer) {
-      println("Falsche Farbe")
+   /*
+    println("x_start: "+x_start)
+    println("y_start: "+y_start)
+    println("x_ziel: "+x_ziel)
+    println("y_ziel: "+y_ziel)
+*/
+    if(chessBoard(y_start)(x_start) == null || chessBoard(y_start)(x_start).color != currentPlayer) {
+      println("Kein gültiger Zug!")
+      notifyObservers()
       return
     }
 
     val moves = chessBoard(y_start)(x_start).getPossibleMoves(chessBoard)
-    //moves.foreach((v)=> println(v))
-    println(chessBoard(y_start)(x_start).getPossibleMoves(chessBoard).size)
-    println(y_start + ", " +x_start)
-    println(y_ziel + ", " + x_ziel)
+    //moves.foreach{println}
 
     if (moves.contains((y_ziel,x_ziel))) {
+      val kickedPiece = chessBoard(y_ziel)(x_ziel);
       chessBoard(y_ziel)(x_ziel) = chessBoard(y_start)(x_start);
       chessBoard(y_start)(x_start) = null;
-      notifyObservers()
-      println("klappt")
-    }
-    println("klappt nicht!")
-  }
 
-  def getCurrentPlayer: Boolean = {
-      currentPlayer
+      if (kickedPiece.isInstanceOf[King]) {
+        if(currentPlayer){
+          println("Winner Winner Chicken Dinner\n Weiß hat gewonnen!");
+        } else {
+          println("Winner Winner Chicken Dinner\n Schwarz hat gewonnen!");
+        }
+        chessBoard = new ChessBoardFactory().create(boardSize)
+        init
+      }
+
+      changePlayer()
+      notifyObservers()
+    }else {
+      println("Kein gültiger Zug! (Ziel koordinate)")
+      notifyObservers()
+    }
   }
 }

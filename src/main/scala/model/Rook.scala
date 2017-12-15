@@ -3,7 +3,7 @@ package model
 import scala.util.control.Breaks._
 import scala.collection.immutable.Vector
 
-class Rook(color: Boolean) extends ChessPiece(color) {
+case class Rook(override val color: Boolean) extends ChessPiece(color) {
 
   override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)] = {
     val pos = this.getPosition(chessBoard)

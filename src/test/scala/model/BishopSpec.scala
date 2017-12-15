@@ -21,9 +21,9 @@ class BishopSpec extends Specification{
     chessBoard (0)(0) = new Bishop(true)
     chessBoard (2)(2) = new Bishop(false)
     var moveableFields: Vector[(Int,Int)] = Vector()
-    moveableFields = moveableFields :+ (0,2)
-    moveableFields = moveableFields :+ (2,2)
     moveableFields = moveableFields :+ (2,0)
+    moveableFields = moveableFields :+ (2,2)
+    moveableFields = moveableFields :+ (0,2)
     "have possible moves on chessboard" in {
       r.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }

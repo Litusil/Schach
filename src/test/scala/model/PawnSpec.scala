@@ -11,8 +11,9 @@ class PawnSpec extends Specification{
     var moveableFields: Vector[(Int,Int)] = Vector()
     chessBoard (2)(1) = pawn
     chessBoard(1)(0) = new Pawn(true)
-    chessBoard(1)(2) = new Pawn(false)
+    chessBoard(1)(2) = new Pawn(true)
     moveableFields = moveableFields :+ (1, 1)
+    moveableFields = moveableFields :+ (1, 2)
     moveableFields = moveableFields :+ (1, 0)
     moveableFields = moveableFields :+ (0, 1)
     "have possible moves on chessboard" in {

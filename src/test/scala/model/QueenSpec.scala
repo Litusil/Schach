@@ -33,13 +33,13 @@ class QueenSpec extends Specification{
     chessBoard (0)(1) = new Queen(true)
     chessBoard (1)(0) = new Queen(false)
     var moveableFields: Vector[(Int,Int)] = Vector()
-    moveableFields = moveableFields :+ (2,1)
+    moveableFields = moveableFields :+ (1,0)
     moveableFields = moveableFields :+ (1,2)
-    moveableFields = moveableFields  :+ (1,0)
-    moveableFields = moveableFields  :+ (0,2)
+    moveableFields = moveableFields  :+ (2,1)
+    moveableFields = moveableFields  :+ (2,0)
     moveableFields = moveableFields  :+ (2,2)
     moveableFields = moveableFields  :+ (0,0)
-    moveableFields = moveableFields  :+ (2,0)
+    moveableFields = moveableFields  :+ (0,2)
     "have possible moves on chessboard" in {
       queen.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
