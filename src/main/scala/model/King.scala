@@ -24,7 +24,7 @@ case class King(override val color: Boolean, override val hasMoved: Boolean) ext
 
       if (x  >= 0 && x < chessBoard.length){
         if (y  >= 0 && y < chessBoard.length){
-          if (chessBoard(x)(y) == null || chessBoard(x)(y).color != chessBoard(pos._1)(pos._2).color) {
+          if (chessBoard(y)(x) == null || chessBoard(y)(x).color != chessBoard(pos._1)(pos._2).color) {
             possibleMoves = possibleMoves :+ (y, x)
           }
         }
