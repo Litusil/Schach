@@ -24,8 +24,8 @@ case class Knight(override val color: Boolean) extends ChessPiece(color) {
 
       if (x  >= 0 && x < chessBoard.length){
         if (y  >= 0 && y < chessBoard.length){
-          if (chessBoard(x)(y) == null || chessBoard(x)(y).color != chessBoard(pos._1)(pos._2).color) {
-            possibleMoves = possibleMoves :+ (x, y)
+          if (chessBoard(y)(x) == null || chessBoard(y)(x).color != chessBoard(pos._1)(pos._2).color) {
+            possibleMoves = possibleMoves :+ (y, x)
           }
         }
       }

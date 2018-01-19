@@ -12,17 +12,21 @@ import scala.swing._
 case class Field(var piece:ChessPiece, val color: Color,controller: ChessController, parentGui: Gui) extends Button{
 
   val markedColor = Color.GREEN
+  var clickStatus = false
+  var possibleMoves:Vector[(Int, Int)]
   update()
   font = new Font("Arial Unicode MS", 0, 30)
   background = color
 
   reactions += {
     case e: ButtonClicked => {
-      if(piece != null){
-        //println(this.piece.toString)
-        val possibleMoves = piece.getPossibleMoves(controller.chessBoard)
-        parentGui.showPossibleMoves(possibleMoves)
-
+      if(clickStatus == false){
+        if(piece != null){
+          possibleMoves = piece.getPossibleMoves(controller.chessBoard)
+          parentGui.showPossibleMoves(possibleMoves)
+        }
+      } else {
+        
       }
     }
   }

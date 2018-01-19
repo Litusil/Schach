@@ -11,7 +11,6 @@ class Gui(controller: ChessController) extends MainFrame with Observer {
     controller.add(this)
     title = "Schach"
     preferredSize = new Dimension(750, 750)
-    //controller.add(this)
 
 
     var fields = Array.ofDim[Field](8,8)
