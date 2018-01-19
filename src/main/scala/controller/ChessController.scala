@@ -7,34 +7,35 @@ class ChessController extends Observable {
 
   var boardSize = 8;
   var chessBoard = new ChessBoardFactory().create(boardSize)
+  var PieceFactory = new ChessPieceFactory
   init
   var currentPlayer  = true;
 
 
   def init(): Unit ={
 
-    chessBoard(0)(0) = new Rook(true)
-    chessBoard(0)(1) = new Knight(true)
-    chessBoard(0)(2) = new Bishop(true)
-    chessBoard(0)(3) = new Queen(true)
-    chessBoard(0)(4) = new King(true)
-    chessBoard(0)(5) = new Bishop(true)
-    chessBoard(0)(6) = new Knight(true)
-    chessBoard(0)(7) = new Rook(true)
+    chessBoard(0)(0) = PieceFactory.create("♖",false)
+    chessBoard(0)(1) = PieceFactory.create("♘",false)
+    chessBoard(0)(2) = PieceFactory.create("♗",false)
+    chessBoard(0)(3) = PieceFactory.create("♕",false)
+    chessBoard(0)(4) = PieceFactory.create("♔",false)
+    chessBoard(0)(5) = PieceFactory.create("♗",false)
+    chessBoard(0)(6) = PieceFactory.create("♘",false)
+    chessBoard(0)(7) = PieceFactory.create("♖",false)
     for(i <- 0 to 7){
-      chessBoard(1)(i) = new Pawn(true)
+      chessBoard(1)(i) = PieceFactory.create("♙",false)
     }
 
-    chessBoard(7)(0) = new Rook(false)
-    chessBoard(7)(1) = new Knight(false)
-    chessBoard(7)(2) = new Bishop(false)
-    chessBoard(7)(3) = new Queen(false)
-    chessBoard(7)(4) = new King(false)
-    chessBoard(7)(5) = new Bishop(false)
-    chessBoard(7)(6) = new Knight(false)
-    chessBoard(7)(7) = new Rook(false)
+    chessBoard(7)(0) = PieceFactory.create("♜",false)
+    chessBoard(7)(1) = PieceFactory.create("♞",false)
+    chessBoard(7)(2) = PieceFactory.create("♝",false)
+    chessBoard(7)(3) = PieceFactory.create("♛",false)
+    chessBoard(7)(4) = PieceFactory.create("♚",false)
+    chessBoard(7)(5) = PieceFactory.create("♝",false)
+    chessBoard(7)(6) = PieceFactory.create("♞",false)
+    chessBoard(7)(7) = PieceFactory.create("♜",false)
     for(i <- 0 to 7){
-      chessBoard(6)(i) = new Pawn(false)
+      chessBoard(6)(i) = PieceFactory.create("♟",false)
     }
   }
 

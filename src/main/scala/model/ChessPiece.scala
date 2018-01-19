@@ -2,8 +2,7 @@ package model
 
 import scala.util.control.Breaks.{break, breakable}
 
-abstract class ChessPiece(val color: Boolean) {
-  var hasMoved = false;
+abstract class ChessPiece(val color: Boolean, val hasMoved: Boolean) {
 
   def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)]
 

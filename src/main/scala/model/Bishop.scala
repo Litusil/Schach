@@ -2,7 +2,7 @@ package model
 
 import scala.collection.immutable.Vector
 
-case class Bishop(override val color : Boolean) extends ChessPiece(color) {
+case class Bishop(override val color : Boolean, override val hasMoved: Boolean) extends ChessPiece(color,hasMoved) {
 
   override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)] = {
     val pos = this.getPosition(chessBoard)

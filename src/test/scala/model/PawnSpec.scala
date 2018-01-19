@@ -6,12 +6,12 @@ class PawnSpec extends Specification{
 
 
   "A Pawn" should{
-    var pawn = new Pawn(false)
+    var pawn = new Pawn(false,false)
     var chessBoard = new ChessBoardFactory().create(3)
     var moveableFields: Vector[(Int,Int)] = Vector()
     chessBoard (2)(1) = pawn
-    chessBoard(1)(0) = new Pawn(true)
-    chessBoard(1)(2) = new Pawn(true)
+    chessBoard(1)(0) = new Pawn(true,false)
+    chessBoard(1)(2) = new Pawn(true,false)
     moveableFields = moveableFields :+ (1, 1)
     moveableFields = moveableFields :+ (1, 2)
     moveableFields = moveableFields :+ (1, 0)
@@ -22,7 +22,7 @@ class PawnSpec extends Specification{
   }
 
   "A Pawn" should{
-    var pawn = new Pawn(true)
+    var pawn = new Pawn(true,false)
     var chessBoard = new ChessBoardFactory().create(3)
     "not be on chessboard" in {
       pawn.getPosition(chessBoard) must be_== ((-1,-1))
@@ -30,7 +30,7 @@ class PawnSpec extends Specification{
   }
 
   "A Pawn" should{
-    var pawn = new Pawn(true)
+    var pawn = new Pawn(true,false)
     var chessBoard = new ChessBoardFactory().create(3)
     var moveableFields: Vector[(Int,Int)] = Vector()
     chessBoard (2)(1) = pawn
@@ -41,12 +41,12 @@ class PawnSpec extends Specification{
   }
 
   "A Pawn" should{
-    var pawn = new Pawn(true)
+    var pawn = new Pawn(true,false)
     var chessBoard = new ChessBoardFactory().create(3)
     var moveableFields: Vector[(Int,Int)] = Vector()
     chessBoard (0)(1) = pawn
-    chessBoard (1)(0) = new Pawn(false)
-    chessBoard (1)(2) = new Pawn(true)
+    chessBoard (1)(0) = new Pawn(false,false)
+    chessBoard (1)(2) = new Pawn(true,false)
 
     moveableFields = moveableFields :+ (1,1)
     moveableFields = moveableFields :+ (1,0)
@@ -58,7 +58,7 @@ class PawnSpec extends Specification{
 
 
   "A white model.Pawn" should {
-    val r = new Pawn(true)
+    val r = new Pawn(true,false)
     "have toString() that is \u2659" in {
       r.toString must be_== ("\u2659")
     }
@@ -67,7 +67,7 @@ class PawnSpec extends Specification{
   }
 
   "A black model.Pawn" should {
-    val r = new Pawn(false)
+    val r = new Pawn(false,false)
     "have toString that is \u265F" in {
       r.toString must be_== ("\u265F")
     }
