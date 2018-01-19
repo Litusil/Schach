@@ -1,6 +1,6 @@
 
 import controller.ChessController
-import view.swing.{Gui, UpdateGUI}
+import view.swing.{Gui}
 import view.tui
 
 import scala.io.StdIn.readLine
