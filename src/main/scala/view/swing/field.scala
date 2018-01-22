@@ -1,9 +1,7 @@
 package view.swing
 
 import java.awt.{Color, Font}
-
 import controller.ChessController
-
 import scala.swing.event._
 import model.ChessPiece
 

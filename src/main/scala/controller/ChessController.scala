@@ -3,7 +3,7 @@ import model._
 import util.Observable
 
 
-class ChessController extends Observable {
+class ChessController(slmanager : fileIOInterface) extends Observable {
 
   var boardSize = 8;
   var chessBoard = new ChessBoardFactory().create(boardSize)
@@ -11,6 +11,17 @@ class ChessController extends Observable {
   init
   var currentPlayer  = true;
 
+
+  def save(): Unit = {
+    slmanager.save(this.chessBoard,this.currentPlayer)
+  }
+
+  def load():Unit = {
+    var value = slmanager.load
+    this.chessBoard = value._1
+    this.currentPlayer = value._2
+    notifyObservers()
+  }
 
   def init(): Unit ={
 

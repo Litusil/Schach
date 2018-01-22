@@ -8,7 +8,7 @@ class toXML extends fileIOInterface {
 
   override def save(board: Array[Array[ChessPiece]],player: Boolean): Unit = {
     import java.io._
-    val pw = new PrintWriter(new File("board.xml" ))
+    val pw = new PrintWriter(new File("config.xml" ))
     val prettyPrinter = new PrettyPrinter(120,4)
     val xml = prettyPrinter.format(gridToXML(board,player))
     pw.write(xml)
@@ -38,7 +38,7 @@ class toXML extends fileIOInterface {
   override def load: (Array[Array[ChessPiece]],Boolean) = {
 
     var PieceFactory = new ChessPieceFactory
-    val file = scala.xml.XML.loadFile("board.xml")
+    val file = scala.xml.XML.loadFile("config.xml")
     val sizeAttr = (file \\ "grid" \ "@size")
     val size = sizeAttr.text.toInt
     var chessBoard = new ChessBoardFactory().create(size)
