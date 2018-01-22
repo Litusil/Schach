@@ -6,6 +6,7 @@ import controller.ChessController
 
 import scala.swing.event._
 import model.ChessPiece
+import view.swing.clickstate.{ClickState, Clicked, NotClicked}
 
 import scala.collection.immutable.Vector
 import scala.swing._
@@ -14,25 +15,16 @@ case class Field(var piece:ChessPiece, val color: Color,controller: ChessControl
 
   val markedColor = Color.GREEN
   var possibleMoves: Vector[(Int,Int)] = Vector()
+
   font = new Font("Arial Unicode MS", 0, 30)
   update()
   background = color
 
   reactions += {
     case e: ButtonClicked => {
-      if(!Field.clickStatus){
-        if(piece != null){
-          possibleMoves = piece.getPossibleMoves(controller.chessBoard)
-          parentGui.showPossibleMoves(possibleMoves)
-          Field.clickStatus = true
-          Field.selectedPiece = piece;
-        }
-      } else {
-        val selectedPiecePos = Field.selectedPiece.getPosition(controller.chessBoard)
-        controller.move(selectedPiecePos._2, selectedPiecePos._1, koordinates._2, koordinates._1)
-        parentGui.hidePossibleMoves(possibleMoves)
-        Field.clickStatus = false;
-      }
+      //STATE Pattern below
+      Field.clickState.handle(this)
+      Field.clickState = Field.clickState.nextState()
     }
   }
   def update(): Unit ={
@@ -46,6 +38,6 @@ case class Field(var piece:ChessPiece, val color: Color,controller: ChessControl
 }
 
 object Field{
+  var clickState:ClickState = new NotClicked()
   var selectedPiece:ChessPiece = null
-  var clickStatus = false
 }

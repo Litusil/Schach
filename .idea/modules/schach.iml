@@ -22,14 +22,14 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="TEST" name="SBT: org.specs2:specs2-matcher_2.12:4.0.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.scala-lang.modules:scala-xml_2.12:1.0.6:jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="SBT: org.scala-lang.modules:scala-parser-combinators_2.12:1.0.5:jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="SBT: org.scala-sbt:test-interface:1.0:jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="SBT: org.specs2:specs2-common_2.12:4.0.0:jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="SBT: org.specs2:specs2-core_2.12:4.0.0:jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="SBT: org.specs2:specs2-fp_2.12:4.0.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.scala-lang:scala-library:2.12.4:jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="SBT: org.scala-lang:scala-reflect:2.12.4:jar" level="project" />
     <orderEntry type="library" name="SBT: org.scala-lang.modules:scala-swing_2.12:2.0.0-M2:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="SBT: org.scala-lang:scala-reflect:2.12.4:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.scala-lang:scala-library:2.12.4:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="SBT: org.specs2:specs2-fp_2.12:4.0.0:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="SBT: org.specs2:specs2-core_2.12:4.0.0:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="SBT: org.specs2:specs2-common_2.12:4.0.0:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="SBT: org.scala-sbt:test-interface:1.0:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="SBT: org.scala-lang.modules:scala-parser-combinators_2.12:1.0.5:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.scala-lang.modules:scala-xml_2.12:1.0.6:jar" level="project" />
   </component>
 </module>
