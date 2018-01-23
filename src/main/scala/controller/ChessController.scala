@@ -84,7 +84,7 @@ class ChessController(slmanager : fileIOInterface) extends Observable {
         chessBoard = new ChessBoardFactory().create(boardSize)
         init
       }
-
+      chessBoard(y_ziel)(x_ziel).hasMoved = true
       changePlayer()
       notifyObservers()
     }else {

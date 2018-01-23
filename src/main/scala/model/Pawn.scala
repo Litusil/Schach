@@ -2,7 +2,7 @@ package model
 
 import scala.collection.immutable.Vector
 
-case class Pawn(override val color : Boolean, override val hasMoved: Boolean) extends ChessPiece(color, hasMoved) {
+case class Pawn(override val color : Boolean,  moved: Boolean) extends ChessPiece(color,moved) {
 
   override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)] = {
     val pos = this.getPosition(chessBoard)
@@ -13,11 +13,10 @@ case class Pawn(override val color : Boolean, override val hasMoved: Boolean) ex
       yIncrementer = -1
     }
 
-    if (chessBoard.length > pos._1 + yIncrementer){
+    if (chessBoard.length > pos._1 + yIncrementer && chessBoard(pos._1 + yIncrementer)(pos._2) == null){
       possibleMoves = possibleMoves :+ (pos._1 + yIncrementer, pos._2)
-    } else {
-      return possibleMoves
     }
+    
     var xSchlagen = pos._2 + 1
     if (xSchlagen < 8){
       if(chessBoard(pos._1 + yIncrementer)(pos._2 + 1) != null) {
