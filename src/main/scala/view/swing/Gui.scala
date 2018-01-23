@@ -103,7 +103,7 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
       }
     }
 
-    def showPossibleMoves( possibleMoves: Vector[(Int,Int)]): Unit ={
+    def showPossibleMoves(possibleMoves: Vector[(Int,Int)]): Unit ={
         for(move <- possibleMoves ){
             fields(move._1)(move._2).background = Color.GREEN
         }

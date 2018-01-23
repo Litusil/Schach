@@ -6,9 +6,11 @@ import org.specs2.mutable._
 
 class controllerSpec extends Specification{
 
+  var slmanager:fileIOInterface = new toXML
+
   "A Controller" should{
-    val expected = new ChessController
-    val controller = new ChessController
+    val expected = new ChessController(slmanager)
+    val controller = new ChessController(slmanager)
     controller.chessBoard =  new ChessBoardFactory().create(3)
     controller.chessBoard(0)(0) = new King(false,false)
     controller.chessBoard(0)(2) = new Queen(true,false)
@@ -24,8 +26,8 @@ class controllerSpec extends Specification{
   }
 
   "A Controller" should{
-    val expected = new ChessController
-    val controller = new ChessController
+    val expected = new ChessController(slmanager)
+    val controller = new ChessController(slmanager)
     controller.chessBoard =  new ChessBoardFactory().create(2)
     controller.chessBoard(0)(0) = new King(false,false)
     controller.chessBoard(0)(1) = new Queen(true,false)
@@ -40,8 +42,8 @@ class controllerSpec extends Specification{
     }
   }
   "A Controller" should{
-    val startChessboard = new ChessController
-    val controller = new ChessController
+    val startChessboard = new ChessController(slmanager)
+    val controller = new ChessController(slmanager)
     controller.chessBoard =  new ChessBoardFactory().create(2)
     controller.chessBoard(0)(0) = new King(false,false)
     controller.chessBoard(0)(1) = new Queen(true,false)
@@ -53,7 +55,7 @@ class controllerSpec extends Specification{
   }
 
   "A Controller" should{
-    val controller = new ChessController
+    val controller = new ChessController(slmanager)
     controller.changePlayer
 
     "change player" in {
@@ -62,7 +64,7 @@ class controllerSpec extends Specification{
   }
 
   "A Controller" should{
-    val controller = new ChessController
+    val controller = new ChessController(slmanager)
 
     "have initialized player color" in {
       controller.currentPlayer must be_==(true)
@@ -71,7 +73,7 @@ class controllerSpec extends Specification{
 
 
   "A Controller" should{
-    val controller = new ChessController
+    val controller = new ChessController(slmanager)
 
     var chessBoard = new ChessBoardFactory().create(8)
     chessBoard(0)(0) = new Rook(true,false)
@@ -83,7 +85,7 @@ class controllerSpec extends Specification{
 
 
   "A Controller" should{
-    val controller = new ChessController
+    val controller = new ChessController(slmanager)
 
     var chessBoard = new ChessBoardFactory().create(8)
     chessBoard(0)(0) = new Rook(true,false)
