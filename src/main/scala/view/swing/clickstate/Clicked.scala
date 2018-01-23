@@ -1,6 +1,6 @@
 package view.swing.clickstate
 
-import view.swing.{Field, Gui}
+import view.swing.Field
 
 class Clicked() extends ClickState{
   override def handle(field:Field): Unit = {
@@ -10,8 +10,7 @@ class Clicked() extends ClickState{
   }
 
   override def nextState():ClickState = {
-
-    return new NotClicked()
+    new NotClicked()
   }
 
   override def toString: String = "clicked"

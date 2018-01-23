@@ -53,7 +53,7 @@ object MoveSetUtil {
 
       }
     }
-    return selectableFields
+    selectableFields
   }
 
 }

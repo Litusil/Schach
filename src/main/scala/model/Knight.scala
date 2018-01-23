@@ -33,7 +33,7 @@ case class Knight(override val color: Boolean, moved: Boolean) extends ChessPiec
     possibleMoves
   }
 
-  override def toString(): String ={
+  override def toString: String ={
 
     if (color) {
       return "\u2658"

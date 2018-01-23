@@ -3,18 +3,18 @@ package model
 class ChessPieceFactory {
   def create(piece: String, hasMoved: Boolean): ChessPiece = {
     piece match {
-      case "♖" => new Rook(true,hasMoved)
-      case "♘" => new Knight(true,hasMoved)
-      case "♗" => new Bishop(true,hasMoved)
-      case "♕" => new Queen(true,hasMoved)
-      case "♔" => new King(true,hasMoved)
-      case "♙" => new Pawn(true,hasMoved)
-      case "♜" => new Rook(false,hasMoved)
-      case "♞" => new Knight(false,hasMoved)
-      case "♝" => new Bishop(false,hasMoved)
-      case "♛" => new Queen(false,hasMoved)
-      case "♚" => new King(false,hasMoved)
-      case "♟" => new Pawn(false,hasMoved)
+      case "♖" => Rook(color = true,hasMoved)
+      case "♘" => Knight(color =true,hasMoved)
+      case "♗" => Bishop(color =true,hasMoved)
+      case "♕" => Queen(color =true,hasMoved)
+      case "♔" => King(color =true,hasMoved)
+      case "♙" => Pawn(color =true,hasMoved)
+      case "♜" => Rook(color =false,hasMoved)
+      case "♞" => Knight(color =false,hasMoved)
+      case "♝" => Bishop(color =false,hasMoved)
+      case "♛" => Queen(color =false,hasMoved)
+      case "♚" => King(color =false,hasMoved)
+      case "♟" => Pawn(color =false,hasMoved)
     }
   }
 }

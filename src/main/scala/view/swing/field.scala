@@ -11,7 +11,7 @@ import scala.swing._
 
 case class Field(var piece:ChessPiece, val color: Color,controller: ChessController, parentGui: Gui, val koordinates:(Int, Int)) extends Button{
 
-  val markedColor = Color.GREEN
+  val markedColor: Color = Color.GREEN
   var possibleMoves: Vector[(Int,Int)] = Vector()
 
   font = new Font("Arial Unicode MS", 0, 30)
@@ -20,7 +20,6 @@ case class Field(var piece:ChessPiece, val color: Color,controller: ChessControl
 
   reactions += {
     case e: ButtonClicked => {
-      //STATE Pattern below
       if(Field.clickState.isInstanceOf[NotClicked] && this.piece != null && this.piece.color == controller.currentPlayer) {
         Field.clickState.handle(this)
         Field.clickState = Field.clickState.nextState()

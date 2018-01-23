@@ -32,7 +32,7 @@ case class King(override val color: Boolean, var moved: Boolean) extends ChessPi
 
 
 
-  override def toString(): String ={
+  override def toString: String ={
     if (color) {
       return "\u2654"
     }
