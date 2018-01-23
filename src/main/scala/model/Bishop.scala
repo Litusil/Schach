@@ -19,6 +19,5 @@ case class Bishop(override val color : Boolean, moved: Boolean) extends ChessPie
       return "\u2657"
     }
     "\u265D"
-
   }
 }

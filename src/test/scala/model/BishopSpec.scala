@@ -7,6 +7,14 @@ class BishopSpec extends Specification{
 
 
   "A Bishop" should{
+    var bishop = new Bishop(true,false)
+    val reference = bishop
+    "not be on chessboard" in {
+      bishop must be_==(reference)
+    }
+  }
+
+  "A Bishop" should{
     var r = new Bishop(true,false)
     var chessBoard = new ChessBoardFactory().create(3)
     "not be on chessboard" in {

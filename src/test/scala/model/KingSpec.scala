@@ -23,14 +23,14 @@ class KingSpec extends Specification{
     var chessBoard = new ChessBoardFactory().create(3)
     var moveableFields: Vector[(Int,Int)] = Vector()
     chessBoard (1)(1) = king
-    moveableFields = moveableFields :+ (1,0)
-    moveableFields = moveableFields  :+ (1,2)
+    moveableFields = moveableFields :+ (0,1)
     moveableFields = moveableFields  :+ (2,1)
-    moveableFields = moveableFields  :+ (0,1)
-    moveableFields = moveableFields  :+ (2,0)
+    moveableFields = moveableFields  :+ (1,2)
+    moveableFields = moveableFields  :+ (1,0)
+    moveableFields = moveableFields  :+ (0,2)
     moveableFields = moveableFields  :+ (2,2)
     moveableFields = moveableFields  :+ (0,0)
-    moveableFields = moveableFields  :+ (0,2)
+    moveableFields = moveableFields  :+ (2,0)
     "have possible moves on chessboard" in {
       king.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }

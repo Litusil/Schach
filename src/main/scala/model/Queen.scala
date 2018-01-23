@@ -23,7 +23,6 @@ case class Queen(override val color : Boolean, var moved: Boolean) extends Chess
       return "\u2655"
     }
     "\u265B"
-
   }
 
 }
