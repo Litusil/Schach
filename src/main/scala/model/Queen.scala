@@ -18,7 +18,7 @@ case class Queen(override val color : Boolean, var moved: Boolean) extends Chess
     possibleMoves
   }
 
-  override def toString(): String ={
+  override def toString: String ={
     if (color) {
       return "\u2655"
     }

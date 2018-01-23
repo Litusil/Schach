@@ -10,8 +10,8 @@ import view.tui
 import scala.io.StdIn.readLine
 
 object Main {
-    val config = scala.xml.XML.loadFile("config.xml")
-    val savesystem = (config \\ "slmanager" \ "@type").text
+    val config: scala.xml.Elem = scala.xml.XML.loadFile("config.xml")
+    val savesystem: String = (config \\ "slmanager" \ "@type").text
   println(savesystem)
     var slmanager:fileIOInterface = new toXML
     if (savesystem.equals("JSON") ){
@@ -21,7 +21,7 @@ object Main {
 
     val controller = new ChessController(slmanager)
     val tui = new tui(controller)
-    val gui = new Gui(controller);
+    val gui = new Gui(controller)
 
 
   def main(args: Array[String]) {

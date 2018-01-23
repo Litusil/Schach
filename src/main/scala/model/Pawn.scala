@@ -7,7 +7,7 @@ case class Pawn(override val color : Boolean,  moved: Boolean) extends ChessPiec
   override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)] = {
     val pos = this.getPosition(chessBoard)
     var possibleMoves: Vector[(Int, Int)] = Vector()
-    var yIncrementer = 1;
+    var yIncrementer = 1
 
     if (!this.color) {
       yIncrementer = -1
@@ -49,7 +49,7 @@ case class Pawn(override val color : Boolean,  moved: Boolean) extends ChessPiec
   }
 
 
-  override def toString(): String ={
+  override def toString: String ={
     if (color) {
       return "\u2659"
     }
