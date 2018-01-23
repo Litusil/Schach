@@ -11,9 +11,11 @@ import scala.io.StdIn.readLine
 
 object Main {
     val config = scala.xml.XML.loadFile("config.xml")
-    val savesystem = (config \\ "slmanager" \ "@type")
+    val savesystem = (config \\ "slmanager" \ "@type").text
+  println(savesystem)
     var slmanager:fileIOInterface = new toXML
     if (savesystem.equals("JSON") ){
+      println("JSON!")
       slmanager = new toJson
     }
 

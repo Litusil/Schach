@@ -8,7 +8,7 @@ class toXML extends fileIOInterface {
 
   override def save(board: Array[Array[ChessPiece]],player: Boolean): Unit = {
     import java.io._
-    val pw = new PrintWriter(new File("config.xml" ))
+    val pw = new PrintWriter(new File("board.xml" ))
     val prettyPrinter = new PrettyPrinter(120,4)
     val xml = prettyPrinter.format(gridToXML(board,player))
     pw.write(xml)
