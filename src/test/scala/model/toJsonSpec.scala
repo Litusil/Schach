@@ -4,12 +4,12 @@ import org.specs2.mutable._
 
 class toJsonSpec extends Specification{
   "A jsonmanager" should{
-    var chessBoard = new ChessBoardFactory().create(3)
+    val chessBoard = new ChessBoardFactory().create(3)
     val player = false
-    chessBoard(1)(1) = new Pawn(true,true)
+    chessBoard(1)(1) = Pawn(color = true, moved = true)
     val json = new toJson
     json.save(chessBoard,player)
-    var result = json.load()
+    val result = json.load()
 
     "save and load correct" in {
       result._1 must be_== (chessBoard)

@@ -13,13 +13,13 @@ object Main {
     val config: scala.xml.Elem = scala.xml.XML.loadFile("config.xml")
     val savesystem: String = (config \\ "slmanager" \ "@type").text
     var slmanager:fileIOInterface = new toXML
-    if (savesystem.equals("JSON") ){
-      slmanager = new toJson
+      if (savesystem.equals("JSON") ){
+        slmanager = new toJson
     }
 
     val controller = new ChessController(slmanager)
     val tui = new tui(controller)
-    val gui = new Gui(controller)
+    val gui = Gui(controller)
 
 
   def main(args: Array[String]) {

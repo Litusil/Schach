@@ -1,7 +1,5 @@
 package model
 
-import controller.ChessController
-
 import scala.xml.PrettyPrinter
 
 class toXML extends fileIOInterface {

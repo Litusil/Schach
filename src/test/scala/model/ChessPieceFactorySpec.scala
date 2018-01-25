@@ -1,7 +1,6 @@
 package model
 
 import org.specs2.mutable.Specification
-import model.ChessBoardFactory
 
 class ChessPieceFactorySpec extends Specification{
 
@@ -9,57 +8,40 @@ class ChessPieceFactorySpec extends Specification{
 
 
   "A ChessPieceFactory" should{
-    var piece = new Pawn(false,false)
-    var expect = pieceFactory.create("♟", false)
+    val piece = Pawn(color = false,moved = false)
+    val expect = pieceFactory.create("♟", hasMoved = false)
     "produce " in {
       piece must be_== (expect)
     }
   }
 
   "A ChessPieceFactory" should{
-    var piece = new Pawn(true,false)
-    var expect = pieceFactory.create("♙", false)
+    val piece = Pawn(color = true,moved = false)
+    val expect = pieceFactory.create("♙", hasMoved = false)
     "produce " in {
       piece must be_== (expect)
     }
   }
 
   "A ChessPieceFactory" should{
-    var piece = new King(false,false)
-    var expect = pieceFactory.create("♚", false)
+    val piece = King(color = false,moved = false)
+    val expect = pieceFactory.create("♚", hasMoved = false)
     "produce " in {
       piece must be_== (expect)
     }
   }
 
   "A ChessPieceFactory" should{
-    var piece = new King(true,false)
-    var expect = pieceFactory.create("♔", false)
+    val piece = King(color = true,moved = false)
+    val expect = pieceFactory.create("♔", hasMoved = false)
     "produce " in {
       piece must be_== (expect)
     }
   }
 
   "A ChessPieceFactory" should{
-    var piece = new Queen(false,false)
-    var expect = pieceFactory.create("♛", false)
-    "produce " in {
-      piece must be_== (expect)
-    }
-  }
-
-
-  "A ChessPieceFactory" should{
-    var piece = new Queen(true,false)
-    var expect = pieceFactory.create("♕", false)
-    "produce " in {
-      piece must be_== (expect)
-    }
-  }
-
-  "A ChessPieceFactory" should{
-    var piece = new Bishop(false,false)
-    var expect = pieceFactory.create("♝", false)
+    val piece = Queen(color = false,moved = false)
+    val expect = pieceFactory.create("♛", hasMoved = false)
     "produce " in {
       piece must be_== (expect)
     }
@@ -67,24 +49,16 @@ class ChessPieceFactorySpec extends Specification{
 
 
   "A ChessPieceFactory" should{
-    var piece = new Bishop(true,false)
-    var expect = pieceFactory.create("♗", false)
+    val piece = Queen(color = true,moved = false)
+    val expect = pieceFactory.create("♕", hasMoved = false)
     "produce " in {
       piece must be_== (expect)
     }
   }
 
   "A ChessPieceFactory" should{
-    var piece = new Knight(false,false)
-    var expect = pieceFactory.create("♞", false)
-    "produce " in {
-      piece must be_== (expect)
-    }
-  }
-
-  "A ChessPieceFactory" should{
-    var piece = new Knight(true,false)
-    var expect = pieceFactory.create("♘", false)
+    val piece = Bishop(color = false,moved = false)
+    val expect = pieceFactory.create("♝", hasMoved = false)
     "produce " in {
       piece must be_== (expect)
     }
@@ -92,8 +66,24 @@ class ChessPieceFactorySpec extends Specification{
 
 
   "A ChessPieceFactory" should{
-    var piece = new Rook(false,false)
-    var expect = pieceFactory.create("♜", false)
+    val piece = Bishop(color = true,moved = false)
+    val expect = pieceFactory.create("♗", hasMoved = false)
+    "produce " in {
+      piece must be_== (expect)
+    }
+  }
+
+  "A ChessPieceFactory" should{
+    val piece = Knight(color = false,moved = false)
+    val expect = pieceFactory.create("♞", hasMoved = false)
+    "produce " in {
+      piece must be_== (expect)
+    }
+  }
+
+  "A ChessPieceFactory" should{
+    val piece = Knight(color = true,moved = false)
+    val expect = pieceFactory.create("♘", hasMoved = false)
     "produce " in {
       piece must be_== (expect)
     }
@@ -101,8 +91,17 @@ class ChessPieceFactorySpec extends Specification{
 
 
   "A ChessPieceFactory" should{
-    var piece = new Rook(true,false)
-    var expect = pieceFactory.create("♖", false)
+    val piece = Rook(color = false,moved = false)
+    val expect = pieceFactory.create("♜", hasMoved = false)
+    "produce " in {
+      piece must be_== (expect)
+    }
+  }
+
+
+  "A ChessPieceFactory" should{
+    val piece = Rook(color = true,moved = false)
+    val expect = pieceFactory.create("♖", hasMoved = false)
     "produce " in {
       piece must be_== (expect)
     }
