@@ -1,9 +1,8 @@
 package model
 
-import scala.util.control.Breaks._
 import scala.collection.immutable.Vector
 
-case class Rook(override val color: Boolean, override val hasMoved: Boolean) extends ChessPiece(color,hasMoved) {
+case class Rook(override val color: Boolean, moved: Boolean) extends ChessPiece(color,moved) {
 
   override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)] = {
     val pos = this.getPosition(chessBoard)
@@ -14,7 +13,7 @@ case class Rook(override val color: Boolean, override val hasMoved: Boolean) ext
     possibleMoves = possibleMoves ++ MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.DOWN,chessBoard)
     possibleMoves
   }
-  override def toString(): String = {
+  override def toString: String = {
     if (color) {
       return "\u2656"
     }

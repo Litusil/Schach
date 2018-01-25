@@ -32,16 +32,16 @@ class tui(controller: ChessController) extends Observer {
     }
     println(board)
     if(controller.currentPlayer) {
-      printf("Weiß ist am Zug: ","")
+      println("Weiß ist am Zug: ")
     }else {
-      printf("Schwarz ist am Zug: ","")
+      println("Schwarz ist am Zug: ")
     }
-    return board
+    board
   }
 
   def processInputLine(eingabe: String): Unit ={
     if (eingabe.trim().toUpperCase.matches("[a-hA-H][1-8]( |-)[a-hA-H][1-8]")){
-      var command = eingabe.trim().toUpperCase;
+      var command = eingabe.trim().toUpperCase
       command = command.replaceAll("A","0")
       command = command.replaceAll("B","1")
       command = command.replaceAll("C","2")
@@ -52,8 +52,7 @@ class tui(controller: ChessController) extends Observer {
       command = command.replaceAll("H","7")
       controller.move(command(0).toInt-48,command(1).toInt-49,command(3).toInt-48,command(4).toInt-49)
     }else {
-      println("falsche Eingabe! ");
-      print();
+      println("falsche Eingabe!\n")
     }
   }
 

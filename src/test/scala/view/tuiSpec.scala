@@ -4,11 +4,12 @@ import controller.ChessController
 import model._
 import org.specs2.mutable._
 
-
 class tuiSpec extends Specification{
 
+  var slmanager:fileIOInterface = new toXML
+
   "A tui" should{
-    val controller = new ChessController
+    val controller = new ChessController(slmanager)
     val tui = new tui(controller)
     tui.processInputLine("falsche eingabe")
     val expectedString = "\n" +
@@ -27,7 +28,7 @@ class tuiSpec extends Specification{
   }
 
   "A tui" should{
-    val controller = new ChessController
+    val controller = new ChessController(slmanager)
     val tui = new tui(controller)
     tui.processInputLine("A2 A4")
     val expectedString = "\n" +
@@ -46,7 +47,7 @@ class tuiSpec extends Specification{
   }
 
   "A tui" should{
-    val controller = new ChessController
+    val controller = new ChessController(slmanager)
     val tui = new tui(controller)
     val printString = "\n" +
       "   A|B| C| D|E| F| G|H\n" +

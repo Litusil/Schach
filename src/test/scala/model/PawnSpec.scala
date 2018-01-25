@@ -6,6 +6,28 @@ class PawnSpec extends Specification{
 
 
   "A Pawn" should{
+    var pawn = new Pawn(true,false)
+    var chessBoard = new ChessBoardFactory().create(3)
+    var moveableFields: Vector[(Int,Int)] = Vector()
+    chessBoard (0)(1) = pawn
+    chessBoard(1)(1) = new Pawn(false,false)
+    "have no possible moves on chessboard" in {
+      pawn.getPossibleMoves(chessBoard) must be_== (moveableFields)
+    }
+  }
+
+  "A Pawn" should{
+    var pawn = new Pawn(false,false)
+    var chessBoard = new ChessBoardFactory().create(3)
+    var moveableFields: Vector[(Int,Int)] = Vector()
+    chessBoard (2)(1) = pawn
+    chessBoard(1)(1) = new Pawn(false,false)
+    "have no possible moves on chessboard" in {
+      pawn.getPossibleMoves(chessBoard) must be_== (moveableFields)
+    }
+  }
+
+  "A Pawn" should{
     var pawn = new Pawn(false,false)
     var chessBoard = new ChessBoardFactory().create(3)
     var moveableFields: Vector[(Int,Int)] = Vector()

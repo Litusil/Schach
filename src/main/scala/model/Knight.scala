@@ -2,7 +2,7 @@ package model
 
 import scala.collection.immutable.Vector
 
-case class Knight(override val color: Boolean, override val hasMoved: Boolean) extends ChessPiece(color,hasMoved) {
+case class Knight(override val color: Boolean, moved: Boolean) extends ChessPiece(color,moved) {
 
   override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)] = {
     val pos = this.getPosition(chessBoard)
@@ -33,7 +33,7 @@ case class Knight(override val color: Boolean, override val hasMoved: Boolean) e
     possibleMoves
   }
 
-  override def toString(): String ={
+  override def toString: String ={
 
     if (color) {
       return "\u2658"

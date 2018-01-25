@@ -22,14 +22,14 @@ class KnightSpec extends Specification{
     var chessBoard = new ChessBoardFactory().create(5)
     var moveableFields: Vector[(Int,Int)] = Vector()
     chessBoard (2)(2) = knight
-    moveableFields = moveableFields :+ (1,4)
-    moveableFields = moveableFields  :+ (3,4)
-    moveableFields = moveableFields  :+  (0,3)
+    moveableFields = moveableFields :+ (4,1)
     moveableFields = moveableFields  :+ (4,3)
-    moveableFields = moveableFields  :+ (0,1)
-    moveableFields = moveableFields  :+ (4,1)
+    moveableFields = moveableFields  :+  (3,0)
+    moveableFields = moveableFields  :+ (3,4)
     moveableFields = moveableFields  :+ (1,0)
-    moveableFields = moveableFields  :+ (3,0)
+    moveableFields = moveableFields  :+ (1,4)
+    moveableFields = moveableFields  :+ (0,1)
+    moveableFields = moveableFields  :+ (0,3)
     "have possible moves on chessboard" in {
       knight .getPossibleMoves(chessBoard) must be_== (moveableFields)
     }

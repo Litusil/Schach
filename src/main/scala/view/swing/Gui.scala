@@ -1,6 +1,5 @@
 package view.swing
 
-import model.toXML
 import scala.swing._
 import java.awt.Color
 import scala.swing.BorderPanel.Position._
@@ -16,9 +15,9 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
     preferredSize = new Dimension(750, 750)
 
 
-    var fields = Array.ofDim[Field](8,8)
-    for(i <- 0 to controller.chessBoard.size-1){
-        for(j <- 0 to controller.chessBoard.size-1) {
+    var fields: Array[Array[Field]] = Array.ofDim[Field](8,8)
+    for(i <- controller.chessBoard.indices){
+        for(j <- controller.chessBoard.indices) {
 
             if (((i + 1) % 2 )==1){
                 if(((j+1) % 2) == 1){
@@ -53,17 +52,17 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
     }
 
 
-  var flowPanel = new FlowPanel(FlowPanel.Alignment.Left)(){
+  var flowPanel: FlowPanel = new FlowPanel(FlowPanel.Alignment.Left)(){
 
-    var speichern = new Button("Speichern"){
+    var speichern: Button = new Button("Speichern"){
       reactions += {
         case e: ButtonClicked => {
-          controller.save
+          controller.save()
           Dialog.showMessage(contents.head, "Progress Saved!", title="Save")
           }
         }
       }
-    var laden = new Button("Laden"){
+    var laden: Button = new Button("Laden"){
       reactions += {
         case e: ButtonClicked => {
           controller.load()
@@ -78,9 +77,9 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
   }
 
 
-  var gridPanel = new GridPanel(8,8){
-    for(i <- 0 to fields.size-1){
-      for(j <- 0 to fields.size-1) {
+  var gridPanel: GridPanel = new GridPanel(8,8){
+    for(i <- fields.indices){
+      for(j <- fields.indices) {
         if(fields(i)(j) != null){
           contents += fields(i)(j)
         }
@@ -95,15 +94,15 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
     //layout(textField) = South
   }
     def update(): Unit = {
-      for (i <- 0 to controller.chessBoard.size - 1) {
-        for (j <- 0 to controller.chessBoard.size - 1) {
+      for (i <- controller.chessBoard.indices) {
+        for (j <- controller.chessBoard.indices) {
           fields(i)(j).piece = controller.chessBoard(i)(j)
           fields(i)(j).update()
         }
       }
     }
 
-    def showPossibleMoves( possibleMoves: Vector[(Int,Int)]): Unit ={
+    def showPossibleMoves(possibleMoves: Vector[(Int,Int)]): Unit ={
         for(move <- possibleMoves ){
             fields(move._1)(move._2).background = Color.GREEN
         }

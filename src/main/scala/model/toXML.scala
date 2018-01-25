@@ -12,15 +12,15 @@ class toXML extends fileIOInterface {
     val prettyPrinter = new PrettyPrinter(120,4)
     val xml = prettyPrinter.format(gridToXML(board,player))
     pw.write(xml)
-    pw.close
+    pw.close()
   }
 
   def gridToXML(board: Array[Array[ChessPiece]],player: Boolean) = {
-    <grid size ={board.size.toString} player = {player.toString}>
+    <grid size ={board.length.toString} player = {player.toString}>
       {
       for {
-        row <- 0 until board.size
-        col <- 0 until board.size
+        row <- board.indices
+        col <- board.indices
       } yield cellToXml(board, row, col)
       }
     </grid>
@@ -28,21 +28,20 @@ class toXML extends fileIOInterface {
 
   def cellToXml(board: Array[Array[ChessPiece]], row: Int, col:Int) = {
     if (board(row)(col) != null) {
-      <cell row={row.toString()} col={col.toString()} hasMoved={board(row)(col).hasMoved.toString()}>
+      <cell row={row.toString} col={col.toString} hasMoved={board(row)(col).hasMoved.toString}>
         {board(row)(col)}
       </cell>
     }
   }
 
 
-  override def load: (Array[Array[ChessPiece]],Boolean) = {
+  override def load() : (Array[Array[ChessPiece]],Boolean) = {
 
-    var PieceFactory = new ChessPieceFactory
+    val PieceFactory = new ChessPieceFactory
     val file = scala.xml.XML.loadFile("board.xml")
-    val sizeAttr = (file \\ "grid" \ "@size")
-    val size = sizeAttr.text.toInt
-    var chessBoard = new ChessBoardFactory().create(size)
-    var currentPlayer = (file \\ "grid" \ "@player").text.toBoolean
+    val size = (file \\ "grid" \ "@size").text.toInt
+    val chessBoard = new ChessBoardFactory().create(size)
+    val currentPlayer = (file \\ "grid" \ "@player").text.toBoolean
 
     val cellNodes= (file \\ "cell")
 
