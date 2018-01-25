@@ -1,6 +1,7 @@
 package model
 
-import model.MoveSetUtil.getSelectableFields
+import util.Direction
+import util.MoveSetUtil.getSelectableFields
 
 import scala.collection.immutable.Vector
 

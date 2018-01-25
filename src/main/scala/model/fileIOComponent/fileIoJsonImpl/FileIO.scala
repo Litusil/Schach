@@ -1,11 +1,13 @@
-package model
+package model.fileIOComponent.fileIoJsonImpl
 
+import model.fileIOComponent.FileIOInterface
+import model.{ChessBoardFactory, ChessPiece, ChessPieceFactory}
 import play.api.libs.json._
 
 import scala.collection.immutable.Vector
 import scala.io.Source
 
-class toJson extends fileIOInterface {
+class FileIO extends FileIOInterface {
   override def save(board: Array[Array[ChessPiece]],player: Boolean): Unit = {
     import java.io._
     val pw = new PrintWriter(new File("board.json"))

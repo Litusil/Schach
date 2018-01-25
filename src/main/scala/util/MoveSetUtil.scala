@@ -1,4 +1,6 @@
-package model
+package util
+
+import model.ChessPiece
 
 import scala.collection.immutable.Vector
 import scala.collection.mutable.Map

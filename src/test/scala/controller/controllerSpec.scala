@@ -1,16 +1,18 @@
 package controller
 
 import model._
+import model.fileIOComponent.FileIOInterface
+import model.fileIOComponent.fileIoXmlImpl.FileIO
 import org.specs2.mutable._
 
 
 class controllerSpec extends Specification{
 
-  var slmanager:fileIOInterface = new toXML
+  var slmanager:FileIOInterface = new FileIO
 
   "A Controller" should{
-    val expected = new ChessController(slmanager)
-    val controller = new ChessController(slmanager)
+    val expected = new ChessController
+    val controller = new ChessController
     controller.chessBoard =  new ChessBoardFactory().create(3)
     controller.chessBoard(0)(0) = King(color = false,moved = false)
     controller.chessBoard(0)(2) = Queen(color = true,moved = false)
@@ -26,7 +28,7 @@ class controllerSpec extends Specification{
   }
 
   "A Controller" should{
-    val controller = new ChessController(slmanager)
+    val controller = new ChessController
     val player = false
     val chessBoard = new ChessBoardFactory().create(3)
     chessBoard(1)(1) = Pawn(color = true,moved = true)
@@ -41,8 +43,8 @@ class controllerSpec extends Specification{
   }
 
   "A Controller" should{
-    val expected = new ChessController(slmanager)
-    val controller = new ChessController(slmanager)
+    val expected = new ChessController
+    val controller = new ChessController
     controller.chessBoard =  new ChessBoardFactory().create(2)
     controller.chessBoard(0)(0) = King(color = false,moved = false)
     controller.chessBoard(0)(1) = Queen(color = true,moved = false)
@@ -57,8 +59,8 @@ class controllerSpec extends Specification{
     }
   }
   "A Controller" should{
-    val startChessboard = new ChessController(slmanager)
-    val controller = new ChessController(slmanager)
+    val startChessboard = new ChessController
+    val controller = new ChessController
     controller.chessBoard =  new ChessBoardFactory().create(2)
     controller.chessBoard(0)(0) = King(color = false,moved = false)
     controller.chessBoard(0)(1) = Queen(color = true,moved = false)
@@ -70,8 +72,8 @@ class controllerSpec extends Specification{
   }
 
   "A Controller" should{
-    val startChessboard = new ChessController(slmanager)
-    val controller = new ChessController(slmanager)
+    val startChessboard = new ChessController
+    val controller = new ChessController
     controller.currentPlayer = false
     controller.chessBoard =  new ChessBoardFactory().create(2)
     controller.chessBoard(0)(0) = King(color = true,moved = false)
@@ -84,7 +86,7 @@ class controllerSpec extends Specification{
   }
 
   "A Controller" should{
-    val controller = new ChessController(slmanager)
+    val controller = new ChessController
     controller.changePlayer()
 
     "change player" in {
@@ -93,7 +95,7 @@ class controllerSpec extends Specification{
   }
 
   "A Controller" should{
-    val controller = new ChessController(slmanager)
+    val controller = new ChessController
 
     "have initialized player color" in {
       controller.currentPlayer must be_==(true)
@@ -102,7 +104,7 @@ class controllerSpec extends Specification{
 
 
   "A Controller" should{
-    val controller = new ChessController(slmanager)
+    val controller = new ChessController
 
     val chessBoard = new ChessBoardFactory().create(8)
     chessBoard(0)(0) = Rook(color = true,moved = false)
@@ -114,7 +116,7 @@ class controllerSpec extends Specification{
 
 
   "A Controller" should{
-    val controller = new ChessController(slmanager)
+    val controller = new ChessController
 
     val chessBoard = new ChessBoardFactory().create(8)
     chessBoard(0)(0) = Rook(color = true,moved = false)

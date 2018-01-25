@@ -1,5 +1,7 @@
 package model
 
+import util.{Direction, MoveSetUtil}
+
 import scala.collection.immutable.Vector
 
 case class Queen(override val color : Boolean, var moved: Boolean) extends ChessPiece(color, moved) {

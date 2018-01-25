@@ -1,10 +1,17 @@
 package controller
+import com.google.inject.{Guice, Inject}
+import net.codingwell.scalaguice.InjectorExtensions._
 import model._
+import model.fileIOComponent.FileIOInterface
 import util.Observable
 
 
-class ChessController(slmanager : fileIOInterface) extends Observable {
 
+class ChessController extends Observable {
+
+
+  val injector = Guice.createInjector(new SchachModule)
+  val slmanager = injector.instance[FileIOInterface]
   var boardSize = 8
   var chessBoardFactory = new ChessBoardFactory
   var chessBoard: Array[Array[ChessPiece]] = chessBoardFactory.create(boardSize)

@@ -1,13 +1,14 @@
 package model
 
+import model.fileIOComponent.fileIoJsonImpl.FileIO
 import org.specs2.mutable._
 
-class toJsonSpec extends Specification{
+class toJSONSpec extends Specification{
   "A jsonmanager" should{
     val chessBoard = new ChessBoardFactory().create(3)
     val player = false
     chessBoard(1)(1) = Pawn(color = true, moved = true)
-    val json = new toJson
+    val json = new FileIO
     json.save(chessBoard,player)
     val result = json.load()
 

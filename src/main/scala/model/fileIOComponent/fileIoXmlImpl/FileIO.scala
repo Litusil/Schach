@@ -1,8 +1,11 @@
-package model
+package model.fileIOComponent.fileIoXmlImpl
+
+import model.fileIOComponent.FileIOInterface
+import model.{ChessBoardFactory, ChessPiece, ChessPieceFactory}
 
 import scala.xml.PrettyPrinter
 
-class toXML extends fileIOInterface {
+class FileIO extends FileIOInterface {
 
   override def save(board: Array[Array[ChessPiece]],player: Boolean): Unit = {
     import java.io._
