@@ -4,7 +4,7 @@ import view.swing.Field
 
 class NotClicked() extends ClickState{
   override def handle(field:Field): Unit = {
-    val possibleMoves = field.piece.getPossibleMoves(field.controller.chessBoard)
+    val possibleMoves = field.piece.getPossibleMoves(field.controller.chessBoard.board)
     field.parentGui.showPossibleMoves(possibleMoves)
     Field.selectedPiece = field.piece
   }

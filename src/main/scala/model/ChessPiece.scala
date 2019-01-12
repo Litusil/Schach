@@ -1,6 +1,6 @@
 package model
 
-abstract class ChessPiece(val color: Boolean, var hasMoved: Boolean) {
+abstract class ChessPiece(val color: Boolean, var hasMoved: Boolean, var Position: (Int,Int)) {
 
   def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)]
 
@@ -9,12 +9,10 @@ abstract class ChessPiece(val color: Boolean, var hasMoved: Boolean) {
     for (y <- chessBoard.indices) {
       for (x <- chessBoard.indices) {
         if (chessBoard(y)(x) eq this) {
-
           return (y, x)
         }
       }
     }
-
     (-1, -1)
   }
 }

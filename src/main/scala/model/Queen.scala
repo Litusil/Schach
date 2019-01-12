@@ -4,7 +4,7 @@ import util.{Direction, MoveSetUtil}
 
 import scala.collection.immutable.Vector
 
-case class Queen(override val color : Boolean, var moved: Boolean) extends ChessPiece(color, moved) {
+case class Queen(override val color : Boolean, var moved: Boolean, var pos: (Int,Int)) extends ChessPiece(color, moved,pos) {
 
   override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)] = {
     val pos = this.getPosition(chessBoard)

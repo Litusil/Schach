@@ -6,34 +6,34 @@ class PawnSpec extends Specification{
 
 
   "A Pawn" should{
-    val pawn = Pawn(color = true,moved = false)
+    val pawn = Pawn(color = true,moved = false,(0,1))
     val chessBoard = new ChessBoardFactory().create(3)
     val moveableFields: Vector[(Int,Int)] = Vector()
     chessBoard (0)(1) = pawn
-    chessBoard(1)(1) = Pawn(color = false,moved = false)
+    chessBoard(1)(1) = Pawn(color = false,moved = false,(1,1))
     "have no possible moves on chessboard" in {
       pawn.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }
 
   "A Pawn" should{
-    val pawn = Pawn(color = false,moved = false)
+    val pawn = Pawn(color = false,moved = false,(2,1))
     val chessBoard = new ChessBoardFactory().create(3)
     val moveableFields: Vector[(Int,Int)] = Vector()
     chessBoard (2)(1) = pawn
-    chessBoard(1)(1) = Pawn(color = false,moved = false)
+    chessBoard(1)(1) = Pawn(color = false,moved = false,(1,1))
     "have no possible moves on chessboard" in {
       pawn.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }
 
   "A Pawn" should{
-    val pawn = Pawn(color = false,moved = false)
+    val pawn = Pawn(color = false,moved = false,(2,1))
     val chessBoard = new ChessBoardFactory().create(3)
     var moveableFields: Vector[(Int,Int)] = Vector()
     chessBoard (2)(1) = pawn
-    chessBoard(1)(0) = Pawn(color = true,moved = false)
-    chessBoard(1)(2) = Pawn(color = true,moved = false)
+    chessBoard(1)(0) = Pawn(color = true,moved = false,(1,0))
+    chessBoard(1)(2) = Pawn(color = true,moved = false,(1,2))
     moveableFields = moveableFields :+ (1, 1)
     moveableFields = moveableFields :+ (1, 2)
     moveableFields = moveableFields :+ (1, 0)
@@ -44,7 +44,7 @@ class PawnSpec extends Specification{
   }
 
   "A Pawn" should{
-    val pawn = Pawn(color = true,moved = false)
+    val pawn = Pawn(color = true,moved = false,(0,0))
     val chessBoard = new ChessBoardFactory().create(3)
     "not be on chessboard" in {
       pawn.getPosition(chessBoard) must be_== ((-1,-1))
@@ -52,7 +52,7 @@ class PawnSpec extends Specification{
   }
 
   "A Pawn" should{
-    val pawn = Pawn(color = true,moved = false)
+    val pawn = Pawn(color = true,moved = false,(0,0))
     val chessBoard = new ChessBoardFactory().create(3)
     val moveableFields: Vector[(Int,Int)] = Vector()
     chessBoard (2)(1) = pawn
@@ -63,12 +63,12 @@ class PawnSpec extends Specification{
   }
 
   "A Pawn" should{
-    val pawn = Pawn(color = true,moved = false)
+    val pawn = Pawn(color = true,moved = false,(0,1))
     val chessBoard = new ChessBoardFactory().create(3)
     var moveableFields: Vector[(Int,Int)] = Vector()
     chessBoard (0)(1) = pawn
-    chessBoard (1)(0) = Pawn(color = false,moved = false)
-    chessBoard (1)(2) = Pawn(color = true,moved = false)
+    chessBoard (1)(0) = Pawn(color = false,moved = false,(1,0))
+    chessBoard (1)(2) = Pawn(color = true,moved = false,(1,2))
 
     moveableFields = moveableFields :+ (1,1)
     moveableFields = moveableFields :+ (1,0)
@@ -80,7 +80,7 @@ class PawnSpec extends Specification{
 
 
   "A white model.Pawn" should {
-    val r = Pawn(color = true,moved = false)
+    val r = Pawn(color = true,moved = false,(0,0))
     "have toString() that is \u2659" in {
       r.toString must be_== ("\u2659")
     }
@@ -89,7 +89,7 @@ class PawnSpec extends Specification{
   }
 
   "A black model.Pawn" should {
-    val r = Pawn(color = false,moved = false)
+    val r = Pawn(color = false,moved = false,(0,0))
     "have toString that is \u265F" in {
       r.toString must be_== ("\u265F")
     }

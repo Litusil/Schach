@@ -16,33 +16,33 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
 
 
     var fields: Array[Array[Field]] = Array.ofDim[Field](8,8)
-    for(i <- controller.chessBoard.indices){
-        for(j <- controller.chessBoard.indices) {
+    for(i <- controller.chessBoard.board.indices){
+        for(j <- controller.chessBoard.board.indices) {
 
             if (((i + 1) % 2 )==1){
                 if(((j+1) % 2) == 1){
-                    if (controller.chessBoard(i)(j) != null) {
-                        fields(i)(j) = new Field(controller.chessBoard(i)(j), Color.LIGHT_GRAY, controller, this,(i,j))
+                    if (controller.chessBoard.board(i)(j) != null) {
+                        fields(i)(j) = new Field(controller.chessBoard.board(i)(j), Color.LIGHT_GRAY, controller, this,(i,j))
                     }else {
                         fields(i)(j) = new Field(null, Color.LIGHT_GRAY, controller, this,(i,j))
                     }
                 }else {
-                    if (controller.chessBoard(i)(j) != null) {
-                        fields(i)(j) = new Field(controller.chessBoard(i)(j), Color.WHITE, controller, this,(i,j))
+                    if (controller.chessBoard.board(i)(j) != null) {
+                        fields(i)(j) = new Field(controller.chessBoard.board(i)(j), Color.WHITE, controller, this,(i,j))
                     }else {
                         fields(i)(j) = new Field(null, Color.WHITE, controller, this,(i,j))
                     }
                 }
             }else{
                 if(((j+1) % 2) == 1){
-                    if (controller.chessBoard(i)(j) != null){
-                        fields(i)(j) = new Field(controller.chessBoard(i)(j), Color.WHITE, controller, this,(i,j))
+                    if (controller.chessBoard.board(i)(j) != null){
+                        fields(i)(j) = new Field(controller.chessBoard.board(i)(j), Color.WHITE, controller, this,(i,j))
                     }else {
                         fields(i)(j) = new Field(null, Color.WHITE, controller, this,(i,j))
                     }
                 }else {
-                    if (controller.chessBoard(i)(j) != null) {
-                        fields(i)(j) = new Field(controller.chessBoard(i)(j), Color.LIGHT_GRAY, controller, this,(i,j))
+                    if (controller.chessBoard.board(i)(j) != null) {
+                        fields(i)(j) = new Field(controller.chessBoard.board(i)(j), Color.LIGHT_GRAY, controller, this,(i,j))
                     }else {
                         fields(i)(j) = new Field(null,Color.LIGHT_GRAY, controller, this,(i,j))
                     }
@@ -94,9 +94,9 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
     //layout(textField) = South
   }
     def update(): Unit = {
-      for (i <- controller.chessBoard.indices) {
-        for (j <- controller.chessBoard.indices) {
-          fields(i)(j).piece = controller.chessBoard(i)(j)
+      for (i <- controller.chessBoard.board.indices) {
+        for (j <- controller.chessBoard.board.indices) {
+          fields(i)(j).piece = controller.chessBoard.board(i)(j)
           fields(i)(j).update()
         }
       }

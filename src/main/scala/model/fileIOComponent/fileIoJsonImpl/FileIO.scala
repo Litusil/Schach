@@ -65,7 +65,7 @@ class FileIO extends FileIOInterface {
       val col = (c \ "col").get.toString().toInt
       val hasMoved = (c \ "hasMoved").get.toString().toBoolean
       val piece = (c \ "piece").get.toString().replace("\"","").trim
-      chessBoard(row)(col) = PieceFactory.create(piece,hasMoved)
+      chessBoard(row)(col) = PieceFactory.create(piece,hasMoved,(row,col))
     }
 
     (chessBoard,currentPlayer)
