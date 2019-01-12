@@ -6,6 +6,7 @@ class ChessBoard (val boardSize: Int) {
   var chessBoardFactory = new ChessBoardFactory
   var board: Array[Array[ChessPiece]] = chessBoardFactory.create(boardSize)
   var PieceFactory = new ChessPieceFactory
+
   var whitePieces: Vector[(ChessPiece)] = Vector()
   var blackPieces: Vector[(ChessPiece)] = Vector()
   var whitePiecesTaken: Vector[(ChessPiece)] = Vector()

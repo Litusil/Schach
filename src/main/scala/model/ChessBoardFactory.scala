@@ -6,3 +6,6 @@ class ChessBoardFactory {
     Array.ofDim[ChessPiece](size,size)
   }
 }
+
+
+
