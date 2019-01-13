@@ -50,7 +50,7 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
             }
         }
     }
-    //showPossibleAttacks(controller.getEnemyMoves())
+    showPossibleAttacks(controller.getEnemyMoves())
 
 
   var flowPanel: FlowPanel = new FlowPanel(FlowPanel.Alignment.Left)(){

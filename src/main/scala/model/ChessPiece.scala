@@ -1,6 +1,10 @@
 package model
 
-abstract class ChessPiece(val color: Boolean,var hasMoved: Boolean,var position: (Int,Int)) {
+trait ChessPiece{
+
+  val color: Boolean
+  var hasMoved: Boolean
+  var position: (Int,Int)
 
   def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)]
 

@@ -2,7 +2,7 @@ package model
 
 import scala.collection.immutable.Vector
 
-case class King(override val color: Boolean,var hasMoved: Boolean,override var position: (Int,Int)) extends ChessPiece(color,hasMoved,position) {
+case class King(val color: Boolean,var hasMoved: Boolean, var position: (Int,Int)) extends ChessPiece() {
 
   override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)] = {
     var possibleMoves: Vector[(Int,Int)] = Vector()

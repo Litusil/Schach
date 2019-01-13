@@ -68,7 +68,7 @@ class ChessController extends Observable {
       }
 
       chessBoard.board(y_ziel)(x_ziel) = chessBoard.board(y_start)(x_start)
-      chessBoard.board(y_ziel)(x_ziel).Position = (y_ziel,x_ziel)
+      chessBoard.board(y_ziel)(x_ziel).position = (y_ziel,x_ziel)
       chessBoard.board(y_start)(x_start) = null
       chessBoard.board(y_ziel)(x_ziel).hasMoved = true
 

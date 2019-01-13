@@ -2,7 +2,7 @@ package model
 
 import scala.collection.immutable.Vector
 
-class Pawn(color: Boolean, hasMoved: Boolean, position: (Int,Int)) extends ChessPiece(color,hasMoved,position) {
+class Pawn(val color: Boolean,var hasMoved: Boolean, var position: (Int,Int)) extends ChessPiece() {
 
   override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)] = {
     var possibleMoves: Vector[(Int, Int)] = Vector()
@@ -19,7 +19,7 @@ class Pawn(color: Boolean, hasMoved: Boolean, position: (Int,Int)) extends Chess
     var xSchlagen = position._2 + 1
     if (xSchlagen < chessBoard.length && (position._1 + yIncrementer) < chessBoard.length){
       if(chessBoard(position._1 + yIncrementer)(position._2 + 1) != null) {
-        if (chessBoard(position._1 + yIncrementer)(position._2 + 1).color != this.color) {
+        if (chessBoard(position._1 + yIncrementer)(position._2 + 1).color != color) {
           possibleMoves = possibleMoves :+ (position._1 + yIncrementer, position._2 + 1)
         }
       }
@@ -27,7 +27,7 @@ class Pawn(color: Boolean, hasMoved: Boolean, position: (Int,Int)) extends Chess
     xSchlagen = position._2 - 1
     if(xSchlagen >= 0 && position._1 + yIncrementer < chessBoard.length) {
       if(chessBoard(position._1 + yIncrementer)(position._2 - 1) != null) {
-        if (chessBoard(position._1 + yIncrementer)(position._2 - 1).color != this.color) {
+        if (chessBoard(position._1 + yIncrementer)(position._2 - 1).color != color) {
           possibleMoves = possibleMoves :+ (position._1 + yIncrementer, position._2 - 1)
         }
       }
