@@ -101,7 +101,7 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
           fields(i)(j).update()
         }
       }
-      //showPossibleAttacks(controller.getEnemyMoves())
+      showPossibleAttacks(controller.getEnemyMoves())
     }
 
     def showPossibleMoves(possibleMoves: Vector[(Int,Int)]): Unit ={

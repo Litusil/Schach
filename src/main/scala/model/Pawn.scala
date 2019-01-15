@@ -54,7 +54,28 @@ class Pawn(val color: Boolean,var hasMoved: Boolean, var position: (Int,Int)) ex
   }
 
   override def getPossibleAttacks(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)] = {
-    getPossibleMoves(chessBoard)
+    var possibleAttacks: Vector[(Int, Int)] = Vector()
+    var yIncrementer = 1
+
+    if (!this.color) {
+      yIncrementer = -1
+    }
+
+    if (position._2 + 1 < chessBoard.length && (position._1 + yIncrementer) < chessBoard.length){
+        val pos1 = chessBoard(position._1 + yIncrementer)(position._2 + 1)
+        if (pos1 == null || pos1.color != color  ) {
+          possibleAttacks = possibleAttacks :+ (position._1 + yIncrementer, position._2 + 1)
+        }
+    }
+
+    if(position._2 - 1 >= 0 && position._1 + yIncrementer < chessBoard.length ) {
+        val pos2 = chessBoard(position._1 + yIncrementer)(position._2 - 1)
+        if (pos2 == null || pos2.color != color ) {
+          possibleAttacks = possibleAttacks :+ (position._1 + yIncrementer, position._2 - 1)
+        }
+      }
+
+    possibleAttacks
   }
 
   override def toString: String ={

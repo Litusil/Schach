@@ -5,6 +5,8 @@ import model._
 import model.fileIOComponent.FileIOInterface
 import util.Observable
 
+import scala.collection.immutable.Vector
+
 
 
 class ChessController extends Observable {
@@ -30,7 +32,22 @@ class ChessController extends Observable {
     currentPlayer = !currentPlayer
   }
 
-  def move(x_start: Int,y_start: Int,x_ziel: Int,y_ziel: Int): Unit ={
+  def getEnemyMoves(): Vector[(Int,Int)] = {
+    var possibleAttacks: Vector[(Int,Int)] = Vector()
+    if(currentPlayer){
+      for(y <- chessBoard.blackPieces){
+        val attackVector = y.getPossibleAttacks(chessBoard.board)
+          possibleAttacks = possibleAttacks ++ y.getPossibleAttacks(chessBoard.board)
+      }
+    } else {
+      for(y <- chessBoard.whitePieces){
+        possibleAttacks = possibleAttacks ++ y.getPossibleAttacks(chessBoard.board)
+      }
+    }
+    possibleAttacks
+  }
+
+  def move( chessBoard: ChessBoard, x_start: Int,y_start: Int,x_ziel: Int,y_ziel: Int): ChessBoard ={
 
     if(chessBoard.board(y_start)(x_start) == null || chessBoard.board(y_start)(x_start).color != currentPlayer) {
       println("Kein gültiger Zug!")
@@ -39,7 +56,6 @@ class ChessController extends Observable {
     }
 
     val moves = chessBoard.board(y_start)(x_start).getPossibleMoves(chessBoard.board)
-    //moves.foreach{println}
 
     if (moves.contains((y_ziel,x_ziel))) {
 
@@ -54,6 +70,7 @@ class ChessController extends Observable {
           chessBoard.whitePieces = chessBoard.whitePieces.filterNot(_ == kickedPiece)
         }
 
+        /*
         if (kickedPiece.isInstanceOf[King]) {
           if(currentPlayer){
             println("Winner Winner Chicken Dinner\n Weiß hat gewonnen!")
@@ -65,6 +82,7 @@ class ChessController extends Observable {
           this.currentPlayer = true
           return
         }
+        */
       }
 
       chessBoard.board(y_ziel)(x_ziel) = chessBoard.board(y_start)(x_start)
