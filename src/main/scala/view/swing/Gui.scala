@@ -50,8 +50,8 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
             }
         }
     }
-  showMyPossibleAttacks(controller.getAttackMoves(controller.chessBoard.currentPlayer))
-  showEnemyPossibleAttacks(controller.getAttackMoves(!controller.chessBoard.currentPlayer))
+  showMyPossibleAttacks(controller.chessBoard.getAttackMoves(controller.chessBoard.currentPlayer))
+  showEnemyPossibleAttacks(controller.chessBoard.getAttackMoves(!controller.chessBoard.currentPlayer))
 
   var flowPanel: FlowPanel = new FlowPanel(FlowPanel.Alignment.Left)(){
 
@@ -72,11 +72,7 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
     }
     contents += speichern
     contents += laden
-
-
-
   }
-
 
   var gridPanel: GridPanel = new GridPanel(8,8){
     for(i <- fields.indices){
@@ -101,14 +97,16 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
           fields(i)(j).update()
         }
       }
-      if(controller.checkMate){
+      if(controller.chessBoard.checkMate){
         Dialog.showMessage(contents.head, "Checkmate!", title="Checkmate")
-      } else if(controller.check){
-        Dialog.showMessage(contents.head, "Check!", title="Check")
+      } else if(controller.chessBoard.whiteCheck && controller.chessBoard.currentPlayer != true){
+        Dialog.showMessage(contents.head, "Weiss steht im Schach!", title="Check")
+      } else if(controller.chessBoard.blackCheck && controller.chessBoard.currentPlayer != false){
+        Dialog.showMessage(contents.head, "Schwarz steht im Schach!!", title="Check")
       }
 
-      showMyPossibleAttacks(controller.getAttackMoves(controller.chessBoard.currentPlayer))
-      showEnemyPossibleAttacks(controller.getAttackMoves(!controller.chessBoard.currentPlayer))
+      showMyPossibleAttacks(controller.chessBoard.getAttackMoves(controller.chessBoard.currentPlayer))
+      showEnemyPossibleAttacks(controller.chessBoard.getAttackMoves(!controller.chessBoard.currentPlayer))
     }
 
     def showPossibleMoves(possibleMoves: Vector[(Int,Int)]): Unit ={

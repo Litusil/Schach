@@ -15,8 +15,7 @@ class ChessController extends Observable {
   val injector = Guice.createInjector(new SchachModule)
   val slmanager = injector.instance[FileIOInterface]
   var chessBoard : ChessBoard = null
-  var check = false
-  var checkMate = false;
+
   newGame()
 
 
@@ -24,8 +23,6 @@ class ChessController extends Observable {
   def newGame(): Unit = {
     chessBoard = new ChessBoard()
     chessBoard.init(8)
-    check = false
-    checkMate = false
   }
 
   def save(): Unit = {
@@ -39,44 +36,7 @@ class ChessController extends Observable {
     notifyObservers()
   }
 
-  def getAttackMoves(color: Boolean): Vector[(Int,Int)] = {
-    var possibleAttacks: Vector[(Int,Int)] = Vector()
-    if(color){
-      for(y <- chessBoard.whitePieces){
-        val attackVector = y.getPossibleAttacks(chessBoard.board)
-          possibleAttacks = possibleAttacks ++ y.getPossibleAttacks(chessBoard.board)
-      }
-    } else {
-      for(y <- chessBoard.blackPieces){
-        possibleAttacks = possibleAttacks ++ y.getPossibleAttacks(chessBoard.board)
-      }
-    }
-    possibleAttacks
-  }
-  def isCheck(board: ChessBoard): Boolean ={
-    var possibleAttacks: Vector[(Int,Int)] = getAttackMoves(board.currentPlayer)
-    if(board.currentPlayer){
-      for(y <- board.blackPieces){
-        if(y.toString == "\u265A"){
-          if( possibleAttacks.contains(y.position)){
-            check = true;
-            return true
-          }
-        }
-      }
-    } else {
-      for(y <- board.whitePieces){
-        if(y.toString == "\u2654"){
-          if( possibleAttacks.contains(y.position)){
-            check = true;
-            return true
-          }
-        }
-      }
-    }
-    false
-  }
-
+  /*
   def isCheckmate() : Boolean ={
     var checkmate: Boolean = true;
     if(chessBoard.currentPlayer){
@@ -106,60 +66,62 @@ class ChessController extends Observable {
     }
     checkmate
   }
+  */
 
-  def simulate( chessBoard: ChessBoard, x_start: Int,y_start: Int,x_ziel: Int,y_ziel: Int): ChessBoard ={
-    chessBoard.currentPlayer = !chessBoard.currentPlayer
-    move(chessBoard,x_start,y_start,x_ziel,y_ziel,true)
-  }
+  def move(cb: ChessBoard, x_start: Int,y_start: Int,x_ziel: Int, y_ziel: Int): ChessBoard ={
 
-  def move( chessBoard: ChessBoard, x_start: Int,y_start: Int,x_ziel: Int, y_ziel: Int, sim: Boolean): ChessBoard ={
-
-    if(chessBoard.board(y_start)(x_start) == null || chessBoard.board(y_start)(x_start).color != chessBoard.currentPlayer) {
+    if(cb.board(y_start)(x_start) == null || cb.board(y_start)(x_start).color != cb.currentPlayer) {
       println("Kein gültiger Zug!")
-      return chessBoard
+      return cb
     }
 
-    val moves = chessBoard.board(y_start)(x_start).getPossibleMoves(chessBoard.board)
+    var validMoves: Vector[(Int, Int)] = Vector()
 
-    if (moves.contains((y_ziel,x_ziel))) {
+    validMoves = cb.board(y_start)(x_start).getPossibleMoves(cb)
 
-      val kickedPiece = chessBoard.board(y_ziel)(x_ziel)
+    if (validMoves.contains((y_ziel,x_ziel))) {
+      val kickedPiece = cb.board(y_ziel)(x_ziel)
 
       if(kickedPiece != null){
         if(chessBoard.currentPlayer){
-          chessBoard.blackPiecesTaken = chessBoard.blackPiecesTaken :+ kickedPiece
+          cb.blackPiecesTaken = cb.blackPiecesTaken :+ kickedPiece
           kickedPiece.position = (-1,-1)
-          chessBoard.blackPieces = chessBoard.blackPieces.filterNot(_ == kickedPiece)
+          cb.blackPieces = cb.blackPieces.filterNot(_ == kickedPiece)
         } else {
-          chessBoard.whitePiecesTaken = chessBoard.whitePiecesTaken :+ kickedPiece
+          cb.whitePiecesTaken = cb.whitePiecesTaken :+ kickedPiece
           kickedPiece.position = (-1,-1)
-          chessBoard.whitePieces = chessBoard.whitePieces.filterNot(_ == kickedPiece)
+          cb.whitePieces = cb.whitePieces.filterNot(_ == kickedPiece)
         }
       }
 
-      chessBoard.board(y_ziel)(x_ziel) = chessBoard.board(y_start)(x_start)
-      chessBoard.board(y_ziel)(x_ziel).position = (y_ziel,x_ziel)
-      chessBoard.board(y_start)(x_start) = null
-      chessBoard.board(y_ziel)(x_ziel).hasMoved = true
+      cb.board(y_ziel)(x_ziel) = cb.board(y_start)(x_start)
+      cb.board(y_ziel)(x_ziel).position = (y_ziel,x_ziel)
+      cb.board(y_start)(x_start) = null
+      cb.board(y_ziel)(x_ziel).hasMoved = true
 
-      if(isCheck(chessBoard)){
+
+      if(cb.currentPlayer){
+        cb.isBlackCheck()
+      } else {
+        cb.isWhiteCheck()
+      }
+        /*
         if(isCheckmate()){
-         checkMate = true
+          cb.checkMate = true
         }
-      }
+        */
 
-      chessBoard.changePlayer()
-      if(!sim){
+      notifyObservers()
+      cb.changePlayer()
+      notifyObservers()
+      if(cb.checkMate){
+        newGame()
         notifyObservers()
-        if(checkMate){
-          newGame()
-          notifyObservers()
-        }
       }
     } else {
       println("Kein gültiger Zug!")
-      //notifyObservers()
+      notifyObservers()
     }
-    chessBoard
+    cb
   }
 }

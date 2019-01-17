@@ -4,30 +4,31 @@ import scala.collection.immutable.Vector
 
 class Pawn(val color: Boolean,var hasMoved: Boolean, var position: (Int,Int)) extends ChessPiece() {
 
-  override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)] = {
+  override def getPossibleMoves(chessBoard: ChessBoard): Vector[(Int, Int)] = {
     var possibleMoves: Vector[(Int, Int)] = Vector()
+    var ret: Vector[(Int,Int)] = Vector()
     var yIncrementer = 1
 
     if (!this.color) {
       yIncrementer = -1
     }
 
-    if (chessBoard.length > position._1 + yIncrementer && chessBoard(position._1 + yIncrementer)(position._2) == null){
+    if (chessBoard.board.length > position._1 + yIncrementer && chessBoard.board(position._1 + yIncrementer)(position._2) == null){
       possibleMoves = possibleMoves :+ (position._1 + yIncrementer, position._2)
     }
     
     var xSchlagen = position._2 + 1
-    if (xSchlagen < chessBoard.length && (position._1 + yIncrementer) < chessBoard.length){
-      if(chessBoard(position._1 + yIncrementer)(position._2 + 1) != null) {
-        if (chessBoard(position._1 + yIncrementer)(position._2 + 1).color != color) {
+    if (xSchlagen < chessBoard.board.length && (position._1 + yIncrementer) < chessBoard.board.length){
+      if(chessBoard.board(position._1 + yIncrementer)(position._2 + 1) != null) {
+        if (chessBoard.board(position._1 + yIncrementer)(position._2 + 1).color != color) {
           possibleMoves = possibleMoves :+ (position._1 + yIncrementer, position._2 + 1)
         }
       }
     }
     xSchlagen = position._2 - 1
-    if(xSchlagen >= 0 && position._1 + yIncrementer < chessBoard.length) {
-      if(chessBoard(position._1 + yIncrementer)(position._2 - 1) != null) {
-        if (chessBoard(position._1 + yIncrementer)(position._2 - 1).color != color) {
+    if(xSchlagen >= 0 && position._1 + yIncrementer < chessBoard.board.length) {
+      if(chessBoard.board(position._1 + yIncrementer)(position._2 - 1) != null) {
+        if (chessBoard.board(position._1 + yIncrementer)(position._2 - 1).color != color) {
           possibleMoves = possibleMoves :+ (position._1 + yIncrementer, position._2 - 1)
         }
       }
@@ -35,25 +36,50 @@ class Pawn(val color: Boolean,var hasMoved: Boolean, var position: (Int,Int)) ex
 
     if(!this.hasMoved) {
       if (this.color) {
-        if ((position._1 + 1) < chessBoard.length && chessBoard(position._1 + 1)(position._2) != null) {
+        if ((position._1 + 1) < chessBoard.board.length && chessBoard.board(position._1 + 1)(position._2) != null) {
           return possibleMoves
         }
         yIncrementer = 2
       } else {
-        if ((position._1 - 1) < chessBoard.length && chessBoard(position._1 - 1)(position._2) != null) {
+        if ((position._1 - 1) < chessBoard.board.length && chessBoard.board(position._1 - 1)(position._2) != null) {
           return possibleMoves
         }
         yIncrementer = -2
       }
-        if (position._1 + yIncrementer < chessBoard.length && chessBoard(position._1 + yIncrementer)(position._2) == null) {
+        if (position._1 + yIncrementer < chessBoard.board.length && chessBoard.board(position._1 + yIncrementer)(position._2) == null) {
           possibleMoves = possibleMoves :+ (position._1 + yIncrementer, position._2)
         }
       }
 
-    possibleMoves
+    if(possibleMoves.length == 0){
+      return ret
+    }
+
+    if(!chessBoard.simulated){
+      if(this.color == chessBoard.currentPlayer && chessBoard.whiteCheck){
+        for(y<- possibleMoves){
+          val test = chessBoard.simulate(this.position._2,this.position._1,y._2,y._1)
+          if(!test.isWhiteCheck()){
+            ret = ret :+ (y._1,y._2)
+          }
+        }
+        return ret
+      }
+      if(this.color == chessBoard.currentPlayer && chessBoard.blackCheck){
+        for(y<- possibleMoves){
+          val test = chessBoard.simulate(this.position._2,this.position._1,y._2,y._1)
+          if(!test.isBlackCheck()){
+            ret = ret :+ (y._1,y._2)
+          }
+        }
+        return ret
+      }
+    }
+    ret = ret ++ possibleMoves
+    ret
   }
 
-  override def getPossibleAttacks(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)] = {
+  override def getPossibleAttacks(chessBoard: ChessBoard): Vector[(Int, Int)] = {
     var possibleAttacks: Vector[(Int, Int)] = Vector()
     var yIncrementer = 1
 
@@ -61,20 +87,19 @@ class Pawn(val color: Boolean,var hasMoved: Boolean, var position: (Int,Int)) ex
       yIncrementer = -1
     }
 
-    if (position._2 + 1 < chessBoard.length && (position._1 + yIncrementer) < chessBoard.length){
-        val pos1 = chessBoard(position._1 + yIncrementer)(position._2 + 1)
+    if (position._2 + 1 < chessBoard.board.length && (position._1 + yIncrementer) < chessBoard.board.length){
+        val pos1 = chessBoard.board(position._1 + yIncrementer)(position._2 + 1)
         if (pos1 == null || pos1.color != color  ) {
           possibleAttacks = possibleAttacks :+ (position._1 + yIncrementer, position._2 + 1)
         }
     }
 
-    if(position._2 - 1 >= 0 && position._1 + yIncrementer < chessBoard.length ) {
-        val pos2 = chessBoard(position._1 + yIncrementer)(position._2 - 1)
+    if(position._2 - 1 >= 0 && position._1 + yIncrementer < chessBoard.board.length ) {
+        val pos2 = chessBoard.board(position._1 + yIncrementer)(position._2 - 1)
         if (pos2 == null || pos2.color != color ) {
           possibleAttacks = possibleAttacks :+ (position._1 + yIncrementer, position._2 - 1)
         }
       }
-
     possibleAttacks
   }
 

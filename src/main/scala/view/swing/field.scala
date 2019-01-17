@@ -28,8 +28,6 @@ case class Field(var piece:ChessPiece, val color: Color,controller: ChessControl
         Field.clickState.handle(this)
         Field.clickState = Field.clickState.nextState()
       }
-
-      parentGui.update()
     }
   }
   def update(): Unit ={
