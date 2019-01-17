@@ -29,7 +29,7 @@ class tui(controller: ChessController) extends Observer {
       }
     }
     println(board)
-    if(controller.currentPlayer) {
+    if(controller.chessBoard.currentPlayer) {
       println("Weiß ist am Zug: ")
     }else {
       println("Schwarz ist am Zug: ")
@@ -55,7 +55,7 @@ class tui(controller: ChessController) extends Observer {
       command = command.replaceAll("F","5")
       command = command.replaceAll("G","6")
       command = command.replaceAll("H","7")
-      controller.move(command(0).toInt-48,command(1).toInt-49,command(3).toInt-48,command(4).toInt-49)
+      controller.chessBoard = controller.move(controller.chessBoard,command(0).toInt-48,command(1).toInt-49,command(3).toInt-48,command(4).toInt-49,false)
     }else {
       println("falsche Eingabe!\n")
     }

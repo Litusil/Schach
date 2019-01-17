@@ -20,13 +20,16 @@ case class Field(var piece:ChessPiece, val color: Color,controller: ChessControl
 
   reactions += {
     case e: ButtonClicked => {
-      if(Field.clickState.isInstanceOf[NotClicked] && this.piece != null && this.piece.color == controller.currentPlayer) {
+      if(Field.clickState.isInstanceOf[NotClicked] && this.piece != null && this.piece.color == controller.chessBoard.currentPlayer) {
         Field.clickState.handle(this)
         Field.clickState = Field.clickState.nextState()
+
       } else if (Field.clickState.isInstanceOf[Clicked]){
         Field.clickState.handle(this)
         Field.clickState = Field.clickState.nextState()
       }
+
+      parentGui.update()
     }
   }
   def update(): Unit ={

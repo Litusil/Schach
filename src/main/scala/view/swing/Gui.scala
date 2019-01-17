@@ -50,8 +50,8 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
             }
         }
     }
-    showPossibleAttacks(controller.getEnemyMoves())
-
+  showMyPossibleAttacks(controller.getAttackMoves(controller.chessBoard.currentPlayer))
+  showEnemyPossibleAttacks(controller.getAttackMoves(!controller.chessBoard.currentPlayer))
 
   var flowPanel: FlowPanel = new FlowPanel(FlowPanel.Alignment.Left)(){
 
@@ -101,7 +101,14 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
           fields(i)(j).update()
         }
       }
-      showPossibleAttacks(controller.getEnemyMoves())
+      if(controller.checkMate){
+        Dialog.showMessage(contents.head, "Checkmate!", title="Checkmate")
+      } else if(controller.check){
+        Dialog.showMessage(contents.head, "Check!", title="Check")
+      }
+
+      showMyPossibleAttacks(controller.getAttackMoves(controller.chessBoard.currentPlayer))
+      showEnemyPossibleAttacks(controller.getAttackMoves(!controller.chessBoard.currentPlayer))
     }
 
     def showPossibleMoves(possibleMoves: Vector[(Int,Int)]): Unit ={
@@ -116,7 +123,13 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
       }
     }
 
-  def showPossibleAttacks(possibleAttacks: Vector[(Int,Int)]): Unit ={
+  def showMyPossibleAttacks(possibleAttacks: Vector[(Int,Int)]): Unit ={
+    for(move <- possibleAttacks ){
+      fields(move._1)(move._2).background = Color.YELLOW
+    }
+  }
+
+  def showEnemyPossibleAttacks(possibleAttacks: Vector[(Int,Int)]): Unit ={
     for(move <- possibleAttacks ){
       fields(move._1)(move._2).background = Color.RED
     }
