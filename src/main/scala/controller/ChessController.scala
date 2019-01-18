@@ -15,9 +15,7 @@ class ChessController extends Observable {
   val injector = Guice.createInjector(new SchachModule)
   val slmanager = injector.instance[FileIOInterface]
   var chessBoard : ChessBoard = null
-
   newGame()
-
 
 
   def newGame(): Unit = {
@@ -26,47 +24,13 @@ class ChessController extends Observable {
   }
 
   def save(): Unit = {
-    slmanager.save(this.chessBoard.board,this.chessBoard.currentPlayer)
+    slmanager.save(chessBoard,"test.json")
   }
 
   def load():Unit = {
-    val value = slmanager.load()
-    this.chessBoard.board = value._1
-    this.chessBoard.currentPlayer = value._2
+    chessBoard = slmanager.load("test.json")
     notifyObservers()
   }
-
-  /*
-  def isCheckmate() : Boolean ={
-    var checkmate: Boolean = true;
-    if(chessBoard.currentPlayer){
-      for(piece <- chessBoard.blackPieces){
-        for(moves <- piece.getPossibleMoves(chessBoard.board)){
-          var simulatedBoard = new ChessBoard
-          simulatedBoard.copy(chessBoard)
-          simulatedBoard = simulate(simulatedBoard,piece.position._2,piece.position._1,moves._2,moves._1)
-          if(!isCheck(simulatedBoard)){
-            checkmate = false;
-            return checkmate
-          }
-        }
-        }
-    } else {
-      for(piece <- chessBoard.whitePieces){
-        for(moves <- piece.getPossibleMoves(chessBoard.board)){
-          var simulatedBoard = new ChessBoard
-          simulatedBoard.copy(chessBoard)
-          simulatedBoard = simulate(simulatedBoard,piece.position._2,piece.position._1,moves._2,moves._1)
-          if(!isCheck(simulatedBoard)){
-            checkmate = false;
-            return checkmate
-          }
-        }
-      }
-    }
-    checkmate
-  }
-  */
 
   def move(cb: ChessBoard, x_start: Int,y_start: Int,x_ziel: Int, y_ziel: Int): ChessBoard ={
 
@@ -101,23 +65,35 @@ class ChessController extends Observable {
 
 
       if(cb.currentPlayer){
-        cb.isBlackCheck()
-      } else {
-        cb.isWhiteCheck()
-      }
-        /*
-        if(isCheckmate()){
-          cb.checkMate = true
+        if(cb.isBlackCheck()){
+          if(cb.isBlackCheckmate()){
+            notifyObservers()
+            newGame()
+            notifyObservers()
+            return this.chessBoard
+          }
         }
-        */
+      } else {
+        if(cb.isWhiteCheck()){
+          if(cb.isWhiteCheckmate()){
+            notifyObservers()
+            newGame()
+            notifyObservers()
+            return this.chessBoard
+          }
+        }
+      }
 
-      notifyObservers()
-      cb.changePlayer()
-      notifyObservers()
-      if(cb.checkMate){
-        newGame()
+      if(cb.whiteCheck || cb.isBlackCheck()){
+        notifyObservers()
+        cb.changePlayer()
         notifyObservers()
       }
+      else {
+        cb.changePlayer()
+        notifyObservers()
+      }
+
     } else {
       println("Kein gültiger Zug!")
       notifyObservers()

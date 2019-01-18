@@ -11,8 +11,6 @@ class SchachModule extends AbstractModule with ScalaModule {
     val savesystem: String = (config \\ "slmanager" \ "@type").text
     if (savesystem.equals("JSON")){
       bind[FileIOInterface].to[model.fileIOComponent.fileIoJsonImpl.FileIO]
-    } else if(savesystem.equals("XML")){
-      bind[FileIOInterface].to[model.fileIOComponent.fileIoXmlImpl.FileIO]
     }
   }
 

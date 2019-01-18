@@ -1,10 +1,10 @@
 package model.fileIOComponent
 
-import model.ChessPiece
+import model.{ChessBoard, ChessPiece}
 
 trait FileIOInterface {
 
-  def load():(Array[Array[ChessPiece]],Boolean)
-  def save(board: Array[Array[ChessPiece]],player: Boolean): Unit
+  def load(fileName: String): ChessBoard
+  def save(board: ChessBoard,fileName: String ): Unit
 
 }

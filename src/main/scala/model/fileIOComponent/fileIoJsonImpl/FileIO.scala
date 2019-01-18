@@ -1,81 +1,115 @@
 package model.fileIOComponent.fileIoJsonImpl
 
 import model.fileIOComponent.FileIOInterface
-import model.{ChessBoardFactory, ChessPiece, ChessPieceFactory}
+import model.{ChessBoard, ChessBoardFactory, ChessPiece, ChessPieceFactory}
 import play.api.libs.json._
 
 import scala.collection.immutable.Vector
 import scala.io.Source
 
 class FileIO extends FileIOInterface {
-  override def save(board: Array[Array[ChessPiece]],player: Boolean): Unit = {
+  override def save(cb: ChessBoard, fileName: String): Unit = {
     import java.io._
-    val pw = new PrintWriter(new File("board.json"))
-    pw.write(Json.prettyPrint(gridToJson(board,player)))
+    val pw = new PrintWriter(new File(fileName))
+    pw.write(Json.prettyPrint(gridToJson(cb)))
     pw.close()
   }
 
-  def gridToJson(board: Array[Array[ChessPiece]],player: Boolean) = {
+  def gridToJson(cb: ChessBoard): JsObject = {
 
-    var pieces: Vector[(Int,Int,Boolean,String)] = Vector()
+    var pieces: Vector[((Int, Int), Boolean, String)] = Vector()
 
-    for (y <- board.indices) {
-      for (x <- board.indices) {
-        if (board(y)(x) != null) {
-          pieces = pieces :+ (y,x,board(y)(x).hasMoved,board(y)(x).toString)
-        }
-      }
+    for (piece <- cb.whitePieces) {
+      pieces = pieces :+ (piece.position, piece.hasMoved, piece.toString)
+    }
+    for (piece <- cb.whitePiecesTaken) {
+      pieces = pieces :+ (piece.position, piece.hasMoved, piece.toString)
+    }
+    for (piece <- cb.blackPieces) {
+      pieces = pieces :+ (piece.position, piece.hasMoved, piece.toString)
+    }
+    for (piece <- cb.blackPiecesTaken) {
+      pieces = pieces :+ (piece.position, piece.hasMoved, piece.toString)
     }
 
     Json.obj(
       "grid" -> Json.obj(
-        "size" -> JsNumber(board.length),
-        "player" -> JsBoolean(player),
+        "size" -> JsNumber(cb.boardSize),
+        "player" -> JsBoolean(cb.currentPlayer),
+        "whiteCheck" -> JsBoolean(cb.whiteCheck),
+        "blackCheck" -> JsBoolean(cb.blackCheck),
         "cells" -> Json.toJson(
           for {
             p <- pieces
           } yield {
             Json.obj(
-              "row" -> p._1,
-              "col" -> p._2,
-              "hasMoved" -> p._3,
-              "piece" -> p._4.toString
+              "posY" -> p._1._1,
+              "posX" -> p._1._2,
+              "hasMoved" -> p._2,
+              "piece" -> p._3
             )
-            }
+          }
         )
       )
     )
   }
 
-
-  override def load: (Array[Array[ChessPiece]],Boolean) = {
-
-    val PieceFactory = new ChessPieceFactory
-    val source: String = Source.fromFile("board.json").getLines.mkString
+  override def load(name: String): (ChessBoard) = {
+    val pieceFactory = new ChessPieceFactory
+    val boardFactory = new ChessBoardFactory()
+    val source: String = Source.fromFile(name).getLines.mkString
     val json: JsValue = Json.parse(source)
+    val cb = new ChessBoard()
+
+    var whitePieces: Vector[(ChessPiece)] = Vector()
+    var blackPieces: Vector[(ChessPiece)] = Vector()
+    var whitePiecesTaken: Vector[(ChessPiece)] = Vector()
+    var blackPiecesTaken: Vector[(ChessPiece)] = Vector()
 
     val size = (json \ "grid" \ "size").get.toString.toInt
-    val chessBoard = new ChessBoardFactory().create(size)
+    var board: Array[Array[ChessPiece]] = boardFactory.create(size)
+
     val currentPlayer = (json \ "grid" \ "player").get.toString.toBoolean
+    val whiteCheck = (json \ "grid" \ "whiteCheck").get.toString.toBoolean
+    val blackCheck = (json \ "grid" \ "blackCheck").get.toString.toBoolean
 
     val cells = (json \ "grid" \ "cells").as[List[JsObject]]
 
-    for (c <- cells){
-      val row = (c \ "row").get.toString().toInt
-      val col = (c \ "col").get.toString().toInt
+    for (c <- cells) {
+      val posY = (c \ "posY").get.toString().toInt
+      val posX = (c \ "posX").get.toString().toInt
       val hasMoved = (c \ "hasMoved").get.toString().toBoolean
-      val piece = (c \ "piece").get.toString().replace("\"","").trim
-      chessBoard(row)(col) = PieceFactory.create(piece,hasMoved,(row,col))
+      val pieceString = (c \ "piece").get.toString().replace("\"", "").trim
+
+      val piece = pieceFactory.create(pieceString, hasMoved, (posY, posX))
+      if (posY >= 0 && posX >= 0) {
+        board(posY)(posX) = piece
+        if (piece.color) {
+          whitePieces = whitePieces :+ piece
+        } else {
+          blackPieces = blackPieces :+ piece
+        }
+      } else {
+        if (piece.color) {
+          whitePiecesTaken = whitePiecesTaken :+ piece
+        } else {
+          blackPiecesTaken = blackPiecesTaken :+ piece
+        }
+      }
     }
 
-    (chessBoard,currentPlayer)
+    cb.board = board
+    cb.boardSize = size
+    cb.currentPlayer = currentPlayer
+    cb.whiteCheck = whiteCheck
+    cb.blackCheck = blackCheck
+    cb.whitePieces = whitePieces
+    cb.blackPieces = blackPieces
+    cb.whitePiecesTaken = whitePiecesTaken
+    cb.blackPiecesTaken = blackPiecesTaken
+
+    cb
   }
-
-
-
-
-
 }
-
 
 

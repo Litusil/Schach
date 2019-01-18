@@ -50,8 +50,9 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
             }
         }
     }
-  showMyPossibleAttacks(controller.chessBoard.getAttackMoves(controller.chessBoard.currentPlayer))
+
   showEnemyPossibleAttacks(controller.chessBoard.getAttackMoves(!controller.chessBoard.currentPlayer))
+  showMyPossibleAttacks(controller.chessBoard.getAttackMoves(controller.chessBoard.currentPlayer))
 
   var flowPanel: FlowPanel = new FlowPanel(FlowPanel.Alignment.Left)(){
 
@@ -90,40 +91,50 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
     layout(flowPanel) = North
     //layout(textField) = South
   }
-    def update(): Unit = {
-      for (i <- controller.chessBoard.board.indices) {
-        for (j <- controller.chessBoard.board.indices) {
-          fields(i)(j).piece = controller.chessBoard.board(i)(j)
-          fields(i)(j).update()
-        }
-      }
-      if(controller.chessBoard.checkMate){
-        Dialog.showMessage(contents.head, "Checkmate!", title="Checkmate")
-      } else if(controller.chessBoard.whiteCheck && controller.chessBoard.currentPlayer != true){
-        Dialog.showMessage(contents.head, "Weiss steht im Schach!", title="Check")
-      } else if(controller.chessBoard.blackCheck && controller.chessBoard.currentPlayer != false){
-        Dialog.showMessage(contents.head, "Schwarz steht im Schach!!", title="Check")
-      }
 
-      showMyPossibleAttacks(controller.chessBoard.getAttackMoves(controller.chessBoard.currentPlayer))
-      showEnemyPossibleAttacks(controller.chessBoard.getAttackMoves(!controller.chessBoard.currentPlayer))
+  def update(): Unit = {
+    for (i <- controller.chessBoard.board.indices) {
+      for (j <- controller.chessBoard.board.indices) {
+        fields(i)(j).piece = controller.chessBoard.board(i)(j)
+        fields(i)(j).update()
+      }
+    }
+    if(controller.chessBoard.checkMate){
+      if(controller.chessBoard.currentPlayer){
+        Dialog.showMessage(contents.head, "Weiss hat gewonnen!", title="Checkmate")
+      } else {
+        Dialog.showMessage(contents.head, "Schwarz hat gewonnen!", title="Checkmate")
+      }
+    } else if(controller.chessBoard.whiteCheck && !controller.chessBoard.currentPlayer){
+      Dialog.showMessage(contents.head, "Weiss steht im Schach!", title="Check")
+    } else if(controller.chessBoard.blackCheck && controller.chessBoard.currentPlayer){
+      Dialog.showMessage(contents.head, "Schwarz steht im Schach!!", title="Check")
     }
 
-    def showPossibleMoves(possibleMoves: Vector[(Int,Int)]): Unit ={
-        for(move <- possibleMoves ){
-            fields(move._1)(move._2).background = Color.GREEN
-        }
-    }
+    showEnemyPossibleAttacks(controller.chessBoard.getAttackMoves(!controller.chessBoard.currentPlayer))
+    showMyPossibleAttacks(controller.chessBoard.getAttackMoves(controller.chessBoard.currentPlayer))
+  }
 
-    def hidePossibleMoves( possibleMoves: Vector[(Int,Int)]): Unit ={
+  def showPossibleMoves(possibleMoves: Vector[(Int,Int)]): Unit ={
       for(move <- possibleMoves ){
-        fields(move._1)(move._2).background = fields(move._1)(move._2).color
+          fields(move._1)(move._2).background = Color.GREEN
       }
+  }
+
+  def hidePossibleMoves( possibleMoves: Vector[(Int,Int)]): Unit ={
+    for(move <- possibleMoves ){
+      fields(move._1)(move._2).background = fields(move._1)(move._2).color
     }
+  }
 
   def showMyPossibleAttacks(possibleAttacks: Vector[(Int,Int)]): Unit ={
     for(move <- possibleAttacks ){
-      fields(move._1)(move._2).background = Color.YELLOW
+      if(fields(move._1)(move._2).background == Color.RED){
+        fields(move._1)(move._2).background = Color.ORANGE
+      } else {
+        fields(move._1)(move._2).background = Color.YELLOW
+      }
+
     }
   }
 
@@ -132,13 +143,4 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
       fields(move._1)(move._2).background = Color.RED
     }
   }
-
-  def hidePossibleAttacks( possibleAttacks: Vector[(Int,Int)]): Unit ={
-    for(move <- possibleAttacks ){
-      fields(move._1)(move._2).background = fields(move._1)(move._2).color
-    }
-  }
-
-
-
 }

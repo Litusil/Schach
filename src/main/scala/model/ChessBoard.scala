@@ -46,9 +46,7 @@ class ChessBoard () {
       board(y.position._1)(y.position._2) = y
     }
     whiteCheck = boardToCopy.whiteCheck
-    checkMate = boardToCopy.checkMate
     blackCheck = boardToCopy.blackCheck
-    checkMate = boardToCopy.checkMate
   }
 
   // Hiermit Simulieren wir den nächsten Status dieses Schachbretts nach einem bestimmten move
@@ -103,7 +101,6 @@ class ChessBoard () {
         if( possibleAttacks.contains(y.position)){
           blackCheck = true
           return true
-
         }
       }
     }
@@ -111,8 +108,21 @@ class ChessBoard () {
     false
   }
 
+  def isBlackCheckmate(): Boolean ={
+    var possibleAttacks: Vector[(Int,Int)] = Vector()
+    this.changePlayer()
+    for(y <- blackPieces){
+      possibleAttacks = possibleAttacks ++ y.getPossibleMoves(this)
+    }
+    this.changePlayer()
+    if(possibleAttacks.length == 0){
+      checkMate = true
+    }
+    checkMate
+  }
+
   def isWhiteCheck(): Boolean ={
-    var possibleAttacks: Vector[(Int,Int)] = getAttackMoves(false)
+    var possibleAttacks: Vector[(Int,Int)] = Vector()
 
     for(y <- whitePieces){
       if(y.toString == "\u2654"){
@@ -124,6 +134,19 @@ class ChessBoard () {
     }
     whiteCheck = false
     false
+  }
+
+  def isWhiteCheckmate(): Boolean ={
+    var possibleAttacks: Vector[(Int,Int)] = getAttackMoves(false)
+    this.changePlayer()
+    for(y <- whitePieces){
+      possibleAttacks = possibleAttacks ++ y.getPossibleMoves(this)
+    }
+    this.changePlayer()
+    if(possibleAttacks.length == 0){
+      checkMate = true
+    }
+    checkMate
   }
 
 
