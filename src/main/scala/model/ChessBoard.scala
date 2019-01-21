@@ -93,6 +93,21 @@ class ChessBoard () {
     possibleAttacks
   }
 
+  def isWhiteCheck(): Boolean ={
+    var possibleAttacks: Vector[(Int,Int)] = getAttackMoves(false)
+
+    for(y <- whitePieces){
+      if(y.toString == "\u2654"){
+        if(possibleAttacks.contains(y.position)){
+          whiteCheck = true
+          return true
+        }
+      }
+    }
+    whiteCheck = false
+    false
+  }
+
   def isBlackCheck(): Boolean ={
     var possibleAttacks: Vector[(Int,Int)] = getAttackMoves(true)
 
@@ -105,34 +120,6 @@ class ChessBoard () {
       }
     }
     blackCheck = false
-    false
-  }
-
-  def isBlackCheckmate(): Boolean ={
-    var possibleAttacks: Vector[(Int,Int)] = Vector()
-    this.changePlayer()
-    for(y <- blackPieces){
-      possibleAttacks = possibleAttacks ++ y.getPossibleMoves(this)
-    }
-    this.changePlayer()
-    if(possibleAttacks.length == 0){
-      checkMate = true
-    }
-    checkMate
-  }
-
-  def isWhiteCheck(): Boolean ={
-    var possibleAttacks: Vector[(Int,Int)] = Vector()
-
-    for(y <- whitePieces){
-      if(y.toString == "\u2654"){
-        if( possibleAttacks.contains(y.position)){
-          whiteCheck = true
-          return true
-        }
-      }
-    }
-    whiteCheck = false
     false
   }
 
@@ -149,6 +136,18 @@ class ChessBoard () {
     checkMate
   }
 
+  def isBlackCheckmate(): Boolean ={
+    var possibleAttacks: Vector[(Int,Int)] = Vector()
+    this.changePlayer()
+    for(y <- blackPieces){
+      possibleAttacks = possibleAttacks ++ y.getPossibleMoves(this)
+    }
+    this.changePlayer()
+    if(possibleAttacks.length == 0){
+      checkMate = true
+    }
+    checkMate
+  }
 
   def init(boardSize: Int): Unit ={
     this.boardSize = boardSize
