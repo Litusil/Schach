@@ -105,9 +105,9 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
       } else {
         Dialog.showMessage(contents.head, "Schwarz hat gewonnen!", title="Checkmate")
       }
-    } else if(controller.chessBoard.whiteCheck && !controller.chessBoard.currentPlayer){
+    } else if(controller.chessBoard.whiteCheck){
       Dialog.showMessage(contents.head, "Weiss steht im Schach!", title="Check")
-    } else if(controller.chessBoard.blackCheck && controller.chessBoard.currentPlayer){
+    } else if(controller.chessBoard.blackCheck){
       Dialog.showMessage(contents.head, "Schwarz steht im Schach!!", title="Check")
     }
 

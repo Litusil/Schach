@@ -33,10 +33,14 @@ class ChessController extends Observable {
   }
 
   def move(cb: ChessBoard, x_start: Int,y_start: Int,x_ziel: Int, y_ziel: Int): ChessBoard ={
-
     if(cb.board(y_start)(x_start) == null || cb.board(y_start)(x_start).color != cb.currentPlayer) {
       println("Kein gültiger Zug!")
       return cb
+    }
+
+    if(cb.whiteCheck || cb.blackCheck){
+      cb.blackCheck = false;
+      cb.whiteCheck = false;
     }
 
     var validMoves: Vector[(Int, Int)] = Vector()
@@ -66,33 +70,25 @@ class ChessController extends Observable {
 
       if(cb.currentPlayer){
         if(cb.isBlackCheck()){
+          cb.blackCheck = true
           if(cb.isBlackCheckmate()){
-            notifyObservers()
-            newGame()
             notifyObservers()
             return this.chessBoard
           }
         }
       } else {
         if(cb.isWhiteCheck()){
+          cb.whiteCheck = true
           if(cb.isWhiteCheckmate()){
-            notifyObservers()
-            newGame()
             notifyObservers()
             return this.chessBoard
           }
         }
       }
 
-      if(cb.whiteCheck || cb.isBlackCheck()){
-        notifyObservers()
-        cb.changePlayer()
-        notifyObservers()
-      }
-      else {
-        cb.changePlayer()
-        notifyObservers()
-      }
+      cb.changePlayer()
+      notifyObservers()
+
 
     } else {
       println("Kein gültiger Zug!")

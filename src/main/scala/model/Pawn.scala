@@ -9,6 +9,10 @@ class Pawn(val color: Boolean,var hasMoved: Boolean, var position: (Int,Int)) ex
     var ret: Vector[(Int,Int)] = Vector()
     var yIncrementer = 1
 
+    if(this.position == (-1,-1)){
+      return possibleMoves
+    }
+
     if (!this.color) {
       yIncrementer = -1
     }
@@ -56,24 +60,19 @@ class Pawn(val color: Boolean,var hasMoved: Boolean, var position: (Int,Int)) ex
     }
 
     if(!chessBoard.simulated){
-      if(this.color == chessBoard.currentPlayer && chessBoard.whiteCheck){
-        for(y<- possibleMoves){
-          val test = chessBoard.simulate(this.position._2,this.position._1,y._2,y._1)
+      for(y<- possibleMoves){
+        val test = chessBoard.simulate(this.position._2,this.position._1,y._2,y._1)
+        if(chessBoard.currentPlayer){
           if(!test.isWhiteCheck()){
             ret = ret :+ (y._1,y._2)
           }
-        }
-        return ret
-      }
-      if(this.color == chessBoard.currentPlayer && chessBoard.blackCheck){
-        for(y<- possibleMoves){
-          val test = chessBoard.simulate(this.position._2,this.position._1,y._2,y._1)
+        } else {
           if(!test.isBlackCheck()){
             ret = ret :+ (y._1,y._2)
           }
         }
-        return ret
       }
+      return ret
     }
     ret = ret ++ possibleMoves
     ret
@@ -82,6 +81,10 @@ class Pawn(val color: Boolean,var hasMoved: Boolean, var position: (Int,Int)) ex
   override def getPossibleAttacks(chessBoard: ChessBoard): Vector[(Int, Int)] = {
     var possibleAttacks: Vector[(Int, Int)] = Vector()
     var yIncrementer = 1
+
+    if(this.position == (-1,-1)){
+      return possibleAttacks
+    }
 
     if (!this.color) {
       yIncrementer = -1

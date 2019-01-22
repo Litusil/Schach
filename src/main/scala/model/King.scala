@@ -8,6 +8,11 @@ case class King(val color: Boolean,var hasMoved: Boolean, var position: (Int,Int
     var possibleMoves: Vector[(Int,Int)] = Vector()
     var kingMoves: Vector[(Int,Int)] = Vector()
     var ret: Vector[(Int,Int)] = Vector()
+
+    if(this.position == (-1,-1)){
+      return possibleMoves
+    }
+
     kingMoves = kingMoves :+(-1,0)
     kingMoves = kingMoves:+(1,0)
     kingMoves = kingMoves:+(0,1)
@@ -31,24 +36,19 @@ case class King(val color: Boolean,var hasMoved: Boolean, var position: (Int,Int
       return ret
     }
     if(!chessBoard.simulated){
-      if(this.color == chessBoard.currentPlayer && chessBoard.whiteCheck){
         for(y<- possibleMoves){
           val test = chessBoard.simulate(this.position._2,this.position._1,y._2,y._1)
-          if(!test.isWhiteCheck()){
-            ret = ret :+ (y._1,y._2)
+          if(chessBoard.currentPlayer){
+            if(!test.isWhiteCheck()){
+              ret = ret :+ (y._1,y._2)
+            }
+          } else {
+            if(!test.isBlackCheck()){
+              ret = ret :+ (y._1,y._2)
+            }
           }
         }
         return ret
-      }
-      if(this.color == chessBoard.currentPlayer && chessBoard.blackCheck){
-        for(y<- possibleMoves){
-          val test = chessBoard.simulate(this.position._2,this.position._1,y._2,y._1)
-          if(!test.isBlackCheck()){
-            ret = ret :+ (y._1,y._2)
-          }
-        }
-        return ret
-      }
     }
     ret = ret ++ possibleMoves
     ret

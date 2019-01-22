@@ -9,6 +9,10 @@ class Knight(val color: Boolean,var hasMoved: Boolean, var position: (Int,Int)) 
     var ret: Vector[(Int,Int)] = Vector()
     var KnightMoves: Vector[(Int,Int)] = Vector()
 
+    if(this.position == (-1,-1)){
+      return possibleMoves
+    }
+
     KnightMoves =  KnightMoves :+(2,-1)
     KnightMoves =KnightMoves :+(2,1)
     KnightMoves =KnightMoves :+(1,-2)
@@ -34,24 +38,19 @@ class Knight(val color: Boolean,var hasMoved: Boolean, var position: (Int,Int)) 
       return ret
     }
     if(!chessBoard.simulated){
-      if(this.color == chessBoard.currentPlayer && chessBoard.whiteCheck){
-        for(y<- possibleMoves){
-          val test = chessBoard.simulate(this.position._2,this.position._1,y._2,y._1)
+      for(y<- possibleMoves){
+        val test = chessBoard.simulate(this.position._2,this.position._1,y._2,y._1)
+        if(chessBoard.currentPlayer){
           if(!test.isWhiteCheck()){
             ret = ret :+ (y._1,y._2)
           }
-        }
-        return ret
-      }
-      if(this.color == chessBoard.currentPlayer && chessBoard.blackCheck){
-        for(y<- possibleMoves){
-          val test = chessBoard.simulate(this.position._2,this.position._1,y._2,y._1)
+        } else {
           if(!test.isBlackCheck()){
             ret = ret :+ (y._1,y._2)
           }
         }
-        return ret
       }
+      return ret
     }
     ret = ret ++ possibleMoves
     ret

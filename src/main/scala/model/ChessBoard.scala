@@ -55,6 +55,7 @@ class ChessBoard () {
     val simulatedBoard = new ChessBoard
     simulatedBoard.copy(this)
     simulatedBoard.simulated = true
+    simulatedBoard.changePlayer()
 
     val kickedPiece = simulatedBoard.board(y_ziel)(x_ziel)
     if(kickedPiece != null){
@@ -93,36 +94,6 @@ class ChessBoard () {
     possibleAttacks
   }
 
-  def isWhiteCheck(): Boolean ={
-    var possibleAttacks: Vector[(Int,Int)] = getAttackMoves(false)
-
-    for(y <- whitePieces){
-      if(y.toString == "\u2654"){
-        if(possibleAttacks.contains(y.position)){
-          whiteCheck = true
-          return true
-        }
-      }
-    }
-    whiteCheck = false
-    false
-  }
-
-  def isBlackCheck(): Boolean ={
-    var possibleAttacks: Vector[(Int,Int)] = getAttackMoves(true)
-
-    for(y <- blackPieces){
-      if(y.toString == "\u265A"){
-        if( possibleAttacks.contains(y.position)){
-          blackCheck = true
-          return true
-        }
-      }
-    }
-    blackCheck = false
-    false
-  }
-
   def isWhiteCheckmate(): Boolean ={
     var possibleAttacks: Vector[(Int,Int)] = getAttackMoves(false)
     this.changePlayer()
@@ -136,6 +107,7 @@ class ChessBoard () {
     checkMate
   }
 
+
   def isBlackCheckmate(): Boolean ={
     var possibleAttacks: Vector[(Int,Int)] = Vector()
     this.changePlayer()
@@ -148,6 +120,35 @@ class ChessBoard () {
     }
     checkMate
   }
+
+  def isWhiteCheck(): Boolean ={
+    var possibleAttacks: Vector[(Int,Int)] = getAttackMoves(false)
+
+    for(y <- whitePieces){
+      if(y.toString == "\u2654"){
+        if( possibleAttacks.contains(y.position)){
+          return true
+        }
+      }
+    }
+    false
+  }
+
+  def isBlackCheck(): Boolean ={
+    val possibleAttacks: Vector[(Int,Int)] = getAttackMoves(true)
+
+    for(y <- blackPieces){
+      if(y.toString == "\u265A"){
+        if( possibleAttacks.contains(y.position)){
+          return true
+        }
+      }
+    }
+    false
+  }
+
+
+
 
   def init(boardSize: Int): Unit ={
     this.boardSize = boardSize
