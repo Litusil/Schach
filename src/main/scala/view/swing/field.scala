@@ -9,7 +9,7 @@ import view.swing.clickstate.{ClickState, Clicked, NotClicked}
 import scala.collection.immutable.Vector
 import scala.swing._
 
-case class Field(var piece:ChessPiece, val color: Color,controller: ChessController, parentGui: Gui, val koordinates:(Int, Int)) extends Button{
+case class Field(var piece:Option[ChessPiece], val color: Color,controller: ChessController, parentGui: Gui, val koordinates:(Int, Int)) extends Button{
 
   val markedColor: Color = Color.GREEN
   var possibleMoves: Vector[(Int,Int)] = Vector()
@@ -20,7 +20,7 @@ case class Field(var piece:ChessPiece, val color: Color,controller: ChessControl
 
   reactions += {
     case e: ButtonClicked => {
-      if(Field.clickState.isInstanceOf[NotClicked] && this.piece != null && this.piece.color == controller.currentPlayer) {
+      if(Field.clickState.isInstanceOf[NotClicked] && !this.piece.isEmpty && this.piece.get.color == controller.currentPlayer) {
         Field.clickState.handle(this)
         Field.clickState = Field.clickState.nextState()
       } else if (Field.clickState.isInstanceOf[Clicked]){
@@ -30,10 +30,10 @@ case class Field(var piece:ChessPiece, val color: Color,controller: ChessControl
     }
   }
   def update(): Unit ={
-    if(piece == null){
+    if(piece.isEmpty){
       text = ""
     } else {
-      text = piece.toString
+      text = piece.get.toString
     }
     background = color
   }

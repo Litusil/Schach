@@ -15,17 +15,17 @@ class RookSpec extends Specification{
   }
 
   "A Rook" should{
-    val r = Rook(color = true,moved = false)
+    val r = Option(Rook(color = true,moved = false))
     val chessBoard = new ChessBoardFactory().create(3)
     chessBoard (1)(1) = r
-    chessBoard (0)(1) = Rook(color = true,moved = false)
-    chessBoard (1)(0) = Rook(color = false,moved = false)
+    chessBoard (0)(1) = Option(Rook(color = true,moved = false))
+    chessBoard (1)(0) = Option(Rook(color = false,moved = false))
     var moveableFields: Vector[(Int,Int)] = Vector()
     moveableFields = moveableFields :+ (1,0)
     moveableFields = moveableFields  :+ (1,2)
     moveableFields = moveableFields  :+ (2,1)
     "have possible moves on chessboard" in {
-      r.getPossibleMoves(chessBoard) must be_== (moveableFields)
+      r.get.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }
 

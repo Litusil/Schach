@@ -7,7 +7,7 @@ import scala.xml.PrettyPrinter
 
 class FileIO extends FileIOInterface {
 
-  override def save(board: Array[Array[ChessPiece]],player: Boolean): Unit = {
+  override def save(board: Array[Array[Option[ChessPiece]]],player: Boolean): Unit = {
     import java.io._
     val pw = new PrintWriter(new File("board.xml" ))
     val prettyPrinter = new PrettyPrinter(120,4)
@@ -16,7 +16,7 @@ class FileIO extends FileIOInterface {
     pw.close()
   }
 
-  def gridToXML(board: Array[Array[ChessPiece]],player: Boolean) = {
+  def gridToXML(board: Array[Array[Option[ChessPiece]]],player: Boolean) = {
     <grid size ={board.length.toString} player = {player.toString}>
       {
       for {
@@ -27,16 +27,16 @@ class FileIO extends FileIOInterface {
     </grid>
   }
 
-  def cellToXml(board: Array[Array[ChessPiece]], row: Int, col:Int) = {
-    if (board(row)(col) != null) {
-      <cell row={row.toString} col={col.toString} hasMoved={board(row)(col).hasMoved.toString}>
+  def cellToXml(board: Array[Array[Option[ChessPiece]]], row: Int, col:Int) = {
+    if (!board(row)(col).isEmpty) {
+      <cell row={row.toString} col={col.toString} hasMoved={board(row)(col).get.hasMoved.toString}>
         {board(row)(col)}
       </cell>
     }
   }
 
 
-  override def load() : (Array[Array[ChessPiece]],Boolean) = {
+  override def load() : (Array[Array[Option[ChessPiece]]],Boolean) = {
 
     val PieceFactory = new ChessPieceFactory
     val file = scala.xml.XML.loadFile("board.xml")

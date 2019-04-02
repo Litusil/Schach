@@ -5,21 +5,21 @@ import org.specs2.mutable._
 class KingSpec extends Specification{
 
   "A King" should{
-    val king = King(color = true,moved = false)
+    val king = Option(King(color = true,moved = false))
     val chessBoard = new ChessBoardFactory().create(2)
     var moveableFields: Vector[(Int,Int)] = Vector()
     chessBoard (0)(0) = king
-    chessBoard (0)(1) = King(color = false,moved = false)
-    chessBoard (1)(0) = King(color = true,moved = false)
+    chessBoard (0)(1) = Option(King(color = false,moved = false))
+    chessBoard (1)(0) = Option(King(color = true,moved = false))
     moveableFields = moveableFields  :+ (0,1)
     moveableFields = moveableFields  :+ (1,1)
     "have possible moves on chessboard" in {
-      king.getPossibleMoves(chessBoard) must be_== (moveableFields)
+      king.get.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }
 
   "A King" should{
-    val king = King(color = true,moved = false)
+    val king = Option(King(color = true,moved = false))
     val chessBoard = new ChessBoardFactory().create(3)
     var moveableFields: Vector[(Int,Int)] = Vector()
     chessBoard (1)(1) = king
@@ -32,7 +32,7 @@ class KingSpec extends Specification{
     moveableFields = moveableFields  :+ (0,0)
     moveableFields = moveableFields  :+ (2,0)
     "have possible moves on chessboard" in {
-      king.getPossibleMoves(chessBoard) must be_== (moveableFields)
+      king.get.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }
 

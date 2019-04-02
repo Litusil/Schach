@@ -12,10 +12,10 @@ class ChessController extends Observable {
 
   val injector = Guice.createInjector(new SchachModule)
   val slmanager = injector.instance[FileIOInterface]
-  var boardSize = 8
-  var chessBoardFactory = new ChessBoardFactory
-  var chessBoard: Array[Array[ChessPiece]] = chessBoardFactory.create(boardSize)
-  var PieceFactory = new ChessPieceFactory
+  val boardSize = 8
+  val chessBoardFactory = new ChessBoardFactory
+  var chessBoard: Array[Array[Option[ChessPiece]]] = chessBoardFactory.create(boardSize)
+  val PieceFactory = new ChessPieceFactory
   init()
   var currentPlayer  = true
 
@@ -64,19 +64,19 @@ class ChessController extends Observable {
 
   def move(x_start: Int,y_start: Int,x_ziel: Int,y_ziel: Int): Unit ={
 
-    if(chessBoard(y_start)(x_start) == null || chessBoard(y_start)(x_start).color != currentPlayer) {
+    if(chessBoard(y_start)(x_start).isEmpty || chessBoard(y_start)(x_start).get.color != currentPlayer) {
       println("Kein gültiger Zug!")
       notifyObservers()
       return
     }
 
-    val moves = chessBoard(y_start)(x_start).getPossibleMoves(chessBoard)
+    val moves = chessBoard(y_start)(x_start).get.getPossibleMoves(chessBoard)
     //moves.foreach{println}
 
     if (moves.contains((y_ziel,x_ziel))) {
-      val kickedPiece = chessBoard(y_ziel)(x_ziel)
+      val kickedPiece = chessBoard(y_ziel)(x_ziel).get
       chessBoard(y_ziel)(x_ziel) = chessBoard(y_start)(x_start)
-      chessBoard(y_start)(x_start) = null
+      chessBoard(y_start)(x_start) = None
 
       if (kickedPiece.isInstanceOf[King]) {
         if(currentPlayer){
@@ -87,7 +87,7 @@ class ChessController extends Observable {
         chessBoard = new ChessBoardFactory().create(boardSize)
         init()
       }
-      chessBoard(y_ziel)(x_ziel).hasMoved = true
+      chessBoard(y_ziel)(x_ziel).get.hasMoved = true
       changePlayer()
       notifyObservers()
     }else {

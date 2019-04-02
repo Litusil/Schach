@@ -4,7 +4,7 @@ import model.ChessPiece
 
 trait FileIOInterface {
 
-  def load():(Array[Array[ChessPiece]],Boolean)
-  def save(board: Array[Array[ChessPiece]],player: Boolean): Unit
+  def load():(Array[Array[Option[ChessPiece]]],Boolean)
+  def save(board: Array[Array[Option[ChessPiece]]],player: Boolean): Unit
 
 }

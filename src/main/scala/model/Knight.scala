@@ -4,19 +4,19 @@ import scala.collection.immutable.Vector
 
 case class Knight(override val color: Boolean, moved: Boolean) extends ChessPiece(color,moved) {
 
-  override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)] = {
+  override def getPossibleMoves(chessBoard: Array[Array[Option[ChessPiece]]]): Vector[(Int, Int)] = {
     val pos = this.getPosition(chessBoard)
     var possibleMoves: Vector[(Int,Int)] = Vector()
 
     var KnightMoves: Vector[(Int,Int)] = Vector()
-    KnightMoves =  KnightMoves :+(2,-1)
-    KnightMoves =KnightMoves :+(2,1)
-    KnightMoves =KnightMoves :+(1,-2)
-    KnightMoves =KnightMoves:+(1,2)
-    KnightMoves =KnightMoves:+(-1,-2)
-    KnightMoves =KnightMoves:+(-1,2)
-    KnightMoves =KnightMoves:+(-2,-1)
-    KnightMoves =KnightMoves:+(-2,1)
+    KnightMoves = KnightMoves :+(2,-1)
+    KnightMoves = KnightMoves :+(2,1)
+    KnightMoves = KnightMoves :+(1,-2)
+    KnightMoves = KnightMoves :+(1,2)
+    KnightMoves = KnightMoves :+(-1,-2)
+    KnightMoves = KnightMoves :+(-1,2)
+    KnightMoves = KnightMoves :+(-2,-1)
+    KnightMoves = KnightMoves :+(-2,1)
 
     for (e <- KnightMoves){
       val x = pos._2 + e._2
@@ -24,7 +24,7 @@ case class Knight(override val color: Boolean, moved: Boolean) extends ChessPiec
 
       if (x  >= 0 && x < chessBoard.length){
         if (y  >= 0 && y < chessBoard.length){
-          if (chessBoard(y)(x) == null || chessBoard(y)(x).color != chessBoard(pos._1)(pos._2).color) {
+          if (chessBoard(y)(x).isEmpty || chessBoard(y)(x).get.color != chessBoard(pos._1)(pos._2).get.color) {
             possibleMoves = possibleMoves :+ (y, x)
           }
         }

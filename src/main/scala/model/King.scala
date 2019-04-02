@@ -4,7 +4,7 @@ import scala.collection.immutable.Vector
 
 case class King(override val color: Boolean, var moved: Boolean) extends ChessPiece(color,moved) {
 
-  override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)] = {
+  override def getPossibleMoves(chessBoard: Array[Array[Option[ChessPiece]]]): Vector[(Int, Int)] = {
     val pos = this.getPosition(chessBoard)
     var possibleMoves: Vector[(Int,Int)] = Vector()
     var kingMoves: Vector[(Int,Int)] = Vector()
@@ -21,7 +21,7 @@ case class King(override val color: Boolean, var moved: Boolean) extends ChessPi
       val y = pos._1 + e._1
       if (x  >= 0 && x < chessBoard.length){
         if (y  >= 0 && y < chessBoard.length){
-          if (chessBoard(y)(x) == null || chessBoard(y)(x).color != chessBoard(pos._1)(pos._2).color) {
+          if (chessBoard(y)(x).isEmpty|| chessBoard(y)(x).get.color != chessBoard(pos._1)(pos._2).get.color) {
             possibleMoves = possibleMoves :+ (y, x)
           }
         }

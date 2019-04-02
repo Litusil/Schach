@@ -4,7 +4,7 @@ import scala.collection.immutable.Vector
 
 case class Pawn(override val color : Boolean,  moved: Boolean) extends ChessPiece(color,moved) {
 
-  override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)] = {
+  override def getPossibleMoves(chessBoard: Array[Array[Option[ChessPiece]]]): Vector[(Int, Int)] = {
     val pos = this.getPosition(chessBoard)
     var possibleMoves: Vector[(Int, Int)] = Vector()
     var yIncrementer = 1
@@ -13,22 +13,22 @@ case class Pawn(override val color : Boolean,  moved: Boolean) extends ChessPiec
       yIncrementer = -1
     }
 
-    if (chessBoard.length > pos._1 + yIncrementer && chessBoard(pos._1 + yIncrementer)(pos._2) == null){
+    if (chessBoard.length > pos._1 + yIncrementer && chessBoard(pos._1 + yIncrementer)(pos._2).isEmpty){
       possibleMoves = possibleMoves :+ (pos._1 + yIncrementer, pos._2)
     }
     
     var xSchlagen = pos._2 + 1
     if (xSchlagen < chessBoard.length && (pos._1 + yIncrementer) < chessBoard.length){
-      if(chessBoard(pos._1 + yIncrementer)(pos._2 + 1) != null) {
-        if (chessBoard(pos._1 + yIncrementer)(pos._2 + 1).color != this.color) {
+      if(!chessBoard(pos._1 + yIncrementer)(pos._2 + 1).isEmpty) {
+        if (chessBoard(pos._1 + yIncrementer)(pos._2 + 1).get.color != this.color) {
           possibleMoves = possibleMoves :+ (pos._1 + yIncrementer, pos._2 + 1)
         }
       }
     }
     xSchlagen = pos._2 - 1
     if(xSchlagen >= 0 && pos._1 + yIncrementer < chessBoard.length) {
-      if(chessBoard(pos._1 + yIncrementer)(pos._2 - 1) != null) {
-        if (chessBoard(pos._1 + yIncrementer)(pos._2 - 1).color != this.color) {
+      if(!chessBoard(pos._1 + yIncrementer)(pos._2 - 1).isEmpty) {
+        if (chessBoard(pos._1 + yIncrementer)(pos._2 - 1).get.color != this.color) {
           possibleMoves = possibleMoves :+ (pos._1 + yIncrementer, pos._2 - 1)
         }
       }
@@ -36,17 +36,17 @@ case class Pawn(override val color : Boolean,  moved: Boolean) extends ChessPiec
 
     if(!this.hasMoved) {
       if (this.color) {
-        if ((pos._1 + 1) < chessBoard.length && chessBoard(pos._1 + 1)(pos._2) != null) {
+        if ((pos._1 + 1) < chessBoard.length && !chessBoard(pos._1 + 1)(pos._2).isEmpty) {
           return possibleMoves
         }
         yIncrementer = 2
       } else {
-        if ((pos._1 - 1) < chessBoard.length && chessBoard(pos._1 - 1)(pos._2) != null) {
+        if ((pos._1 - 1) < chessBoard.length && !chessBoard(pos._1 - 1)(pos._2).isEmpty) {
           return possibleMoves
         }
         yIncrementer = -2
       }
-        if (pos._1 + yIncrementer < chessBoard.length && chessBoard(pos._1 + yIncrementer)(pos._2) == null) {
+        if (pos._1 + yIncrementer < chessBoard.length && chessBoard(pos._1 + yIncrementer)(pos._2).isEmpty) {
           possibleMoves = possibleMoves :+ (pos._1 + yIncrementer, pos._2)
         }
       }

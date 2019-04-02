@@ -8,21 +8,21 @@ import scala.collection.immutable.Vector
 import scala.io.Source
 
 class FileIO extends FileIOInterface {
-  override def save(board: Array[Array[ChessPiece]],player: Boolean): Unit = {
+  override def save(board: Array[Array[Option[ChessPiece]]],player: Boolean): Unit = {
     import java.io._
     val pw = new PrintWriter(new File("board.json"))
     pw.write(Json.prettyPrint(gridToJson(board,player)))
     pw.close()
   }
 
-  def gridToJson(board: Array[Array[ChessPiece]],player: Boolean) = {
+  def gridToJson(board: Array[Array[Option[ChessPiece]]],player: Boolean) = {
 
     var pieces: Vector[(Int,Int,Boolean,String)] = Vector()
 
     for (y <- board.indices) {
       for (x <- board.indices) {
-        if (board(y)(x) != null) {
-          pieces = pieces :+ (y,x,board(y)(x).hasMoved,board(y)(x).toString)
+        if (!board(y)(x).isEmpty) {
+          pieces = pieces :+ (y,x,board(y)(x).get.hasMoved,board(y)(x).get.toString)
         }
       }
     }
@@ -48,7 +48,7 @@ class FileIO extends FileIOInterface {
   }
 
 
-  override def load: (Array[Array[ChessPiece]],Boolean) = {
+  override def load: (Array[Array[Option[ChessPiece]]],Boolean) = {
 
     val PieceFactory = new ChessPieceFactory
     val source: String = Source.fromFile("board.json").getLines.mkString

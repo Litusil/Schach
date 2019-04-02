@@ -14,24 +14,24 @@ class QueenSpec extends Specification{
   }
 
   "A Queen" should{
-    val queen = Queen(color = true,moved = false)
+    val queen = Option(Queen(color = true,moved = false))
     val chessBoard = new ChessBoardFactory().create(2)
     chessBoard (1)(1) = queen
-    chessBoard (0)(1) = Queen(color = true,moved = false)
-    chessBoard (1)(0) = Queen(color = true,moved = false)
-    chessBoard (0)(0) = Queen(color = true,moved = false)
+    chessBoard (0)(1) = Option(Queen(color = true,moved = false))
+    chessBoard (1)(0) = Option(Queen(color = true,moved = false))
+    chessBoard (0)(0) = Option(Queen(color = true,moved = false))
     val moveableFields: Vector[(Int,Int)] = Vector()
     "have no possible moves on chessboard" in {
-      queen.getPossibleMoves(chessBoard) must be_== (moveableFields)
+      queen.get.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }
 
   "A Queen" should{
-    val queen = Queen(color = true,moved = false)
+    val queen = Option(Queen(color = true,moved = false))
     val chessBoard = new ChessBoardFactory().create(3)
     chessBoard (1)(1) = queen
-    chessBoard (0)(1) = Queen(color = true,moved = false)
-    chessBoard (1)(0) = Queen(color = false,moved = false)
+    chessBoard (0)(1) = Option(Queen(color = true,moved = false))
+    chessBoard (1)(0) = Option(Queen(color = false,moved = false))
     var moveableFields: Vector[(Int,Int)] = Vector()
     moveableFields = moveableFields :+ (1,0)
     moveableFields = moveableFields :+ (1,2)
@@ -41,7 +41,7 @@ class QueenSpec extends Specification{
     moveableFields = moveableFields  :+ (0,0)
     moveableFields = moveableFields  :+ (0,2)
     "have possible moves on chessboard" in {
-      queen.getPossibleMoves(chessBoard) must be_== (moveableFields)
+      queen.get.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }
 

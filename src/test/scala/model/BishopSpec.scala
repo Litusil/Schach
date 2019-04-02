@@ -23,17 +23,17 @@ class BishopSpec extends Specification{
   }
 
   "A Bishop" should{
-    val r = Bishop(color = true,moved = false)
+    val r = Option(Bishop(color = true,moved = false))
     val chessBoard = new ChessBoardFactory().create(3)
     chessBoard (1)(1) = r
-    chessBoard (0)(0) = Bishop(color = true,moved = false)
-    chessBoard (2)(2) = Bishop(color = false,moved = false)
+    chessBoard (0)(0) = Option(Bishop(color = true,moved = false))
+    chessBoard (2)(2) = Option(Bishop(color = false,moved = false))
     var moveableFields: Vector[(Int,Int)] = Vector()
     moveableFields = moveableFields :+ (2,0)
     moveableFields = moveableFields :+ (2,2)
     moveableFields = moveableFields :+ (0,2)
     "have possible moves on chessboard" in {
-      r.getPossibleMoves(chessBoard) must be_== (moveableFields)
+      r.get.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }
 

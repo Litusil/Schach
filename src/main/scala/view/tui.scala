@@ -8,7 +8,7 @@ import util.Observer
 class tui(controller: ChessController) extends Observer {
 
   controller.add(this)
-  var chessBoard: Array[Array[ChessPiece]] = controller.chessBoard
+  var chessBoard: Array[Array[Option[ChessPiece]]] = controller.chessBoard
 
   override def update(): Unit ={
     chessBoard = controller.chessBoard
@@ -22,8 +22,8 @@ class tui(controller: ChessController) extends Observer {
 
     for(i <- 0 to 7){
       for(j <- 0 to 7) {
-        if(chessBoard(i)(j) != null) {
-          board = board.replaceFirst("x",chessBoard(i)(j).toString)
+        if(!chessBoard(i)(j).isEmpty) {
+          board = board.replaceFirst("x",chessBoard(i)(j).get.toString)
         } else {
           board = board.replaceFirst("x","＿")
         }
