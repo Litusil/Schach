@@ -8,8 +8,10 @@ import util.Observer
 class tui(controller: ChessController) extends Observer {
 
   controller.add(this)
+  var chessBoard: Array[Array[ChessPiece]] = controller.chessBoard
 
   override def update(): Unit ={
+    chessBoard = controller.chessBoard
     print()
   }
 
@@ -20,8 +22,8 @@ class tui(controller: ChessController) extends Observer {
 
     for(i <- 0 to 7){
       for(j <- 0 to 7) {
-        if(controller.chessBoard.board(i)(j) != null) {
-          board = board.replaceFirst("x",controller.chessBoard.board(i)(j).toString)
+        if(chessBoard(i)(j) != null) {
+          board = board.replaceFirst("x",chessBoard(i)(j).toString)
         } else {
           board = board.replaceFirst("x","＿")
         }
@@ -34,13 +36,6 @@ class tui(controller: ChessController) extends Observer {
     }else {
       println("Schwarz ist am Zug: ")
     }
-
-    println(controller.chessBoard.whitePieces)
-    println(controller.chessBoard.whitePiecesTaken)
-    println("____________________")
-    println(controller.chessBoard.blackPieces)
-    println(controller.chessBoard.blackPiecesTaken)
-
     board
   }
 

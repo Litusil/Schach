@@ -5,7 +5,7 @@ import util.MoveSetUtil.getSelectableFields
 
 import scala.collection.immutable.Vector
 
-case class Bishop(override val color : Boolean, moved: Boolean, var pos: (Int,Int)) extends ChessPiece(color, moved, pos) {
+case class Bishop(override val color : Boolean, moved: Boolean) extends ChessPiece(color, moved) {
 
   override def getPossibleMoves(chessBoard: Array[Array[ChessPiece]]): Vector[(Int, Int)] = {
     val pos = this.getPosition(chessBoard)

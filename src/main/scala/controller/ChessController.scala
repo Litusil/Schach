@@ -12,18 +12,50 @@ class ChessController extends Observable {
 
   val injector = Guice.createInjector(new SchachModule)
   val slmanager = injector.instance[FileIOInterface]
-  var chessBoard = new ChessBoard(8)
+  var boardSize = 8
+  var chessBoardFactory = new ChessBoardFactory
+  var chessBoard: Array[Array[ChessPiece]] = chessBoardFactory.create(boardSize)
+  var PieceFactory = new ChessPieceFactory
+  init()
   var currentPlayer  = true
 
+
   def save(): Unit = {
-    slmanager.save(this.chessBoard.board,this.currentPlayer)
+    slmanager.save(this.chessBoard,this.currentPlayer)
   }
 
   def load():Unit = {
     val value = slmanager.load()
-    this.chessBoard.board = value._1
+    this.chessBoard = value._1
     this.currentPlayer = value._2
     notifyObservers()
+  }
+
+  def init(): Unit ={
+
+    chessBoard(0)(0) = PieceFactory.create("♖",hasMoved = false)
+    chessBoard(0)(1) = PieceFactory.create("♘",hasMoved = false)
+    chessBoard(0)(2) = PieceFactory.create("♗",hasMoved = false)
+    chessBoard(0)(3) = PieceFactory.create("♕",hasMoved = false)
+    chessBoard(0)(4) = PieceFactory.create("♔",hasMoved = false)
+    chessBoard(0)(5) = PieceFactory.create("♗",hasMoved = false)
+    chessBoard(0)(6) = PieceFactory.create("♘",hasMoved = false)
+    chessBoard(0)(7) = PieceFactory.create("♖",hasMoved = false)
+    for(i <- 0 to 7){
+      chessBoard(1)(i) = PieceFactory.create("♙",hasMoved = false)
+    }
+
+    chessBoard(7)(0) = PieceFactory.create("♜",hasMoved = false)
+    chessBoard(7)(1) = PieceFactory.create("♞",hasMoved = false)
+    chessBoard(7)(2) = PieceFactory.create("♝",hasMoved = false)
+    chessBoard(7)(3) = PieceFactory.create("♛",hasMoved = false)
+    chessBoard(7)(4) = PieceFactory.create("♚",hasMoved = false)
+    chessBoard(7)(5) = PieceFactory.create("♝",hasMoved = false)
+    chessBoard(7)(6) = PieceFactory.create("♞",hasMoved = false)
+    chessBoard(7)(7) = PieceFactory.create("♜",hasMoved = false)
+    for(i <- 0 to 7){
+      chessBoard(6)(i) = PieceFactory.create("♟",hasMoved = false)
+    }
   }
 
   def changePlayer() : Unit = {
@@ -32,46 +64,30 @@ class ChessController extends Observable {
 
   def move(x_start: Int,y_start: Int,x_ziel: Int,y_ziel: Int): Unit ={
 
-    if(chessBoard.board(y_start)(x_start) == null || chessBoard.board(y_start)(x_start).color != currentPlayer) {
+    if(chessBoard(y_start)(x_start) == null || chessBoard(y_start)(x_start).color != currentPlayer) {
       println("Kein gültiger Zug!")
       notifyObservers()
       return
     }
 
-    val moves = chessBoard.board(y_start)(x_start).getPossibleMoves(chessBoard.board)
+    val moves = chessBoard(y_start)(x_start).getPossibleMoves(chessBoard)
     //moves.foreach{println}
 
     if (moves.contains((y_ziel,x_ziel))) {
+      val kickedPiece = chessBoard(y_ziel)(x_ziel)
+      chessBoard(y_ziel)(x_ziel) = chessBoard(y_start)(x_start)
+      chessBoard(y_start)(x_start) = null
 
-      val kickedPiece = chessBoard.board(y_ziel)(x_ziel)
-
-      if(kickedPiece != null){
+      if (kickedPiece.isInstanceOf[King]) {
         if(currentPlayer){
-          chessBoard.blackPiecesTaken = chessBoard.blackPiecesTaken :+ kickedPiece
-          chessBoard.blackPieces = chessBoard.blackPieces.filterNot(_ == kickedPiece)
+          println("Winner Winner Chicken Dinner\n Weiß hat gewonnen!")
         } else {
-          chessBoard.whitePiecesTaken = chessBoard.whitePiecesTaken :+ kickedPiece
-          chessBoard.whitePieces = chessBoard.whitePieces.filterNot(_ == kickedPiece)
+          println("Winner Winner Chicken Dinner\n Schwarz hat gewonnen!")
         }
-
-        if (kickedPiece.isInstanceOf[King]) {
-          if(currentPlayer){
-            println("Winner Winner Chicken Dinner\n Weiß hat gewonnen!")
-          } else {
-            println("Winner Winner Chicken Dinner\n Schwarz hat gewonnen!")
-          }
-          chessBoard = new ChessBoard(8)
-          notifyObservers()
-          this.currentPlayer = true
-          return
-        }
+        chessBoard = new ChessBoardFactory().create(boardSize)
+        init()
       }
-
-      chessBoard.board(y_ziel)(x_ziel) = chessBoard.board(y_start)(x_start)
-      chessBoard.board(y_ziel)(x_ziel).Position = (y_ziel,x_ziel)
-      chessBoard.board(y_start)(x_start) = null
-      chessBoard.board(y_ziel)(x_ziel).hasMoved = true
-
+      chessBoard(y_ziel)(x_ziel).hasMoved = true
       changePlayer()
       notifyObservers()
     }else {

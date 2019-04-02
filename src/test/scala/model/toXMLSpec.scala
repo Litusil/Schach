@@ -8,7 +8,7 @@ class toXMLSpec
   "A xmlmanager" should{
     val chessBoard = new ChessBoardFactory().create(3)
     val player = false
-    chessBoard(1)(1) = Pawn(color = true,moved = true,(0,0))
+    chessBoard(1)(1) = Pawn(color = true,moved = true)
     val xml = new FileIO
     xml.save(chessBoard,player)
     val result = xml.load()

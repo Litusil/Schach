@@ -51,7 +51,7 @@ class FileIO extends FileIOInterface {
       val col: Int = (cell \ "@col").text.toInt
       val hasMoved = (cell \ "@hasMoved").text.toBoolean
       val piece = (cell).text.trim
-      chessBoard(row)(col) = PieceFactory.create(piece,hasMoved,(row, col))
+      chessBoard(row)(col) = PieceFactory.create(piece,hasMoved)
     }
     return (chessBoard,currentPlayer)
   }
