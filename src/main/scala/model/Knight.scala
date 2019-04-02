@@ -6,17 +6,9 @@ case class Knight(override val color: Boolean, moved: Boolean) extends ChessPiec
 
   override def getPossibleMoves(chessBoard: Array[Array[Option[ChessPiece]]]): Vector[(Int, Int)] = {
     val pos = this.getPosition(chessBoard)
-    var possibleMoves: Vector[(Int,Int)] = Vector()
+    val KnightMoves: Vector[(Int,Int)] = Vector((2,-1),(2,1),(1,-2),(1,2),(-1,-2),(-1,2),(-2,-1),(-2,1))
 
-    var KnightMoves: Vector[(Int,Int)] = Vector()
-    KnightMoves = KnightMoves :+(2,-1)
-    KnightMoves = KnightMoves :+(2,1)
-    KnightMoves = KnightMoves :+(1,-2)
-    KnightMoves = KnightMoves :+(1,2)
-    KnightMoves = KnightMoves :+(-1,-2)
-    KnightMoves = KnightMoves :+(-1,2)
-    KnightMoves = KnightMoves :+(-2,-1)
-    KnightMoves = KnightMoves :+(-2,1)
+    var possibleMoves: Vector[(Int,Int)] = Vector()
 
     for (e <- KnightMoves){
       val x = pos._2 + e._2

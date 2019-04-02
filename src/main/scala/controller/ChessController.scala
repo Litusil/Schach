@@ -1,5 +1,5 @@
 package controller
-import com.google.inject.{Guice, Inject}
+import com.google.inject.Guice
 import net.codingwell.scalaguice.InjectorExtensions._
 import model._
 import model.fileIOComponent.FileIOInterface
@@ -74,19 +74,25 @@ class ChessController extends Observable {
     //moves.foreach{println}
 
     if (moves.contains((y_ziel,x_ziel))) {
-      val kickedPiece = chessBoard(y_ziel)(x_ziel).get
+
+      if(!chessBoard(y_ziel)(x_ziel).isEmpty){
+        val kickedPiece = chessBoard(y_ziel)(x_ziel).get
+
+
+        if (kickedPiece.isInstanceOf[King]) {
+          if(currentPlayer){
+            println("Winner Winner Chicken Dinner\n Weiß hat gewonnen!")
+          } else {
+            println("Winner Winner Chicken Dinner\n Schwarz hat gewonnen!")
+          }
+          chessBoard = new ChessBoardFactory().create(boardSize)
+          init()
+          return
+        }
+      }
       chessBoard(y_ziel)(x_ziel) = chessBoard(y_start)(x_start)
       chessBoard(y_start)(x_start) = None
 
-      if (kickedPiece.isInstanceOf[King]) {
-        if(currentPlayer){
-          println("Winner Winner Chicken Dinner\n Weiß hat gewonnen!")
-        } else {
-          println("Winner Winner Chicken Dinner\n Schwarz hat gewonnen!")
-        }
-        chessBoard = new ChessBoardFactory().create(boardSize)
-        init()
-      }
       chessBoard(y_ziel)(x_ziel).get.hasMoved = true
       changePlayer()
       notifyObservers()

@@ -6,16 +6,9 @@ case class King(override val color: Boolean, var moved: Boolean) extends ChessPi
 
   override def getPossibleMoves(chessBoard: Array[Array[Option[ChessPiece]]]): Vector[(Int, Int)] = {
     val pos = this.getPosition(chessBoard)
+    val kingMoves: Vector[(Int,Int)] = Vector((-1,0),(1,0),(0,1),(0,-1),(-1,1),(1,1),(-1,-1),(1,-1))
     var possibleMoves: Vector[(Int,Int)] = Vector()
-    var kingMoves: Vector[(Int,Int)] = Vector()
-    kingMoves = kingMoves :+(-1,0)
-    kingMoves = kingMoves:+(1,0)
-    kingMoves = kingMoves:+(0,1)
-    kingMoves = kingMoves:+(0,-1)
-    kingMoves = kingMoves:+(-1,1)
-    kingMoves = kingMoves:+(1,1)
-    kingMoves = kingMoves:+(-1,-1)
-    kingMoves = kingMoves:+(1,-1)
+
     for (e <- kingMoves){
       val x = pos._2 + e._2
       val y = pos._1 + e._1
@@ -29,8 +22,6 @@ case class King(override val color: Boolean, var moved: Boolean) extends ChessPi
     }
     possibleMoves
   }
-
-
 
   override def toString: String ={
     if (color) {
