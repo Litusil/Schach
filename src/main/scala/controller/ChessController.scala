@@ -13,9 +13,8 @@ class ChessController extends Observable {
   val injector = Guice.createInjector(new SchachModule)
   val slmanager = injector.instance[FileIOInterface]
   val boardSize = 8
-  val chessBoardFactory = new ChessBoardFactory
-  var chessBoard: Array[Array[Option[ChessPiece]]] = chessBoardFactory.create(boardSize)
-  val PieceFactory = new ChessPieceFactory
+  var chessBoard: Vector[Vector[Option[ChessPiece]]] = chessBoardFactory.create(boardSize)
+
   init()
   var currentPlayer  = true
 
@@ -31,9 +30,9 @@ class ChessController extends Observable {
     notifyObservers()
   }
 
-  def init(): Unit ={
+  def init(): Vector[Vector[Option[ChessPiece]]] ={
 
-    chessBoard(0)(0) = PieceFactory.create("♖",hasMoved = false)
+    chessBoard = chessBoard.updated(0,chessBoard(0).updated(0,PieceFactory.create("♖",hasMoved = false)))
     chessBoard(0)(1) = PieceFactory.create("♘",hasMoved = false)
     chessBoard(0)(2) = PieceFactory.create("♗",hasMoved = false)
     chessBoard(0)(3) = PieceFactory.create("♕",hasMoved = false)
