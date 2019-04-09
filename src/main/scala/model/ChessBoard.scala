@@ -1,12 +1,13 @@
 package model
 
-case class ChessBoard(size: Int) {
+import play.api.libs.json.{JsBoolean, JsNumber, JsObject, Json}
 
-  var field: Vector[Vector[Option[ChessPiece]]] = Vector.fill(size,size)(None: Option[ChessPiece])
+case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: Boolean  = true ) {
 
-  def defaultInit(): Unit ={
+  def defaultInit(): ChessBoard ={
     val PieceFactory = new ChessPieceFactory
     var pieces: Vector[Option[ChessPiece]] = Vector()
+    var updatedField: Vector[Vector[Option[ChessPiece]]] = Vector()
 
     pieces = (pieces
       :+ PieceFactory.create("♖",hasMoved = false)
@@ -18,14 +19,14 @@ case class ChessBoard(size: Int) {
       :+ PieceFactory.create("♘",hasMoved = false)
       :+ PieceFactory.create("♖",hasMoved = false))
 
-    field = field.updated(0,pieces)
+    updatedField = field.updated(0,pieces)
     pieces = Vector()
 
     for(i <- 0 to 7){
       pieces = pieces :+ PieceFactory.create("♙",hasMoved = false)
     }
 
-    field = field.updated(1,pieces)
+    updatedField = updatedField.updated(1,pieces)
     pieces = Vector()
 
     pieces = (pieces
@@ -38,15 +39,122 @@ case class ChessBoard(size: Int) {
       :+ PieceFactory.create("♞",hasMoved = false)
       :+ PieceFactory.create("♜",hasMoved = false))
 
-    field = field.updated(7,pieces)
+    updatedField = updatedField.updated(7,pieces)
     pieces = Vector()
 
     for(i <- 0 to 7){
       pieces = pieces :+ PieceFactory.create("♟",hasMoved = false)
     }
 
-    field = field.updated(6,pieces)
+    updatedField = updatedField.updated(6,pieces)
 
-
+    this.copy(field = updatedField)
   }
+
+  def changePlayer() : ChessBoard = {
+    this.copy(currentPlayer = !currentPlayer)
+  }
+
+  def updateField(update: Vector[Vector[Option[ChessPiece]]]): ChessBoard ={
+    this.copy(field = update)
+  }
+
+  def updatePlayer(update: Boolean): ChessBoard ={
+    this.copy(currentPlayer = update)
+  }
+
+  def move(x_start: Int,y_start: Int,x_ziel: Int,y_ziel: Int): Option[ChessBoard] ={
+
+    if(field.isEmpty || field(y_start)(x_start).get.color != currentPlayer) {
+      return None
+    }
+
+    val moves = field(y_start)(x_start).get.getPossibleMoves(field)
+
+    if (moves.contains((y_ziel,x_ziel))) {
+      if(!field(y_ziel)(x_ziel).isEmpty){
+        val kickedPiece = field(y_ziel)(x_ziel).get
+
+        if (kickedPiece.isInstanceOf[King]) {
+          if(currentPlayer){
+            println("Winner Winner Chicken Dinner\n Weiß hat gewonnen!")
+          } else {
+            println("Winner Winner Chicken Dinner\n Schwarz hat gewonnen!")
+          }
+          return Some(new ChessBoard(Vector.fill(field.length,field.length)(None: Option[ChessPiece])).defaultInit())
+        }
+      }
+      val test = Some(field(y_start)(x_start).get.updateMoved())
+      val test2 = field(y_ziel).updated(x_ziel,test)
+      var updatedField: Vector[Vector[Option[ChessPiece]]] =  field.updated(y_ziel,test2)
+      updatedField = updatedField.updated(y_start,updatedField(y_start).updated(x_start,None))
+
+      var newBoard = changePlayer()
+      newBoard = newBoard.updateField(updatedField)
+
+      Some(newBoard)
+    }else {
+      None
+    }
+  }
+
+  override def toString: String = {
+    val xaxis = "   A|B| C| D|E| F| G|H" + "\n"
+    val line = "|x" * 8 + "|\n"
+    var board =  "\n"+ xaxis + ("y" + line) * 8
+
+    for(i <- 0 to 7){
+      for(j <- 0 to 7) {
+        if(!field(i)(j).isEmpty) {
+          board = board.replaceFirst("x",field(i)(j).get.toString)
+        } else {
+          board = board.replaceFirst("x","＿")
+        }
+        board = board.replaceFirst("y",(j + 1).toString)
+      }
+    }
+    println(board)
+    if(this.currentPlayer) {
+      println("Weiß ist am Zug: ")
+    }else {
+      println("Schwarz ist am Zug: ")
+    }
+    println("____________________")
+
+    board
+  }
+
+  def toJson(): JsObject = {
+
+    var pieces: Vector[(Int,Int,Boolean,String)] = Vector()
+
+    for (y <- field.indices) {
+      for (x <- field.indices) {
+        if (!field(y)(x).isEmpty) {
+          pieces = pieces :+ (y,x,field(y)(x).get.hasMoved,field(y)(x).get.toString)
+        }
+      }
+    }
+
+    Json.obj(
+      "grid" -> Json.obj(
+        "size" -> JsNumber(field.length),
+        "player" -> JsBoolean(currentPlayer),
+        "cells" -> Json.toJson(
+          for {
+            p <- pieces
+          } yield {
+            Json.obj(
+              "row" -> p._1,
+              "col" -> p._2,
+              "hasMoved" -> p._3,
+              "piece" -> p._4.toString
+            )
+          }
+        )
+      )
+    )
+  }
+
+
 }

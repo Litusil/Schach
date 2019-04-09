@@ -1,11 +1,13 @@
 package model
 
-abstract class ChessPiece(val color: Boolean, var hasMoved: Boolean) {
+abstract class ChessPiece(val color: Boolean,val hasMoved: Boolean) {
 
-  def getPossibleMoves(chessBoard: Array[Array[Option[ChessPiece]]]): Vector[(Int, Int)]
+  def getPossibleMoves(chessBoard: Vector[Vector[Option[ChessPiece]]]): Vector[(Int, Int)]
+
+  def updateMoved(): ChessPiece
 
   //determines the position of the Chesspiece
-  def getPosition(chessBoard: Array[Array[Option[ChessPiece]]]): (Int,Int) = {
+  def getPosition(chessBoard: Vector[Vector[Option[ChessPiece]]]): (Int,Int) = {
     for (y <- chessBoard.indices) {
       for (x <- chessBoard.indices) {
         if(!chessBoard(y)(x).isEmpty){
@@ -17,4 +19,5 @@ abstract class ChessPiece(val color: Boolean, var hasMoved: Boolean) {
     }
     (-1, -1)
   }
+
 }

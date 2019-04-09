@@ -8,35 +8,13 @@ import util.Observer
 class tui(controller: ChessController) extends Observer {
 
   controller.add(this)
-  var chessBoard: Array[Array[Option[ChessPiece]]] = controller.chessBoard
 
   override def update(): Unit ={
-    chessBoard = controller.chessBoard
     print()
   }
 
   def print(): String ={
-    val xaxis = "   A|B| C| D|E| F| G|H" + "\n"
-    val line = "|x" * 8 + "|\n"
-    var board =  "\n"+ xaxis + ("y" + line) * 8
-
-    for(i <- 0 to 7){
-      for(j <- 0 to 7) {
-        if(!chessBoard(i)(j).isEmpty) {
-          board = board.replaceFirst("x",chessBoard(i)(j).get.toString)
-        } else {
-          board = board.replaceFirst("x","＿")
-        }
-        board = board.replaceFirst("y",(j + 1).toString)
-      }
-    }
-    println(board)
-    if(controller.currentPlayer) {
-      println("Weiß ist am Zug: ")
-    }else {
-      println("Schwarz ist am Zug: ")
-    }
-    board
+    controller.chessBoard.toString
   }
 
   def processInputLine(eingabe: String): Unit ={

@@ -4,9 +4,9 @@ import util.{Direction, MoveSetUtil}
 
 import scala.collection.immutable.Vector
 
-case class Rook(override val color: Boolean, moved: Boolean) extends ChessPiece(color,moved) {
+case class Rook(override val color: Boolean,override val hasMoved: Boolean) extends ChessPiece(color,hasMoved) {
 
-  override def getPossibleMoves(chessBoard: Array[Array[Option[ChessPiece]]]): Vector[(Int, Int)] = {
+  override def getPossibleMoves(chessBoard: Vector[Vector[Option[ChessPiece]]]): Vector[(Int, Int)] = {
     val pos = this.getPosition(chessBoard)
     val possibleMoves: Vector[(Int,Int)] =
       (MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.LEFT,chessBoard)
@@ -16,6 +16,11 @@ case class Rook(override val color: Boolean, moved: Boolean) extends ChessPiece(
 
     possibleMoves
   }
+
+  override def updateMoved(): ChessPiece = {
+    this.copy(hasMoved = true)
+  }
+
   override def toString: String = {
     if (color) {
       return "\u2656"

@@ -1,33 +1,34 @@
 package model.fileIOComponent.fileIoXmlImpl
 
 import model.fileIOComponent.FileIOInterface
-import model.{ChessBoardFactory, ChessPiece, ChessPieceFactory}
+import model.{ChessBoard, ChessPiece, ChessPieceFactory}
 
+import scala.collection.immutable.Vector
 import scala.xml.PrettyPrinter
 
 class FileIO extends FileIOInterface {
 
-  override def save(board: Array[Array[Option[ChessPiece]]],player: Boolean): Unit = {
+  override def save(chessBoard: ChessBoard): Unit = {
     import java.io._
     val pw = new PrintWriter(new File("board.xml" ))
     val prettyPrinter = new PrettyPrinter(120,4)
-    val xml = prettyPrinter.format(gridToXML(board,player))
+    val xml = prettyPrinter.format(gridToXML(chessBoard))
     pw.write(xml)
     pw.close()
   }
 
-  def gridToXML(board: Array[Array[Option[ChessPiece]]],player: Boolean) = {
-    <grid size ={board.length.toString} player = {player.toString}>
+  def gridToXML(chessBoard: ChessBoard) = {
+    <grid size ={chessBoard.field.length.toString} player = {chessBoard.currentPlayer.toString}>
       {
       for {
-        row <- board.indices
-        col <- board.indices
-      } yield cellToXml(board, row, col)
+        row <- chessBoard.field.indices
+        col <- chessBoard.field.indices
+      } yield cellToXml(chessBoard.field, row, col)
       }
     </grid>
   }
 
-  def cellToXml(board: Array[Array[Option[ChessPiece]]], row: Int, col:Int) = {
+  def cellToXml(board: Vector[Vector[Option[ChessPiece]]], row: Int, col:Int) = {
     if (!board(row)(col).isEmpty) {
       <cell row={row.toString} col={col.toString} hasMoved={board(row)(col).get.hasMoved.toString}>
         {board(row)(col)}
@@ -36,13 +37,14 @@ class FileIO extends FileIOInterface {
   }
 
 
-  override def load() : (Array[Array[Option[ChessPiece]]],Boolean) = {
+  override def load() : ChessBoard= {
 
     val PieceFactory = new ChessPieceFactory
     val file = scala.xml.XML.loadFile("board.xml")
     val size = (file \\ "grid" \ "@size").text.toInt
-    val chessBoard = new ChessBoardFactory().create(size)
+    var chessBoard = new ChessBoard(Vector.fill(size,size)(None: Option[ChessPiece]))
     val currentPlayer = (file \\ "grid" \ "@player").text.toBoolean
+    chessBoard = chessBoard.updatePlayer(currentPlayer)
 
     val cellNodes= (file \\ "cell")
 
@@ -51,9 +53,10 @@ class FileIO extends FileIOInterface {
       val col: Int = (cell \ "@col").text.toInt
       val hasMoved = (cell \ "@hasMoved").text.toBoolean
       val piece = (cell).text.trim
-      chessBoard(row)(col) = PieceFactory.create(piece,hasMoved)
+      val updatedField: Vector[Vector[Option[ChessPiece]]] =  chessBoard.field.updated(row,chessBoard.field(row).updated(col,PieceFactory.create(piece,hasMoved)))
+      chessBoard = chessBoard.updateField(updatedField)
     }
-    return (chessBoard,currentPlayer)
+    chessBoard
   }
 
 }

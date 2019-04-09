@@ -32,7 +32,7 @@ object MoveSetUtil {
 
 
   def getSelectableFields(xKoordinate:Int,yKoordinate:Int, direction: Direction.Value,
-                   chessBoard:Array[Array[Option[ChessPiece]]]): Vector[(Int, Int)] ={
+                   chessBoard:Vector[Vector[Option[ChessPiece]]]): Vector[(Int, Int)] ={
 
     var selectableFields: Vector[(Int,Int)] = Vector()
     var x = xKoordinate

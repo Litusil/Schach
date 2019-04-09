@@ -20,7 +20,7 @@ case class Field(var piece:Option[ChessPiece], val color: Color,controller: Ches
 
   reactions += {
     case e: ButtonClicked => {
-      if(Field.clickState.isInstanceOf[NotClicked] && !this.piece.isEmpty && this.piece.get.color == controller.currentPlayer) {
+      if(Field.clickState.isInstanceOf[NotClicked] && !this.piece.isEmpty && this.piece.get.color == controller.chessBoard.currentPlayer) {
         Field.clickState.handle(this)
         Field.clickState = Field.clickState.nextState()
       } else if (Field.clickState.isInstanceOf[Clicked]){
