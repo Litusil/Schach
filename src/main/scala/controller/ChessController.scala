@@ -14,7 +14,6 @@ class ChessController extends Observable {
   val slmanager = injector.instance[FileIOInterface]
   val boardSize = 8
   var chessBoard: ChessBoard = newGame()
-  chessBoard = chessBoard.defaultInit()
 
   def save(): Unit = {
     slmanager.save(chessBoard)

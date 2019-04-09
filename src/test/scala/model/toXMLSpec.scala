@@ -6,8 +6,9 @@ import org.specs2.mutable._
 class toXMLSpec
   extends Specification{
   "A xmlmanager" should{
-    val chessBoard = new ChessBoardFactory().create(3)
-    val player = false
+    var chessBoard = ChessBoard(Vector.fill(3,3)(None: Option[ChessPiece]))
+    chessBoard.updatePlayer(false)
+
     chessBoard(1)(1) = Option(Pawn(color = true,moved = true))
     val xml = new FileIO
     xml.save(chessBoard,player)

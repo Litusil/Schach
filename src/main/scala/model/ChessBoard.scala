@@ -59,6 +59,11 @@ case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: 
     this.copy(field = update)
   }
 
+  def putPiece(x: Int,y: Int, piece: Option[ChessPiece]): ChessBoard = {
+    val updated: Vector[Vector[Option[ChessPiece]]] =  field.updated(y,field(y).updated(x,piece))
+    updateField(updated)
+  }
+
   def updatePlayer(update: Boolean): ChessBoard ={
     this.copy(currentPlayer = update)
   }
@@ -84,9 +89,7 @@ case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: 
           return Some(new ChessBoard(Vector.fill(field.length,field.length)(None: Option[ChessPiece])).defaultInit())
         }
       }
-      val test = Some(field(y_start)(x_start).get.updateMoved())
-      val test2 = field(y_ziel).updated(x_ziel,test)
-      var updatedField: Vector[Vector[Option[ChessPiece]]] =  field.updated(y_ziel,test2)
+      var updatedField: Vector[Vector[Option[ChessPiece]]] =  field.updated(y_ziel,field(y_ziel).updated(x_ziel,Some(field(y_start)(x_start).get.updateMoved())))
       updatedField = updatedField.updated(y_start,updatedField(y_start).updated(x_start,None))
 
       var newBoard = changePlayer()
@@ -96,7 +99,7 @@ case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: 
     }else {
       None
     }
-  }
+  }-
 
   override def toString: String = {
     val xaxis = "   A|B| C| D|E| F| G|H" + "\n"
