@@ -101,5 +101,14 @@ class PawnSpec extends Specification{
       r.toString must be_== ("\u265F")
     }
   }
+
+  "A black model.Pawn" should {
+    var piece: ChessPiece = Pawn(color = false, hasMoved = false)
+    piece = piece.updateMoved()
+    "update hasMoved" in {
+      piece must be_==(Pawn(color = false, hasMoved = true))
+    }
+  }
+
 }
 

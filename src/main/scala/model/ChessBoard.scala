@@ -86,7 +86,7 @@ case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: 
           } else {
             println("Winner Winner Chicken Dinner\n Schwarz hat gewonnen!")
           }
-          return Some(new ChessBoard(Vector.fill(field.length,field.length)(None: Option[ChessPiece])).defaultInit())
+          return Some(new ChessBoard(Vector.fill(8,8)(None: Option[ChessPiece])).defaultInit())
         }
       }
       var updatedField: Vector[Vector[Option[ChessPiece]]] =  field.updated(y_ziel,field(y_ziel).updated(x_ziel,Some(field(y_start)(x_start).get.updateMoved())))

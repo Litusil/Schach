@@ -35,4 +35,29 @@ class controllerSpec extends Specification{
     }
   }
 
+  "A Controller" should{
+    val controller = new ChessController
+    val chessBoard = new ChessBoard(Vector.fill(8,8)(None: Option[ChessPiece])).defaultInit()
+    controller.move(1,1,4,1) //illegal move
+    "not move a piece " in {
+      controller.chessBoard must be_==(chessBoard)
+    }
+  }
+
+  "A Controller" should{
+    val controller = new ChessController
+    val pieceFactory = new ChessPieceFactory()
+    var chessBoard = new ChessBoard(Vector.fill(8,8)(None: Option[ChessPiece])).defaultInit()
+
+    controller.newGame()
+    chessBoard = chessBoard.putPiece(0,2, pieceFactory.create("♙",true))
+    chessBoard = chessBoard.putPiece(0,1, None: Option[ChessPiece])
+    chessBoard = chessBoard.changePlayer()
+    controller.move(0,1,0,2) //legal move
+    print(controller.chessBoard)
+    "move a piece " in {
+      controller.chessBoard must be_==(chessBoard)
+    }
+  }
+
 }

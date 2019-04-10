@@ -65,6 +65,14 @@ class QueenSpec extends Specification{
     }
   }
 
+  "A black model.Queen" should {
+    var piece:ChessPiece = Queen(color = false,hasMoved = false)
+    piece =  piece.updateMoved()
+    "update hasMoved" in {
+      piece must be_== (Queen(color = false,hasMoved = true))
+    }
+  }
+
 
 
 }

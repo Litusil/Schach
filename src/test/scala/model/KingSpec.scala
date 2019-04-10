@@ -55,4 +55,12 @@ class KingSpec extends Specification{
       r.toString must be_== ("\u265A")
     }
   }
+
+  "A black model.King" should {
+    var piece: ChessPiece = King(color = false, hasMoved = false)
+    piece = piece.updateMoved()
+    "update hasMoved" in {
+      piece must be_==(King(color = false, hasMoved = true))
+    }
+  }
 }
