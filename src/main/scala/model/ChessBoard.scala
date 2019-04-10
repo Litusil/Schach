@@ -99,7 +99,7 @@ case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: 
     }else {
       None
     }
-  }-
+  }
 
   override def toString: String = {
     val xaxis = "   A|B| C| D|E| F| G|H" + "\n"

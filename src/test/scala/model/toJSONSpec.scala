@@ -5,16 +5,16 @@ import org.specs2.mutable._
 
 class toJSONSpec extends Specification{
   "A jsonmanager" should{
-    val chessBoard = new ChessBoardFactory().create(3)
-    val player = false
-    chessBoard(1)(1) = Option(Pawn(color = true, moved = true))
+    var chessBoard = ChessBoard(Vector.fill(3,3)(None: Option[ChessPiece]))
+    chessBoard = chessBoard.updatePlayer(false)
+    chessBoard = chessBoard.putPiece(1,1,Option(Pawn(color = true,hasMoved = true)) )
     val json = new FileIO
-    json.save(chessBoard,player)
+    json.save(chessBoard)
     val result = json.load()
 
     "save and load correct" in {
-      result._1 must be_== (chessBoard)
-      result._2 must be_== (player)
+      result must be_== (chessBoard)
+
     }
   }
 }
