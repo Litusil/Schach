@@ -40,11 +40,6 @@ class FileIO extends FileIOInterface {
     }
     chessBoard
   }
-
-
-
-
-
 }
 
 

@@ -5,6 +5,10 @@ import model._
 import model.fileIOComponent.FileIOInterface
 import util.Observable
 
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
+
 
 
 class ChessController extends Observable {
@@ -30,19 +34,22 @@ class ChessController extends Observable {
 
   def move(x_start: Int,y_start: Int,x_ziel: Int,y_ziel: Int): Unit = {
 
-    chessBoard.move(x_start: Int, y_start: Int, x_ziel: Int, y_ziel: Int) match {
-      case Some(x: ChessBoard) => {
-        chessBoard = x
-        notifyObservers()
-      }
-      case None => {
-        println("ungültiger Zug!")
-        notifyObservers()
-      }
+    val future1 = Future(chessBoard.move(x_start: Int, y_start: Int, x_ziel: Int, y_ziel: Int))
 
+    future1.onComplete{
+      case Success(board) => {
+       board match {
+          case Some(x: ChessBoard) => {
+            chessBoard = x
+            notifyObservers()
+          }
+          case None => {
+            println("ungültiger Zug!")
+            notifyObservers()
+          }
+       }
+      }
+      case Failure(e) => println("move failed")
     }
-
   }
-
-
 }
