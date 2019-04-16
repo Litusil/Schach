@@ -40,10 +40,12 @@ class RookSpec extends Specification{
     }
   }
 
+
   "A black model.Rook" should {
-    val r = Rook(color = false,hasMoved = false)
-    "have toString that is \u265C" in {
-      r.toString must be_== ("\u265C")
+    var piece:ChessPiece = new Rook(color = false,hasMoved = false)
+    piece =  piece.updateMoved()
+    "update hasMoved" in {
+      piece must be_== (Rook(color = false,hasMoved = true))
     }
   }
 

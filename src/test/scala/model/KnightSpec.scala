@@ -52,4 +52,12 @@ class KnightSpec extends Specification{
       r.toString must be_== ("\u265E")
     }
   }
+
+  "A black model.Knight" should {
+    var piece: ChessPiece = Knight(color = false, hasMoved = false)
+    piece = piece.updateMoved()
+    "update hasMoved" in {
+      piece must be_==(Knight(color = false, hasMoved = true))
+    }
+  }
 }

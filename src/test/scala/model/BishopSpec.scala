@@ -47,4 +47,13 @@ class BishopSpec extends Specification{
       r.toString must be_== ("\u265D")
     }
   }
+
+  "A black model.Bishop" should {
+    var piece: ChessPiece = Bishop(color = false, hasMoved = false)
+    piece = piece.updateMoved()
+    "update hasMoved" in {
+      piece must be_==(Bishop(color = false, hasMoved = true))
+    }
+  }
+
 }
