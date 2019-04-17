@@ -4,6 +4,8 @@ abstract class ChessPiece(val color: Boolean,val hasMoved: Boolean) {
 
   def getPossibleMoves(chessBoard: Vector[Vector[Option[ChessPiece]]]): Vector[(Int, Int)]
 
+  def getPossibleAttacks(chessBoard: Vector[Vector[Option[ChessPiece]]]): Vector[(Int, Int)]
+
   def updateMoved(): ChessPiece
 
   //determines the position of the Chesspiece

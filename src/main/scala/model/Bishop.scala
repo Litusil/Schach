@@ -16,6 +16,10 @@ case class Bishop(override val color : Boolean, override val hasMoved : Boolean)
     possibleMoves
   }
 
+  override def getPossibleAttacks(chessBoard: Vector[Vector[Option[ChessPiece]]]): Vector[(Int, Int)] = {
+    getPossibleMoves(chessBoard)
+  }
+
   override def updateMoved(): ChessPiece = {
     this.copy(hasMoved = true)
   }

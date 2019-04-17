@@ -51,6 +51,24 @@ case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: 
     this.copy(field = updatedField)
   }
 
+  def getAttackMoves(color: Boolean): Vector[(Int,Int)] = {
+    var possibleAttacks: Vector[(Int,Int)] = Vector()
+      for {
+        row <- 0 until this.field.length
+        col <- 0 until this.field.length
+      } yield {
+        this.field(row)(col) match {
+          case Some(x: ChessPiece) => {
+            if(color == x.color) {
+              possibleAttacks = possibleAttacks ++ x.getPossibleAttacks(field)
+            }
+          }
+          case None =>
+        }
+    }
+    possibleAttacks
+  }
+
   def changePlayer() : ChessBoard = {
     this.copy(currentPlayer = !currentPlayer)
   }

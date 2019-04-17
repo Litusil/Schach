@@ -54,6 +54,37 @@ case class Pawn(override val color : Boolean, override val hasMoved: Boolean) ex
     possibleMoves
   }
 
+  override def getPossibleAttacks(chessBoard:  Vector[Vector[Option[ChessPiece]]]): Vector[(Int, Int)] = {
+    var possibleAttacks: Vector[(Int, Int)] = Vector()
+    val pos = this.getPosition(chessBoard)
+    var yIncrementer = 1
+
+    if(pos == (-1,-1)){
+      return possibleAttacks
+    }
+
+    if (!this.color) {
+      yIncrementer = -1
+    }
+
+    if (pos._2 + 1 < chessBoard.length && (pos._1 + yIncrementer) < chessBoard.length){
+      val pos1 = chessBoard(pos._1 + yIncrementer)(pos._2 + 1)
+      if (pos1.isEmpty || pos1.get.color != color) {
+        possibleAttacks = possibleAttacks :+ (pos._1 + yIncrementer, pos._2 + 1)
+      }
+    }
+
+    if(pos._2 - 1 >= 0 && pos._1 + yIncrementer < chessBoard.length) {
+      val pos2 = chessBoard(pos._1 + yIncrementer)(pos._2 - 1)
+      if (pos2.isEmpty || pos2.get.color != color ) {
+        possibleAttacks = possibleAttacks :+ (pos._1 + yIncrementer, pos._2 - 1)
+      }
+    }
+    possibleAttacks
+  }
+
+
+
   override def updateMoved(): ChessPiece = {
     this.copy(hasMoved = true)
   }
