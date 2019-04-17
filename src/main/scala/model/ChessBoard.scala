@@ -2,7 +2,9 @@ package model
 
 import play.api.libs.json.{JsBoolean, JsNumber, JsObject, Json}
 
-case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: Boolean  = true ) {
+import scala.collection.immutable.Vector
+
+case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: Boolean  = true, check: Option[Boolean] = None) {
 
   def defaultInit(): ChessBoard ={
     val PieceFactory = new ChessPieceFactory
@@ -69,6 +71,52 @@ case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: 
     possibleAttacks
   }
 
+  def isWhiteCheck(): Boolean ={
+    var possibleAttacks: Vector[(Int,Int)] = getAttackMoves(false)
+
+    for {
+      row <- 0 until this.field.length
+      col <- 0 until this.field.length
+    } yield {
+      this.field(row)(col) match {
+        case Some(x: ChessPiece) => {
+          if(x.color) {
+            if(x.toString == "\u2654"){
+              if(possibleAttacks.contains((row,col))){
+                return true
+              }
+            }
+          }
+        }
+        case None =>
+      }
+    }
+    false
+  }
+
+  def isBlackCheck(): Boolean = {
+    var possibleAttacks: Vector[(Int,Int)] = getAttackMoves(true)
+
+    for {
+      row <- 0 until this.field.length
+      col <- 0 until this.field.length
+    } yield {
+      this.field(row)(col) match {
+        case Some(x: ChessPiece) => {
+          if(!x.color) {
+            if(x.toString == "\u265A"){
+              if(possibleAttacks.contains((row,col))){
+                return true
+              }
+            }
+          }
+        }
+        case None =>
+      }
+    }
+    false
+  }
+
   def changePlayer() : ChessBoard = {
     this.copy(currentPlayer = !currentPlayer)
   }
@@ -86,6 +134,10 @@ case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: 
     this.copy(currentPlayer = update)
   }
 
+  def updateCheck(update: Option[Boolean]): ChessBoard ={
+    this.copy(check = update)
+  }
+
   def move(x_start: Int,y_start: Int,x_ziel: Int,y_ziel: Int): Option[ChessBoard] ={
 
     if(field.isEmpty || field(y_start)(x_start).get.color != currentPlayer) {
@@ -93,6 +145,15 @@ case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: 
     }
 
     val moves = field(y_start)(x_start).get.getPossibleMoves(field)
+
+    check match {
+      case Some(x) =>  {
+
+      }
+      case None =>
+
+    }
+    
 
     if (moves.contains((y_ziel,x_ziel))) {
       if(!field(y_ziel)(x_ziel).isEmpty){
@@ -110,8 +171,19 @@ case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: 
       var updatedField: Vector[Vector[Option[ChessPiece]]] =  field.updated(y_ziel,field(y_ziel).updated(x_ziel,Some(field(y_start)(x_start).get.updateMoved())))
       updatedField = updatedField.updated(y_start,updatedField(y_start).updated(x_start,None))
 
-      var newBoard = changePlayer()
-      newBoard = newBoard.updateField(updatedField)
+      var newBoard = updateField(updatedField)
+
+      if(newBoard.currentPlayer){
+        if(newBoard.isBlackCheck()){
+          newBoard = newBoard.updateCheck(Option(false))
+        }
+      } else {
+        if(newBoard.isWhiteCheck()){
+          newBoard = newBoard.updateCheck(Option(true))
+        }
+      }
+
+      newBoard = newBoard.changePlayer()
 
       Some(newBoard)
     }else {
