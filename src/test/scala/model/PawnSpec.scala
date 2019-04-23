@@ -16,7 +16,7 @@ class PawnSpec extends Specification{
     chessBoard = chessBoard.putPiece(1,1,Option(Rook(color = false,hasMoved = false)))
 
     "have no possible moves on chessboard" in {
-      pawn.get.getPossibleMoves(chessBoard.field) must be_== (moveableFields)
+      pawn.get.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }
 
@@ -29,7 +29,7 @@ class PawnSpec extends Specification{
     chessBoard = chessBoard.putPiece(1,1,Option(Rook(color = false,hasMoved = false)))
 
     "have no possible moves on chessboard" in {
-      pawn.get.getPossibleMoves(chessBoard.field) must be_== (moveableFields)
+      pawn.get.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }
 
@@ -47,7 +47,7 @@ class PawnSpec extends Specification{
     moveableFields = moveableFields :+ (1, 0)
     moveableFields = moveableFields :+ (0, 1)
     "have possible moves on chessboard" in {
-      pawn.get.getPossibleMoves(chessBoard.field) must be_== (moveableFields)
+      pawn.get.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }
 
@@ -67,7 +67,7 @@ class PawnSpec extends Specification{
     chessBoard = chessBoard.putPiece(1,2,pawn)
 
     "have no possible moves on chessboard" in {
-      pawn.get.getPossibleMoves(chessBoard.field) must be_== (moveableFields)
+      pawn.get.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }
 
@@ -84,7 +84,7 @@ class PawnSpec extends Specification{
     moveableFields = moveableFields :+ (1,0)
     moveableFields = moveableFields :+ (2,1)
     "have possible moves on chessboard" in {
-      pawn.get.getPossibleMoves(chessBoard.field) must be_== (moveableFields)
+      pawn.get.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }
 

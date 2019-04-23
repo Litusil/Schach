@@ -6,21 +6,21 @@ import scala.collection.immutable.Vector
 
 case class Queen(override val color : Boolean, override val hasMoved: Boolean) extends ChessPiece(color, hasMoved) {
 
-  override def getPossibleMoves(chessBoard: Vector[Vector[Option[ChessPiece]]]): Vector[(Int, Int)] = {
-    val pos = this.getPosition(chessBoard)
+  override def getPossibleMoves(chessBoard: ChessBoard): Vector[(Int, Int)] = {
+    val pos = this.getPosition(chessBoard.field)
     val possibleMoves: Vector[(Int,Int)] =
-      (MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.LEFT,chessBoard)
-    ++ MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.RIGHT,chessBoard)
-    ++ MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.UP,chessBoard)
-    ++ MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.DOWN,chessBoard)
-    ++ MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.LEFT_UP,chessBoard)
-    ++ MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.RIGHT_UP,chessBoard)
-    ++ MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.LEFT_DOWN,chessBoard)
-    ++ MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.RIGHT_DOWN,chessBoard))
-    possibleMoves
+      (MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.LEFT,chessBoard.field)
+    ++ MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.RIGHT,chessBoard.field)
+    ++ MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.UP,chessBoard.field)
+    ++ MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.DOWN,chessBoard.field)
+    ++ MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.LEFT_UP,chessBoard.field)
+    ++ MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.RIGHT_UP,chessBoard.field)
+    ++ MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.LEFT_DOWN,chessBoard.field)
+    ++ MoveSetUtil.getSelectableFields(pos._2, pos._1, Direction.RIGHT_DOWN,chessBoard.field))
+    restrictMovement(chessBoard,this.color,pos,possibleMoves)
   }
 
-  override def getPossibleAttacks(chessBoard: Vector[Vector[Option[ChessPiece]]]): Vector[(Int, Int)] = {
+  override def getPossibleAttacks(chessBoard: ChessBoard): Vector[(Int, Int)] = {
     getPossibleMoves(chessBoard)
   }
 

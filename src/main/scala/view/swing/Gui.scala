@@ -104,6 +104,20 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
           }
         }
       }
+
+      controller.chessBoard.check match{
+        case Some(x) =>
+          if(x){
+            Dialog.showMessage(contents.head, "Weiss steht im Schach!", title="Check")
+          } else {
+            Dialog.showMessage(contents.head, "Schwarz steht im Schach!!", title="Check")
+          }
+        case None =>
+      }
+
+
+
+
       showEnemyPossibleAttacks(controller.chessBoard.getAttackMoves(!controller.chessBoard.currentPlayer))
       showMyPossibleAttacks(controller.chessBoard.getAttackMoves(controller.chessBoard.currentPlayer))
 

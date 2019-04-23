@@ -18,7 +18,7 @@ class KingSpec extends Specification{
     moveableFields = moveableFields  :+ (0,1)
     moveableFields = moveableFields  :+ (1,1)
     "have possible moves on chessboard" in {
-      king.get.getPossibleMoves(chessBoard.field) must be_== (moveableFields)
+      king.get.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }
 
@@ -38,7 +38,7 @@ class KingSpec extends Specification{
     moveableFields = moveableFields  :+ (0,0)
     moveableFields = moveableFields  :+ (2,0)
     "have possible moves on chessboard" in {
-      king.get.getPossibleMoves(chessBoard.field) must be_== (moveableFields)
+      king.get.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }
 

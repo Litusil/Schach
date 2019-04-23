@@ -4,7 +4,7 @@ import play.api.libs.json.{JsBoolean, JsNumber, JsObject, Json}
 
 import scala.collection.immutable.Vector
 
-case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: Boolean  = true, check: Option[Boolean] = None) {
+case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: Boolean  = true, check: Option[Boolean] = None,simulated: Boolean = false) {
 
   def defaultInit(): ChessBoard ={
     val PieceFactory = new ChessPieceFactory
@@ -62,7 +62,7 @@ case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: 
         this.field(row)(col) match {
           case Some(x: ChessPiece) => {
             if(color == x.color) {
-              possibleAttacks = possibleAttacks ++ x.getPossibleAttacks(field)
+              possibleAttacks = possibleAttacks ++ x.getPossibleAttacks(this)
             }
           }
           case None =>
@@ -138,48 +138,45 @@ case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: 
     this.copy(check = update)
   }
 
+  def updateSim(update: Boolean): ChessBoard ={
+    this.copy(simulated = update)
+  }
+
+  def sim(x_start: Int,y_start: Int,x_ziel: Int,y_ziel: Int): Option[ChessBoard] ={
+    val sim  = updateSim(true)
+    sim.move(x_start: Int, y_start: Int, x_ziel: Int, y_ziel: Int)
+  }
+
   def move(x_start: Int,y_start: Int,x_ziel: Int,y_ziel: Int): Option[ChessBoard] ={
 
     if(field.isEmpty || field(y_start)(x_start).get.color != currentPlayer) {
       return None
     }
 
-    val moves = field(y_start)(x_start).get.getPossibleMoves(field)
-
-    check match {
-      case Some(x) =>  {
-
-      }
-      case None =>
-
-    }
-    
+    val moves = field(y_start)(x_start).get.getPossibleMoves(this)
 
     if (moves.contains((y_ziel,x_ziel))) {
       if(!field(y_ziel)(x_ziel).isEmpty){
         val kickedPiece = field(y_ziel)(x_ziel).get
-
-        if (kickedPiece.isInstanceOf[King]) {
-          if(currentPlayer){
-            println("Winner Winner Chicken Dinner\n Weiß hat gewonnen!")
-          } else {
-            println("Winner Winner Chicken Dinner\n Schwarz hat gewonnen!")
-          }
-          return Some(new ChessBoard(Vector.fill(8,8)(None: Option[ChessPiece])).defaultInit())
-        }
       }
+
       var updatedField: Vector[Vector[Option[ChessPiece]]] =  field.updated(y_ziel,field(y_ziel).updated(x_ziel,Some(field(y_start)(x_start).get.updateMoved())))
       updatedField = updatedField.updated(y_start,updatedField(y_start).updated(x_start,None))
 
       var newBoard = updateField(updatedField)
+      newBoard = newBoard.updateCheck(None)
 
-      if(newBoard.currentPlayer){
-        if(newBoard.isBlackCheck()){
-          newBoard = newBoard.updateCheck(Option(false))
-        }
-      } else {
-        if(newBoard.isWhiteCheck()){
-          newBoard = newBoard.updateCheck(Option(true))
+
+      if(!simulated){
+        //Is the other Player in check
+        if(newBoard.currentPlayer){
+          if(newBoard.isBlackCheck()){
+            newBoard = newBoard.updateCheck(Option(false))
+          }
+        } else {
+          if(newBoard.isWhiteCheck()){
+            newBoard = newBoard.updateCheck(Option(true))
+          }
         }
       }
 

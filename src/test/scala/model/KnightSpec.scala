@@ -17,7 +17,7 @@ class KnightSpec extends Specification{
 
     moveableFields = moveableFields :+ (1,2)
     "have possible moves on chessboard" in {
-      knight.get.getPossibleMoves(chessBoard.field) must be_== (moveableFields)
+      knight.get.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }
 
@@ -35,7 +35,7 @@ class KnightSpec extends Specification{
     moveableFields = moveableFields  :+ (0,1)
     moveableFields = moveableFields  :+ (0,3)
     "have possible moves on chessboard" in {
-      knight.get.getPossibleMoves(chessBoard.field) must be_== (moveableFields)
+      knight.get.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }
 

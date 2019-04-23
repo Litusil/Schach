@@ -26,7 +26,7 @@ class QueenSpec extends Specification{
 
     val moveableFields: Vector[(Int,Int)] = Vector()
     "have no possible moves on chessboard" in {
-      queen.get.getPossibleMoves(chessBoard.field) must be_== (moveableFields)
+      queen.get.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }
 
@@ -47,7 +47,7 @@ class QueenSpec extends Specification{
     moveableFields = moveableFields  :+ (0,0)
     moveableFields = moveableFields  :+ (0,2)
     "have possible moves on chessboard" in {
-      queen.get.getPossibleMoves(chessBoard.field) must be_== (moveableFields)
+      queen.get.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }
 

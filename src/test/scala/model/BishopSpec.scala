@@ -30,7 +30,7 @@ class BishopSpec extends Specification{
     moveableFields = moveableFields :+ (2,2)
     moveableFields = moveableFields :+ (0,2)
     "have possible moves on chessboard" in {
-      bishop.get.getPossibleMoves(chessBoard.field) must be_== (moveableFields)
+      bishop.get.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }
 

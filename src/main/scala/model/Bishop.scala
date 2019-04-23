@@ -7,16 +7,16 @@ import scala.collection.immutable.Vector
 
 case class Bishop(override val color : Boolean, override val hasMoved : Boolean) extends ChessPiece(color, hasMoved) {
 
-  override def getPossibleMoves(chessBoard: Vector[Vector[Option[ChessPiece]]]): Vector[(Int, Int)] = {
-    val pos = this.getPosition(chessBoard)
-    var possibleMoves: Vector[(Int, Int)] = (getSelectableFields(pos._2, pos._1, Direction.LEFT_UP,chessBoard)
-    ++ getSelectableFields(pos._2, pos._1, Direction.RIGHT_UP,chessBoard)
-    ++ getSelectableFields(pos._2, pos._1, Direction.LEFT_DOWN,chessBoard)
-    ++ getSelectableFields(pos._2, pos._1, Direction.RIGHT_DOWN,chessBoard))
-    possibleMoves
+  override def getPossibleMoves(chessBoard: ChessBoard): Vector[(Int, Int)] = {
+    val pos = this.getPosition(chessBoard.field)
+    var possibleMoves: Vector[(Int, Int)] = (getSelectableFields(pos._2, pos._1, Direction.LEFT_UP,chessBoard.field)
+    ++ getSelectableFields(pos._2, pos._1, Direction.RIGHT_UP,chessBoard.field)
+    ++ getSelectableFields(pos._2, pos._1, Direction.LEFT_DOWN,chessBoard.field)
+    ++ getSelectableFields(pos._2, pos._1, Direction.RIGHT_DOWN,chessBoard.field))
+    restrictMovement(chessBoard,this.color,pos,possibleMoves)
   }
 
-  override def getPossibleAttacks(chessBoard: Vector[Vector[Option[ChessPiece]]]): Vector[(Int, Int)] = {
+  override def getPossibleAttacks(chessBoard: ChessBoard): Vector[(Int, Int)] = {
     getPossibleMoves(chessBoard)
   }
 

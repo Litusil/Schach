@@ -28,7 +28,7 @@ class RookSpec extends Specification{
     moveableFields = moveableFields  :+ (1,2)
     moveableFields = moveableFields  :+ (2,1)
     "have possible moves on chessboard" in {
-      rook.get.getPossibleMoves(chessBoard.field) must be_== (moveableFields)
+      rook.get.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
   }
 
