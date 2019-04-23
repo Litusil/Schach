@@ -4,7 +4,7 @@ import play.api.libs.json.{JsBoolean, JsNumber, JsObject, Json}
 
 import scala.collection.immutable.Vector
 
-case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: Boolean  = true, check: Option[Boolean] = None,simulated: Boolean = false) {
+case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: Boolean  = true, check: Option[Boolean] = None,checkmate: Option[Boolean] = None,simulated: Boolean = false) {
 
   def defaultInit(): ChessBoard ={
     val PieceFactory = new ChessPieceFactory
@@ -69,6 +69,24 @@ case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: 
         }
     }
     possibleAttacks
+  }
+
+  def getPossibleMoves(color: Boolean): Vector[(Int,Int)] = {
+    var possibleMoves: Vector[(Int,Int)] = Vector()
+    for {
+      row <- 0 until this.field.length
+      col <- 0 until this.field.length
+    } yield {
+      this.field(row)(col) match {
+        case Some(x: ChessPiece) => {
+          if(color == x.color) {
+            possibleMoves = possibleMoves ++ x.getPossibleMoves(this)
+          }
+        }
+        case None =>
+      }
+    }
+    possibleMoves
   }
 
   def isWhiteCheck(): Boolean ={
@@ -138,6 +156,10 @@ case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: 
     this.copy(check = update)
   }
 
+  def updateCheckmate(update: Option[Boolean]): ChessBoard ={
+    this.copy(checkmate = update)
+  }
+
   def updateSim(update: Boolean): ChessBoard ={
     this.copy(simulated = update)
   }
@@ -181,6 +203,16 @@ case class ChessBoard(field: Vector[Vector[Option[ChessPiece]]], currentPlayer: 
       }
 
       newBoard = newBoard.changePlayer()
+
+      if(!simulated){
+        if(newBoard.getPossibleMoves(newBoard.currentPlayer).length == 0){
+          if(newBoard.currentPlayer){
+            newBoard = newBoard.updateCheckmate(Option(true))
+          } else {
+            newBoard = newBoard.updateCheckmate(Option(false))
+          }
+        }
+      }
 
       Some(newBoard)
     }else {

@@ -105,6 +105,18 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
         }
       }
 
+      controller.chessBoard.checkmate match{
+        case Some(x) =>
+          if(x){
+            Dialog.showMessage(contents.head, "Schwarz hat gewonnen!", title="Checkmate")
+          } else {
+            Dialog.showMessage(contents.head, "Weiß hat gewonnen!", title="Checkmate")
+          }
+          controller.chessBoard = controller.newGame()
+          this.update()
+        case None =>
+      }
+
       controller.chessBoard.check match{
         case Some(x) =>
           if(x){
@@ -114,10 +126,7 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
           }
         case None =>
       }
-
-
-
-
+      
       showEnemyPossibleAttacks(controller.chessBoard.getAttackMoves(!controller.chessBoard.currentPlayer))
       showMyPossibleAttacks(controller.chessBoard.getAttackMoves(controller.chessBoard.currentPlayer))
 
