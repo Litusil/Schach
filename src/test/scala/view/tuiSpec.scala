@@ -12,7 +12,7 @@ class tuiSpec extends Specification{
 
   "A tui" should{
     val controller = new ChessController
-    val tui = new tui(controller)
+    val tui = new Tui(controller)
     tui.processInputLine("falsche eingabe")
     val expectedString = "\n" +
       "   A|B| C| D|E| F| G|H\n" +
@@ -31,7 +31,7 @@ class tuiSpec extends Specification{
 
   "A tui" should{
     val controller = new ChessController
-    val tui = new tui(controller)
+    val tui = new Tui(controller)
     tui.processInputLine("A2 A4")
     val expectedString = "\n" +
       "   A|B| C| D|E| F| G|H\n" +
@@ -50,7 +50,7 @@ class tuiSpec extends Specification{
 
   "A tui" should{
     val controller = new ChessController
-    val tui = new tui(controller)
+    val tui = new Tui(controller)
     val printString = "\n" +
       "   A|B| C| D|E| F| G|H\n" +
       "1|♖|♘|♗|♕|♔|♗|♘|♖|\n" +

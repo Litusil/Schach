@@ -126,7 +126,7 @@ case class Gui(controller: ChessController) extends MainFrame with Observer {
           }
         case None =>
       }
-      
+
       showEnemyPossibleAttacks(controller.chessBoard.getAttackMoves(!controller.chessBoard.currentPlayer))
       showMyPossibleAttacks(controller.chessBoard.getAttackMoves(controller.chessBoard.currentPlayer))
 

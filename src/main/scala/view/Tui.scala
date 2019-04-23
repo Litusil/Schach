@@ -1,11 +1,10 @@
 package view
 
 import controller.ChessController
-import model.ChessPiece
 import util.Observer
 
 
-class tui(controller: ChessController) extends Observer {
+case class Tui(controller: ChessController) extends Observer {
 
   controller.add(this)
 
