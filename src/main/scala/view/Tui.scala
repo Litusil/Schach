@@ -6,7 +6,7 @@ import util.Observer
 
 case class Tui(controller: ChessController) extends Observer {
 
-  controller.add(this)
+
 
   override def update(): Unit ={
     print()

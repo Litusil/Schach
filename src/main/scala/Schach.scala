@@ -2,7 +2,7 @@
 import java.util.concurrent.TimeUnit
 
 import controller.ChessController
-import view.{Tui, UiFactory}
+import view.{Tui, UiFactory, WebServer}
 import akka.actor.{ActorSystem, Props}
 import akka.pattern.ask
 import akka.util.Timeout
@@ -23,6 +23,8 @@ object Schach {
     val tui = Await.result(tuiFuture.mapTo[Tui], Duration.Inf)
 
     uiFactory ! CreateGui(controller)
+
+    val server = WebServer(controller)
 
 
 
