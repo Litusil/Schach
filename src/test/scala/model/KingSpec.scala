@@ -16,7 +16,6 @@ class KingSpec extends Specification{
     chessBoard = chessBoard.putPiece(0,1,Option(King(color = true,hasMoved = false)) )
 
     moveableFields = moveableFields  :+ (0,1)
-    moveableFields = moveableFields  :+ (1,1)
     "have possible moves on chessboard" in {
       king.get.getPossibleMoves(chessBoard) must be_== (moveableFields)
     }
