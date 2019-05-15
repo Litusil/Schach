@@ -41,7 +41,6 @@ class ChessController extends Observable {
        board match {
           case Some(x: ChessBoard) => {
             chessBoard = x
-            chessBoard.getAttackMoves(chessBoard.currentPlayer)
             notifyObservers()
           }
           case None => {
